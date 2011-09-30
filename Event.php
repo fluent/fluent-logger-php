@@ -26,15 +26,16 @@ namespace Fluent;
 
 class Event
 {
-	protected $category;
+	protected $action;
 	protected $accessor = array();
 	protected $values = array();
+	protected $nodes = array();
 	
-	public function __construct($category, $options)
+	public function __construct($action, $options)
 	{
 		$args = func_get_args();
 		
-		$this->category = $category;
+		$this->action = $action;
 		foreach($options as $option) {
 			$this->accessor[$option] = true;
 		}
@@ -43,7 +44,10 @@ class Event
 	public function with($event)
 	{
 		if ($event instanceof Event) {
-			$this->values = array_merge($this->values, $event->getValues());
+			if (!array_search($event, $this->nodes)) {
+				$this->nodes[] = $event;
+			}
+			
 			return $this;
 		} else {
 			throw new Exception("not implemented");
@@ -57,7 +61,16 @@ class Event
 	
 	public function post()
 	{
-		var_dump($this);
+		$options = array();
+		foreach ($this->nodes as $node) {
+			$options = array_merge($options, $node->getValues());
+		}
+		$params = array_merge($options, $this->values);
+		$params["action"] = $this->action;
+		ksort($params);
+		
+		$logger = \Fluent\Logger::$current;
+		$logger->post($params,$this->action);
 	}
 	
 	public function __call($key, $options)

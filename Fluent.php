@@ -34,3 +34,9 @@ define("DEFAULT_PLUGIN_DIR",  (isset($_ENV['FLUENT_PLUGIN_DIR'])) ? $_ENV['FLUEN
 define("DEFAULT_SOCKET_PATH", (isset($_ENV['FLUENT_SOCKET'])) ? $_ENV['FLUENT_SOCKET'] : '/etc/fluent/plugin');
 define("DEFAULT_LISTEN_PORT", 24224);
 define("DEFAULT_HTTP_PORT",   8888);
+
+class Logger
+{
+	public static $current;
+	
+}

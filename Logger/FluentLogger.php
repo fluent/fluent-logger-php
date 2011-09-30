@@ -41,16 +41,22 @@ class FluentLogger extends BaseLogger
 	public static function open($prefix, $host, $port = \Fluent::DEFAULT_LISTEN_PORT)
 	{
 		$logger = new self($prefix,$host,$port);
+		\Fluent\Logger::$current = $logger;
 		return $logger;
 	}
 	
-	public function post($data)
+	public function post($data, $additional = null)
 	{
 		$retval = false;
 		
 		$entry = array(time(), $data);
 		$array = array($entry);
-		$packed  = msgpack_pack(array($this->prefix,$array));
+		
+		$prefix = $this->prefix;
+		if (!empty($additional)) {
+			$prefix .= "." . $additional;
+		}
+		$packed  = msgpack_pack(array($prefix,$array));
 		
 		$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
 		$retval = socket_connect($socket,$this->host,$this->port);
