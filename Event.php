@@ -59,10 +59,16 @@ class Event
 		return $this->values;
 	}
 	
+	public function has_node()
+	{
+		return ($this->nodes) ? true : false;
+	}
+	
 	public function post()
 	{
 		$options = array();
 		foreach ($this->nodes as $node) {
+			// Todo: support tree nodes.
 			$options = array_merge($options, $node->getValues());
 		}
 		$params = array_merge($options, $this->values);
