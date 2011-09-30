@@ -27,4 +27,12 @@ namespace Fluent\Logger;
 //Todo: ちゃんとつくる
 class BaseLogger
 {
+	public function __construct($prefix,$host,$port){
+	}
+
+	public static function open($prefix, $host, $port){
+	}
+
+	public function post($data){
+	}
 }
