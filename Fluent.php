@@ -28,6 +28,7 @@ require __DIR__ . "/Event.php";
 require __DIR__ . "/Logger/BaseLogger.php";
 require __DIR__ . "/Logger/FluentLogger.php";
 require __DIR__ . "/Logger/HttpLogger.php";
+require __DIR__ . "/Logger/ConsoleLogger.php";
 
 define("DEFAULT_CONFIG_PATH", (isset($_ENV['FLUENT_CONF'])) ? $_ENV['FLUENT_CONF'] : '/etc/fluent/fluent.conf');
 define("DEFAULT_PLUGIN_DIR",  (isset($_ENV['FLUENT_PLUGIN_DIR'])) ? $_ENV['FLUENT_PLUGIN_DIR'] : '/etc/fluent/plugin');
