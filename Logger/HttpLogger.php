@@ -8,14 +8,14 @@ class HttpLogger extends BaseLogger
 	protected $host;
 	protected $port;
 	
-	public function __construct($prefix,$host,$port = "24224")
+	public function __construct($prefix,$host,$port = \Fluent::DEFAULT_HTTP_PORT)
 	{
 		$this->prefix = $prefix;
 		$this->host = $host;
 		$this->port = $port;
 	}
 	
-	public static function open($prefix, $host, $port = "24224")
+	public static function open($prefix, $host, $port = \Fluent::DEFAULT_HTTP_PORT)
 	{
 		$logger = new self($prefix,$host,$port);
 		return $logger;
