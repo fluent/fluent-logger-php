@@ -22,24 +22,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Fluent\Logger;
+namespace Fluent;
 
-//Todo: ちゃんとつくる
-class BaseLogger
+class Event
 {
-	public function __construct($prefix,$host,$port){
-	}
-
-	public static function open($prefix, $host, $port){
-	}
-
-	public function post($data){
-	}
+	protected $category;
+	protected $accessor = array();
+	protected $values = array();
 	
-	public function create_event()
+	public function __construct($category, $options)
 	{
 		$args = func_get_args();
-		$key = array_shift($args);
-		return new \Fluent\Event($key, $args);
+		
+		$this->category = $category;
+		foreach($options as $option) {
+			$this->accessor[$option] = true;
+		}
+	}
+	
+	public function with($event)
+	{
+		if ($event instanceof Event) {
+			$this->values = array_merge($this->values, $event->getValues());
+			return $this;
+		} else {
+			throw new Exception("not implemented");
+		}
+	}
+	
+	public function getValues()
+	{
+		return $this->values;
+	}
+	
+	public function post()
+	{
+		var_dump($this);
+	}
+	
+	public function __call($key, $options)
+	{
+		if (isset($this->accessor[$key])) {
+			$this->values[$key] = $options[0];
+			return $this;
+		} else {
+			throw new \Exception("unexpected accessor name {$key}");
+		}
 	}
 }
