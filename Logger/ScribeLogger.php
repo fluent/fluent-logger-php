@@ -22,23 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Fluent;
+namespace Fluent\Logger;
 
-require __DIR__ . "/Event.php";
-require __DIR__ . "/Logger/BaseLogger.php";
-require __DIR__ . "/Logger/FluentLogger.php";
-require __DIR__ . "/Logger/HttpLogger.php";
-require __DIR__ . "/Logger/ConsoleLogger.php";
-require __DIR__ . "/Logger/ScribeLogger.php";
-
-define("DEFAULT_CONFIG_PATH", (isset($_ENV['FLUENT_CONF'])) ? $_ENV['FLUENT_CONF'] : '/etc/fluent/fluent.conf');
-define("DEFAULT_PLUGIN_DIR",  (isset($_ENV['FLUENT_PLUGIN_DIR'])) ? $_ENV['FLUENT_PLUGIN_DIR'] : '/etc/fluent/plugin');
-define("DEFAULT_SOCKET_PATH", (isset($_ENV['FLUENT_SOCKET'])) ? $_ENV['FLUENT_SOCKET'] : '/etc/fluent/plugin');
-define("DEFAULT_LISTEN_PORT", 24224);
-define("DEFAULT_HTTP_PORT",   8888);
-
-class Logger
+class ScribeLogger extends BaseLogger
 {
-	public static $current;
-	
+	//TBD
 }
