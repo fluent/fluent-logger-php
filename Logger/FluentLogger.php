@@ -46,13 +46,30 @@ class FluentLogger extends BaseLogger
 	
 	public function post($data)
 	{
+		$retval = false;
+		
 		$entry = array(time(), $data);
 		$array = array($entry);
 		$packed  = msgpack_pack(array($this->prefix,$array));
 		
 		$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
-		socket_connect($socket,$this->host,$this->port);
-		socket_write($socket,$packed);
+		$retval = socket_connect($socket,$this->host,$this->port);
+		if (!$retval) {
+			throw new \Exception("could not connect to {$this->host}");
+		}
+		
+		$length = strlen($packed);
+		while ($length > 0) {
+			$sent = socket_write($socket, $packed, $length);
+			if ($sent === false) {
+				throw new \Exception("connection aborted");
+			}
+			
+			if ($sent < $length) {
+				$packed = substr($packed, $sent);
+			}
+			$length -= $sent;
+		}
 		socket_close($socket);
 	}
 }
