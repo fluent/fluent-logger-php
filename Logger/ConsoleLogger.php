@@ -54,8 +54,7 @@ class ConsoleLogger extends BaseLogger
 			$params[$key] = $value;
 		}
 		
-		// Todo: fix time zone.
-		$time = new \DateTime(time(),new \DateTimeZone("Asia/Tokyo"));
+		$time = new \DateTime("@".time(),new \DateTimeZone(date_default_timezone_get()));
 		$result = sprintf("%s %s: %s\n",$time->format("Y-m-d H:i:s O"), $prefix, json_encode($params));
 		fwrite($this->handle,$result);
 	}

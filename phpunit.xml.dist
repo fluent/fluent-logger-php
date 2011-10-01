@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="Fluent.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="false"
+         convertWarningsToExceptions="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         syntaxCheck="true"
+         strict="true"
+         verbose="true">
+  <php>
+    <ini name="date.timezone" value="Asia/Tokyo" />
+  </php>
+  <testsuites>
+    <testsuite name="Fluent\\Logger Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
