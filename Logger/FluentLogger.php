@@ -24,25 +24,45 @@
  */
 namespace Fluent\Logger;
 
-// Todo: ちゃんとつくる
 class FluentLogger extends BaseLogger
 {
-	protected $prefix;
+	const TIMEOUT = 3;
+	
+	protected $tag;
 	protected $host;
 	protected $port;
+	protected $socket;
 	
-	public function __construct($prefix,$host,$port = \Fluent::DEFAULT_LISTEN_PORT)
+	public function __construct($tag,$host,$port = \Fluent::DEFAULT_LISTEN_PORT)
 	{
-		$this->prefix = $prefix;
+		$this->tag = $tag;
 		$this->host = $host;
 		$this->port = $port;
 	}
 	
-	public static function open($prefix, $host, $port = \Fluent::DEFAULT_LISTEN_PORT)
+	public static function open($tag, $host, $port = \Fluent::DEFAULT_LISTEN_PORT)
 	{
-		$logger = new self($prefix,$host,$port);
+		$logger = new self($tag,$host,$port);
 		\Fluent\Logger::$current = $logger;
 		return $logger;
+	}
+	
+	protected function connect()
+	{
+		$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
+		socket_set_option($socket,SOL_SOCKET,SO_RCVTIMEO,array('sec'=>self::TIMEOUT,'usec'=>0));
+		$retval = socket_connect($socket,$this->host,$this->port);
+		if (!$retval) {
+			throw new \Exception("could not connect to {$this->host}");
+		}
+		$this->socket = $socket;
+	}
+	
+	protected function reconnect()
+	{
+		if(!is_resource($this->socket)) {
+			$this->connect();
+		}
 	}
 	
 	public function post($data, $additional = null)
@@ -52,22 +72,17 @@ class FluentLogger extends BaseLogger
 		$entry = array(time(), $data);
 		$array = array($entry);
 		
-		$prefix = $this->prefix;
+		$tag = $this->tag;
 		if (!empty($additional)) {
-			$prefix .= "." . $additional;
+			$tag .= "." . $additional;
 		}
-		$packed  = msgpack_pack(array($prefix,$array));
-		
-		$socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
-		$retval = socket_connect($socket,$this->host,$this->port);
-		if (!$retval) {
-			throw new \Exception("could not connect to {$this->host}");
-		}
+		$packed  = msgpack_pack(array($tag,$array));
+		$this->reconnect();
 		
 		$length = strlen($packed);
 		while ($length > 0) {
-			$sent = socket_write($socket, $packed, $length);
-			if ($sent === false) {
+			$sent = socket_write($this->socket, $packed, $length);
+			if ($sent < 0) {
 				throw new \Exception("connection aborted");
 			}
 			
@@ -76,6 +91,12 @@ class FluentLogger extends BaseLogger
 			}
 			$length -= $sent;
 		}
-		socket_close($socket);
+	}
+	
+	public function __destruct()
+	{
+		if(is_resource($this->socket)) {
+			socket_close($this->socket);
+		}
 	}
 }
