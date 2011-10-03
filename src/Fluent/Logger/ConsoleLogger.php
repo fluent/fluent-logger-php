@@ -24,30 +24,38 @@
  */
 namespace Fluent\Logger;
 
-//Todo: ちゃんとつくる
-class HttpLogger extends BaseLogger
+class ConsoleLogger extends BaseLogger
 {
-	protected $prefix;
-	protected $host;
-	protected $port;
-	
-	public function __construct($prefix,$host,$port = \Fluent::DEFAULT_HTTP_PORT)
-	{
-		$this->prefix = $prefix;
-		$this->host = $host;
-		$this->port = $port;
-	}
-	
-	public static function open($prefix, $host, $port = \Fluent::DEFAULT_HTTP_PORT)
-	{
-		$logger = new self($prefix,$host,$port);
-		\Fluent\Logger::$current = $logger;
-		return $logger;
-	}
-	
-	public function post($data)
-	{
-		$packed  = json_encode($data);
-		file_get_contents("http://{$this->host}:{$this->port}/{$this->prefix}?json={$packed}");
-	}
+    protected $prefix;
+    protected $handle;
+    
+    public function __construct($prefix,$handle)
+    {
+        $this->prefix = $prefix;
+        $this->handle = $handle;
+    }
+    
+    public static function open($prefix, $handle)
+    {
+        $logger = new self($prefix,$handle);
+        //\Fluent\Logger::$current = $logger;
+        return $logger;
+    }
+    
+    public function post($data, $additional = null)
+    {
+        $params = array();
+        $prefix = $this->prefix;
+        if (!empty($additional)) {
+            $prefix .= ".{$additional}";
+        }
+        
+        foreach ($data as $key => $value) {
+            $params[$key] = $value;
+        }
+        
+        $time = new \DateTime("@".time(),new \DateTimeZone(date_default_timezone_get()));
+        $result = sprintf("%s %s: %s\n",$time->format("Y-m-d H:i:s O"), $prefix, json_encode($params));
+        fwrite($this->handle,$result);
+    }
 }

@@ -25,12 +25,30 @@
 namespace Fluent\Logger;
 
 //Todo: ちゃんとつくる
-class BaseLogger
+class HttpLogger extends BaseLogger
 {
-	public function create_event()
-	{
-		$args = func_get_args();
-		$key = array_shift($args);
-		return new \Fluent\Event($key, $args);
-	}
+    const DEFAULT_HTTP_PORT = 8888;
+
+    protected $prefix;
+    protected $host;
+    protected $port;
+    
+    public function __construct($prefix, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    {
+        $this->prefix = $prefix;
+        $this->host = $host;
+        $this->port = $port;
+    }
+    
+    public static function open($prefix, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    {
+        $logger = new self($prefix,$host,$port);
+        return $logger;
+    }
+    
+    public function post($data)
+    {
+        $packed  = json_encode($data);
+        file_get_contents("http://{$this->host}:{$this->port}/{$this->prefix}?json={$packed}");
+    }
 }
