@@ -46,7 +46,7 @@ class HttpLogger extends BaseLogger
         return $logger;
     }
     
-    public function post($data)
+    public function post($data, $additional = null)
     {
         $packed  = json_encode($data);
         file_get_contents("http://{$this->host}:{$this->port}/{$this->prefix}?json={$packed}");

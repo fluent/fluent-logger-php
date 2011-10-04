@@ -35,7 +35,7 @@ class Event
     protected $values = array();
     protected $nodes = array();
     
-    public function __construct(logger $logger, $action, $options)
+    public function __construct(Logger $logger, $action, $options)
     {
         $this->logger = $logger;
         $this->action = $action;
