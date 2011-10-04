@@ -24,30 +24,16 @@
  */
 namespace Fluent\Logger;
 
+use Fluent\Logger,
+    Fluent\Event;
+
 //Todo: ちゃんとつくる
-class HttpLogger extends BaseLogger
+abstract class BaseLogger implements Logger
 {
-	protected $prefix;
-	protected $host;
-	protected $port;
-	
-	public function __construct($prefix,$host,$port = \Fluent::DEFAULT_HTTP_PORT)
-	{
-		$this->prefix = $prefix;
-		$this->host = $host;
-		$this->port = $port;
-	}
-	
-	public static function open($prefix, $host, $port = \Fluent::DEFAULT_HTTP_PORT)
-	{
-		$logger = new self($prefix,$host,$port);
-		\Fluent\Logger::$current = $logger;
-		return $logger;
-	}
-	
-	public function post($data)
-	{
-		$packed  = json_encode($data);
-		file_get_contents("http://{$this->host}:{$this->port}/{$this->prefix}?json={$packed}");
-	}
+    public function create_event()
+    {
+        $args = func_get_args();
+        $key = array_shift($args);
+        return new Event($this, $key, $args);
+    }
 }

@@ -22,40 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Fluent\Logger;
+namespace Fluent;
 
-class ConsoleLogger extends BaseLogger
+interface Logger
 {
-	protected $prefix;
-	protected $handle;
-	
-	public function __construct($prefix,$handle)
-	{
-		$this->prefix = $prefix;
-		$this->handle = $handle;
-	}
-	
-	public static function open($prefix, $handle)
-	{
-		$logger = new self($prefix,$handle);
-		\Fluent\Logger::$current = $logger;
-		return $logger;
-	}
-	
-	public function post($data, $additional = null)
-	{
-		$params = array();
-		$prefix = $this->prefix;
-		if (!empty($additional)) {
-			$prefix .= ".{$additional}";
-		}
-		
-		foreach ($data as $key => $value) {
-			$params[$key] = $value;
-		}
-		
-		$time = new \DateTime("@".time(),new \DateTimeZone(date_default_timezone_get()));
-		$result = sprintf("%s %s: %s\n",$time->format("Y-m-d H:i:s O"), $prefix, json_encode($params));
-		fwrite($this->handle,$result);
-	}
+    public function post($data, $additional = null);
 }

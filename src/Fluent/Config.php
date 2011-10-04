@@ -22,15 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Fluent\Logger;
+namespace Fluent;
 
-//Todo: ちゃんとつくる
-class BaseLogger
-{
-	public function create_event()
-	{
-		$args = func_get_args();
-		$key = array_shift($args);
-		return new \Fluent\Event($key, $args);
-	}
-}
+//@todo
+
+
+//define("DEFAULT_CONFIG_PATH", (isset($_ENV['FLUENT_CONF'])) ? $_ENV['FLUENT_CONF'] : '/etc/fluent/fluent.conf');
+//define("DEFAULT_PLUGIN_DIR",  (isset($_ENV['FLUENT_PLUGIN_DIR'])) ? $_ENV['FLUENT_PLUGIN_DIR'] : '/etc/fluent/plugin');
+//define("DEFAULT_SOCKET_PATH", (isset($_ENV['FLUENT_SOCKET'])) ? $_ENV['FLUENT_SOCKET'] : '/etc/fluent/plugin');
+
+//class Config
