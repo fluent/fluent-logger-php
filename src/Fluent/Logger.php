@@ -22,18 +22,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Fluent\Logger;
+namespace Fluent;
 
-use Fluent\Logger,
-    Fluent\Event;
-
-//Todo: ちゃんとつくる
-abstract class BaseLogger implements Logger
+interface Logger
 {
-    public function create_event()
-    {
-        $args = func_get_args();
-        $key = array_shift($args);
-        return new Event($this, $key, $args);
-    }
+    public function post($data, $additional = null);
 }

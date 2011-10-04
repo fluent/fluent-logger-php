@@ -24,8 +24,8 @@
  */
 namespace Fluent;
 
-//use Fluent\Logger;
-use Fluent\Event;
+use Fluent\Logger,
+    Fluent\Event;
 
 class Event
 {
@@ -35,7 +35,7 @@ class Event
     protected $values = array();
     protected $nodes = array();
     
-    public function __construct($logger, $action, $options /** $option2, */)
+    public function __construct(logger $logger, $action, $options)
     {
         $this->logger = $logger;
         $this->action = $action;
@@ -74,7 +74,6 @@ class Event
         $params["action"] = $this->action;
         ksort($params);
         
-        //$logger = \Fluent\Logger::$current;
         $this->logger->post($params,$this->action);
     }
     
@@ -84,7 +83,7 @@ class Event
             $this->values[$key] = $options[0];
             return $this;
         } else {
-            throw new \Exception("unexpected accessor name {$key}");
+            throw new \UnexpectedValueException("unexpected accessor name {$key}");
         }
     }
 }

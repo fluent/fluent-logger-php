@@ -33,9 +33,6 @@ class FluentLogger extends BaseLogger
     protected $host;
     protected $port;
     protected $socket;
-
-    //protected $msgpacker = 'msgpack_pack';
-    public $msgpacker = 'msgpack_pack';
     
     public function __construct($tag, $host, $port = FluentLogger::DEFAULT_LISTEN_PORT)
     {
@@ -56,7 +53,8 @@ class FluentLogger extends BaseLogger
         socket_set_option($socket,SOL_SOCKET,SO_RCVTIMEO,array('sec'=>self::TIMEOUT,'usec'=>0));
         $retval = socket_connect($socket,$this->host,$this->port);
         if (!$retval) {
-            throw new \Exception("could not connect to {$this->host}");
+            $error = error_get_last();
+            throw new \Exception($error['message']. " - could not connect to {$this->host}");
         }
         $this->socket = $socket;
     }
@@ -105,6 +103,14 @@ class FluentLogger extends BaseLogger
 
     protected function msgpackPack($message)
     {
-        return call_user_func($this->msgpacker, $message);
+        if (function_exists('msgpack_pack')) {
+            return msgpack_pack($message);
+        }
+
+        if (!class_exists('MsgPack_Coder')) {
+            throw new \RuntimeException('MsgPack_Coder class not loaded');
+        }
+
+        return \MsgPack_Coder::encode($message);
     }
 }

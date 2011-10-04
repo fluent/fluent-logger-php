@@ -4,16 +4,16 @@ use Fluent\Logger\ConsoleLogger,
     Fluent\Logger\FluentLogger,
     Fluent\Logger\HttpLogger;
 
-require 'src/Fluent/Autoload.php';
-include './vendor/MsgPack/Coder.php';
+require_once __DIR__.'/vendor/SplClassLoader.php';
+$loader = new SplClassLoader('Fluent', __DIR__.'/src/');
+$loader->register();
+// autoload MsgPack_Coder
+$loader = new SplClassLoader(null, __DIR__.'/vendor');
+$loader->register();
 
 //$ev = ConsoleLogger::open("debug.test",fopen("php://stdout","w"));
 
 $ev = FluentLogger::open("debug.test","localhost","24224");
-
-if (!extension_loaded('msgpack')) {
-    $ev->msgpacker = 'MsgPack_Coder::encode';
-}
 
 //$ev = HttpLogger::open("debug.test","localhost","8888");
 

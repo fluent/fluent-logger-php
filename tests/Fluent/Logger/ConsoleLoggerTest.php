@@ -11,11 +11,7 @@ class ConsoleLoggerTest extends \PHPUnit_Framework_TestCase
     {
         $fp = fopen("php://memory","r+w");
         $logger = ConsoleLogger::open("debug.test",$fp);
-
-        //$this->assertTrue(Logger::$current instanceof ConsoleLogger,"ConsoleLogger::open returns other class.");
-        //$this->assertTrue(Logger::$current instanceof ConsoleLogger,"ConsoleLogger::open returns other class.");
-        //$this->assertEquals(Logger::$current, $logger,
-        //    "ConsoleLogger does not set Fluent\\Logger::\$current correctly");
+        $this->assertInstanceof('Fluent\\Logger', $logger, 'Logger::open should return Logger instance ');
         fclose($fp);
     }
     
