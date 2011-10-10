@@ -1,23 +1,30 @@
-# fluent-logger-php
+# Fluent Logger PHP
 
-you can check this behavior with following lines.
+** fluent-logger-php** is a PHP library, to record the events to fluentd from PHP application.
+
+## Installation
 
 ````
-git clone https://github.com/chobie/fluent-php.git
-cd fluent-php
-php exmaple.php
+git clone https://github.com/fluent/fluent-logger-php.git
+cp -r src/Fluent <path/to/your_project>
+````
+this library will be able to install via pear command soon.
+
+# Useage
+
+````
+<?php
+// you can choose your own AutoLoader
+require_once __DIR__.'/vendor/SplClassLoader.php';
+
+use Fluent\Logger\FluentLogger;
+
+$loader = new SplClassLoader('Fluent', __DIR__.'/src/');
+$loader->register();
+
+$logger = FluentLogger::open("debug.test","localhost","24224");
+$logger->post(array("hello"=>"world"));
 ````
 
-# how to contribute.
-
-1. make an issue at https://github.com/chobie/fluent-php/issues/new
-
-2. do your best!
-
-3. send a pull request.
-
-(y)
-
-# LICENCE.
-
-for now, MIT licence. probably i'll change to apache2 licence.
+# License
+Apache License, Version 2.0
