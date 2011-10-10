@@ -83,18 +83,12 @@ class FluentLogger extends BaseLogger
      */
     protected function connect()
     {
-        $socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
-        if (!is_resource($socket)) {
-            throw new \Exception("could not create a socket: " . socket_strerror(socket_last_error()));
-        }
-        
-        if (!socket_set_option($socket,SOL_SOCKET,SO_RCVTIMEO,array('sec'=>self::TIMEOUT,'usec'=>0))) {
-            throw new \Exception("could not set scoket option: ". socket_strerror(socket_last_error()));
-        }
-
-        $retval = socket_connect($socket,$this->host,$this->port);
-        if (!$retval) {
-            throw new \Exception(socket_strerror(socket_last_error()) . " - could not connect to {$this->host}");
+        // could not suprress warning without ini setting.
+        // for now, we use error control operators. 
+        $socket = @pfsockopen($this->host,$this->port,$errno,$errstr,self::TIMEOUT);
+        if (!$socket) {
+            $errors = \error_get_last();
+            throw new \Exception($errors['message']);
         }
         $this->socket = $socket;
     }
@@ -127,21 +121,11 @@ class FluentLogger extends BaseLogger
         if (!empty($additional)) {
             $tag .= "." . $additional;
         }
-        $packed  = $this->msgpackPack(array($tag,$array));
+        $packed  = json_encode(array($tag,$array));
         $this->reconnect();
         
-        $length = strlen($packed);
-        while ($length > 0) {
-            $sent = socket_write($this->socket, $packed, $length);
-            if ($sent < 0) {
-                throw new \Exception("connection aborted");
-            }
-            
-            if ($sent < $length) {
-                $packed = substr($packed, $sent);
-            }
-            $length -= $sent;
-        }
+        //$length = strlen($packed);
+        return fwrite($this->socket, $packed);
     }
     
     /**
@@ -151,14 +135,16 @@ class FluentLogger extends BaseLogger
      */
     public function __destruct()
     {
-        if(is_resource($this->socket)) {
-            socket_close($this->socket);
-        }
     }
 
     /**
      * convert php object to message packed format string.
      *
+     * actually, we don't use this method right now.
+     * please wait our work.
+     *
+     * @todo adjsut json_encode / message pack formatter.
+     * 
      * @param array $message pseudo fluentd message struct array.
      * @return string message packed binary string
      */
