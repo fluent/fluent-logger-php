@@ -1,6 +1,6 @@
 # Fluent Logger PHP
 
-** fluent-logger-php** is a PHP library, to record the events to fluentd from PHP application.
+**fluent-logger-php** is a PHP library, to record the events to fluentd from PHP application.
 
 ## Installation
 
