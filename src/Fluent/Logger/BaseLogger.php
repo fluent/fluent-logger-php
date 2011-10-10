@@ -35,15 +35,4 @@ use Fluent\Logger,
  */
 abstract class BaseLogger implements Logger
 {
-    /**
-     * create a event which relates current logger.
-     * 
-     * @return Fluent\Event Event object.
-     */
-    public function create_event()
-    {
-        $args = func_get_args();
-        $key = array_shift($args);
-        return new Event($this, $key, $args);
-    }
 }
