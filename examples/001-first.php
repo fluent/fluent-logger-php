@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__.'/vendor/SplClassLoader.php';
+require_once __DIR__.'/../vendor/SplClassLoader.php';
 
 use Fluent\Logger\ConsoleLogger,
     Fluent\Logger\FluentLogger,
     Fluent\Logger\HttpLogger;
 
-$loader = new SplClassLoader('Fluent', __DIR__.'/src/');
+$loader = new SplClassLoader('Fluent', __DIR__.'/../src/');
 $loader->register();
 
 /**
