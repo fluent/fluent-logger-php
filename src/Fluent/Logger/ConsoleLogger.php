@@ -26,18 +26,18 @@ namespace Fluent\Logger;
 
 class ConsoleLogger extends BaseLogger
 {
-    protected $prefix;
+    protected $tag;
     protected $handle;
     
-    public function __construct($prefix,$handle)
+    public function __construct($tag,$handle)
     {
-        $this->prefix = $prefix;
+        $this->tag = $tag;
         $this->handle = $handle;
     }
     
-    public static function open($prefix, $handle)
+    public static function open($tag, $handle)
     {
-        $logger = new self($prefix,$handle);
+        $logger = new self($tag,$handle);
         //\Fluent\Logger::$current = $logger;
         return $logger;
     }
@@ -45,9 +45,9 @@ class ConsoleLogger extends BaseLogger
     public function post($data, $additional = null)
     {
         $params = array();
-        $prefix = $this->prefix;
+        $tag = $this->tag;
         if (!empty($additional)) {
-            $prefix .= ".{$additional}";
+            $tag .= ".{$additional}";
         }
         
         foreach ($data as $key => $value) {
@@ -55,7 +55,7 @@ class ConsoleLogger extends BaseLogger
         }
         
         $time = new \DateTime("@".time(),new \DateTimeZone(date_default_timezone_get()));
-        $result = sprintf("%s %s: %s\n",$time->format("Y-m-d H:i:s O"), $prefix, json_encode($params));
+        $result = sprintf("%s %s: %s\n",$time->format("Y-m-d H:i:s O"), $tag, json_encode($params));
         fwrite($this->handle,$result);
     }
 }

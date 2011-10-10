@@ -29,26 +29,26 @@ class HttpLogger extends BaseLogger
 {
     const DEFAULT_HTTP_PORT = 8888;
 
-    protected $prefix;
+    protected $tag;
     protected $host;
     protected $port;
     
-    public function __construct($prefix, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    public function __construct($tag, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
     {
-        $this->prefix = $prefix;
+        $this->tag = $tag;
         $this->host = $host;
         $this->port = $port;
     }
     
-    public static function open($prefix, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    public static function open($tag, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
     {
-        $logger = new self($prefix,$host,$port);
+        $logger = new self($tag,$host,$port);
         return $logger;
     }
     
     public function post($data, $additional = null)
     {
         $packed  = json_encode($data);
-        file_get_contents("http://{$this->host}:{$this->port}/{$this->prefix}?json={$packed}");
+        file_get_contents("http://{$this->host}:{$this->port}/{$this->tag}?json={$packed}");
     }
 }
