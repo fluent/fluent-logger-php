@@ -98,7 +98,7 @@ class FluentLogger extends BaseLogger
      */
     protected function reconnect()
     {
-        if(!is_resource($this->socket)) {
+        if (!is_resource($this->socket)) {
             $this->connect();
         }
     }
@@ -116,6 +116,15 @@ class FluentLogger extends BaseLogger
         return fwrite($this->socket, $packed);
     }
     
+    /**
+     * pack php object to fluentd message format.
+     * fluentd v0.9.20 can read json message format directly.
+     * for now, this method send message to fluentd as json object.
+     *
+     * @param string $tag fluentd tag.
+     * @param mixed $data
+     * @return string message data.
+     */
     public static function pack_impl($tag, $data)
     {
         $entry = array(time(), $data);
