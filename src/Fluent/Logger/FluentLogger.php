@@ -27,7 +27,8 @@ namespace Fluent\Logger;
  */
 class FluentLogger extends BaseLogger
 {
-    const TIMEOUT = 3;
+    const CONNECTION_TIMEOUT = 3;
+    const SOCKET_TIMEOUT = 3;
     
     /* Fluent uses port 24224 as a default port */
     const DEFAULT_LISTEN_PORT = 24224;
@@ -79,11 +80,14 @@ class FluentLogger extends BaseLogger
     {
         // could not suprress warning without ini setting.
         // for now, we use error control operators. 
-        $socket = @pfsockopen($this->host,$this->port,$errno,$errstr,self::TIMEOUT);
+        $socket = @stream_socket_client(sprintf("tcp://%s:%d",$this->host,$this->port),$errno,$errstr,
+                    self::CONNECTION_TIMEOUT,\STREAM_CLIENT_CONNECT | \STREAM_CLIENT_PERSISTENT);
         if (!$socket) {
-            $errors = \error_get_last();
+            $errors = error_get_last();
             throw new \Exception($errors['message']);
         }
+        // set read / write timeout.
+        stream_set_timeout($socket,self::SOCKET_TIMEOUT);
         $this->socket = $socket;
     }
     
