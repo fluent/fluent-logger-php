@@ -131,28 +131,4 @@ class FluentLogger extends BaseLogger
     public function __destruct()
     {
     }
-
-    /**
-     * convert php object to message packed format string.
-     *
-     * actually, we don't use this method right now.
-     * please wait our work.
-     *
-     * @todo adjsut json_encode / message pack formatter.
-     * 
-     * @param array $message pseudo fluentd message struct array.
-     * @return string message packed binary string
-     */
-    protected function msgpackPack($message)
-    {
-        if (function_exists('msgpack_pack')) {
-            return msgpack_pack($message);
-        }
-
-        if (!class_exists('MsgPack_Coder')) {
-            throw new \RuntimeException('MsgPack_Coder class not loaded');
-        }
-
-        return \MsgPack_Coder::encode($message);
-    }
 }
