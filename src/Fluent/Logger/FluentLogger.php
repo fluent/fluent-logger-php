@@ -106,20 +106,21 @@ class FluentLogger extends BaseLogger
      */
     public function post($data, $additional = null)
     {
-        $retval = false;
+        $packed = self::pack_impl($this->tag,$data);
+        $this->reconnect();
         
+        return fwrite($this->socket, $packed);
+    }
+    
+    public static function pack_impl($tag, $data)
+    {
         $entry = array(time(), $data);
         $array = array($entry);
         
-        $tag = $this->tag;
         if (!empty($additional)) {
             $tag .= "." . $additional;
         }
-        $packed  = json_encode(array($tag,$array));
-        $this->reconnect();
-        
-        //$length = strlen($packed);
-        return fwrite($this->socket, $packed);
+        return json_encode(array($tag,$array));
     }
     
     /**
