@@ -27,9 +27,19 @@ namespace Fluent\Logger;
 use Fluent\Logger,
     Fluent\Event;
 
-//Todo: ちゃんとつくる
+/**
+ * Fluent basic logger class.
+ *
+ * all fluenet logger must extend this class.
+ * @author Shuhei Tanuma <stanuma@zynga.com>
+ */
 abstract class BaseLogger implements Logger
 {
+    /**
+     * create a event which relates current logger.
+     * 
+     * @return Fluent\Event Event object.
+     */
     public function create_event()
     {
         $args = func_get_args();
