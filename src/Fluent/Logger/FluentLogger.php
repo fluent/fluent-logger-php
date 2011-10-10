@@ -24,41 +24,86 @@
  */
 namespace Fluent\Logger;
 
+/**
+ * Fluent Logger
+ *
+ * Fluenet Logger client communicates to Fluentd with message pack formated message.
+ *
+ * @author Shuhei Tanuma <stanuma@zynga.com>
+ */
 class FluentLogger extends BaseLogger
 {
     const TIMEOUT = 3;
+    
+    /* Fluent uses port 24224 as a default port */
     const DEFAULT_LISTEN_PORT = 24224;
+    
+    const DEFAULT_ADDRESS = "127.0.0.1";
     
     protected $tag;
     protected $host;
     protected $port;
     protected $socket;
     
-    public function __construct($tag, $host, $port = FluentLogger::DEFAULT_LISTEN_PORT)
+    /**
+     * create fluent logger object.
+     *
+     * @param string $tag primary tag
+     * @param string $host 
+     * @param int $port
+     * @return FluentLogger
+     */
+    public function __construct($tag, $host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT)
     {
         $this->tag = $tag;
         $this->host = $host;
         $this->port = $port;
     }
     
-    public static function open($tag, $host, $port = FluentLogger::DEFAULT_LISTEN_PORT)
+    /**
+     * Fluent singleton API.
+     *
+     * @todo fixed singleton api.
+     * @param string $tag primary tag
+     * @param string $host 
+     * @param int $port
+     * @return FluentLogger created logger object.
+     */
+    public static function open($tag, $host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT)
     {
         $logger = new self($tag,$host,$port);
+        //\Fluent::$logger = $logger;
         return $logger;
     }
-    
+
+    /**
+     * create a connection to specified fluentd
+     *
+     * @return void 
+     */
     protected function connect()
     {
         $socket = socket_create(AF_INET,SOCK_STREAM,SOL_TCP);
-        socket_set_option($socket,SOL_SOCKET,SO_RCVTIMEO,array('sec'=>self::TIMEOUT,'usec'=>0));
+        if (!is_resource($socket)) {
+            throw new \Exception("could not create a socket: " . socket_strerror(socket_last_error()));
+        }
+        
+        if (!socket_set_option($socket,SOL_SOCKET,SO_RCVTIMEO,array('sec'=>self::TIMEOUT,'usec'=>0))) {
+            throw new \Exception("could not set scoket option: ". socket_strerror(socket_last_error()));
+        }
+
         $retval = socket_connect($socket,$this->host,$this->port);
         if (!$retval) {
-            $error = error_get_last();
-            throw new \Exception($error['message']. " - could not connect to {$this->host}");
+            throw new \Exception(socket_strerror(socket_last_error()) . " - could not connect to {$this->host}");
         }
         $this->socket = $socket;
     }
     
+    /**
+     * create a connection if Fluent Logger hasn't a socket connection.
+     *
+     * @return void
+     */
     protected function reconnect()
     {
         if(!is_resource($this->socket)) {
@@ -66,6 +111,11 @@ class FluentLogger extends BaseLogger
         }
     }
     
+    /**
+     * send a message to specified fluentd.
+     *
+     * @param mixied $data
+     */
     public function post($data, $additional = null)
     {
         $retval = false;
@@ -94,6 +144,11 @@ class FluentLogger extends BaseLogger
         }
     }
     
+    /**
+     * remove socket resource.
+     *
+     * @return void
+     */
     public function __destruct()
     {
         if(is_resource($this->socket)) {
@@ -101,6 +156,12 @@ class FluentLogger extends BaseLogger
         }
     }
 
+    /**
+     * convert php object to message packed format string.
+     *
+     * @param array $message pseudo fluentd message struct array.
+     * @return string message packed binary string
+     */
     protected function msgpackPack($message)
     {
         if (function_exists('msgpack_pack')) {

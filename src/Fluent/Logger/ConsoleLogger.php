@@ -24,17 +24,39 @@
  */
 namespace Fluent\Logger;
 
+/**
+ * Console Logger
+ *
+ * Console Logger client outputs readable log message to specifeid file handle.
+ *
+ * @author Shuhei Tanuma <stanuma@zynga.com>
+ */
 class ConsoleLogger extends BaseLogger
 {
     protected $tag;
     protected $handle;
     
+    /**
+     * create Console logger object.
+     *
+     * @param string $tag primary tag
+     * @param resource $handle
+     * @return ConsoleLogger
+     */
     public function __construct($tag,$handle)
     {
         $this->tag = $tag;
         $this->handle = $handle;
     }
     
+    /**
+     * Fluent singleton API.
+     *
+     * @todo fixed singleton api.
+     * @param string $tag primary tag
+     * @param resource $handle 
+     * @return FluentLogger created logger object.
+     */
     public static function open($tag, $handle)
     {
         $logger = new self($tag,$handle);
@@ -42,6 +64,11 @@ class ConsoleLogger extends BaseLogger
         return $logger;
     }
     
+    /**
+     * send a message to specified fluentd.
+     *
+     * @param mixied $data
+     */
     public function post($data, $additional = null)
     {
         $params = array();

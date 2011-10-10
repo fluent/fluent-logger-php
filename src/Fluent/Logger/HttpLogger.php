@@ -24,7 +24,11 @@
  */
 namespace Fluent\Logger;
 
-//Todo: ちゃんとつくる
+/**
+ * Fluent HTTP logger class.
+ *
+ * @author Shuhei Tanuma <stanuma@zynga.com>
+ */
 class HttpLogger extends BaseLogger
 {
     const DEFAULT_HTTP_PORT = 8888;
@@ -33,6 +37,14 @@ class HttpLogger extends BaseLogger
     protected $host;
     protected $port;
     
+    /**
+     * create fluent http logger object.
+     *
+     * @param string $tag primary tag
+     * @param string $host 
+     * @param int $port
+     * @return HttpLogger
+     */
     public function __construct($tag, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
     {
         $this->tag = $tag;
@@ -40,12 +52,26 @@ class HttpLogger extends BaseLogger
         $this->port = $port;
     }
     
+    /**
+     * Fluent singleton API.
+     *
+     * @todo fixed singleton api.
+     * @param string $tag primary tag
+     * @param string $host 
+     * @param int $port
+     * @return HttpLogger created http logger object.
+     */
     public static function open($tag, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
     {
         $logger = new self($tag,$host,$port);
         return $logger;
     }
-    
+
+    /**
+     * send a message to specified fluentd.
+     *
+     * @param mixied $data
+     */
     public function post($data, $additional = null)
     {
         $packed  = json_encode($data);
