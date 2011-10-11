@@ -106,7 +106,7 @@ class FluentLogger extends BaseLogger
     /**
      * send a message to specified fluentd.
      *
-     * @param mixied $data
+     * @param mixed $data
      */
     public function post($data, $additional = null)
     {
