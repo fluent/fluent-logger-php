@@ -30,5 +30,16 @@ $logger = FluentLogger::open("debug.test","localhost","24224");
 $logger->post(array("hello"=>"world"));
 ````
 
+# Todos
+
+* fix method signature.
+* improve performance and reliability.
+* pear command support
+* support buffering / smart write feature.
+php doesn't have thread feature. so this may look weired.
+
+basically, PHP guys decide to use a proxy on this case.
+so i recommend to setup local fluentd as a proxy.
+
 # License
 Apache License, Version 2.0
