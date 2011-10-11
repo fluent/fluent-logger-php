@@ -29,7 +29,7 @@ class FluentLogger extends BaseLogger
 {
     const CONNECTION_TIMEOUT = 3;
     const SOCKET_TIMEOUT = 3;
-    
+    const MAX_WRITE_RETRY = 10;
     /* Fluent uses port 24224 as a default port */
     const DEFAULT_LISTEN_PORT = 24224;
     
@@ -111,9 +111,34 @@ class FluentLogger extends BaseLogger
     public function post($data, $additional = null)
     {
         $packed = self::pack_impl($this->tag,$data);
+        $data = $packed;
+        $length = strlen($packed);
+        $retry = $written = 0;
+
         $this->reconnect();
+
+        // PHP socket looks weired. we have to check the implementation.
+        while ($written < $length) {
+            $nwrite = fwrite($this->socket, $data);
+            if ($nwrite === false) {
+                // could not write messages to the socket.
+                // Todo: check fwrite implementation.
+                throw new \Exception("could not write message");
+            } else if ($nwrite === "") {
+                // sometimes fwrite returns null string.
+                // probably connection aborted.
+                throw new \Exception("connection aborted");
+            } else if ($nwrite === 0) {
+                if ($retry > self::MAX_WRITE_RETRY) {
+                    throw new \Exception("failed fwrite retry: max retry count");
+                }
+                $retry++;
+            }
+            $written += $nwrite;
+            $data = substr($packed,$written);
+        }
         
-        return fwrite($this->socket, $packed);
+        return true;
     }
     
     /**
