@@ -78,7 +78,7 @@ class FluentLogger extends BaseLogger
      */
     protected function connect()
     {
-        // could not suprress warning without ini setting.
+        // could not suppress warning without ini setting.
         // for now, we use error control operators. 
         $socket = @stream_socket_client(sprintf("tcp://%s:%d",$this->host,$this->port),$errno,$errstr,
                     self::CONNECTION_TIMEOUT,\STREAM_CLIENT_CONNECT | \STREAM_CLIENT_PERSISTENT);
