@@ -117,25 +117,30 @@ class FluentLogger extends BaseLogger
 
         $this->reconnect();
 
-        // PHP socket looks weired. we have to check the implementation.
-        while ($written < $length) {
-            $nwrite = fwrite($this->socket, $data);
-            if ($nwrite === false) {
-                // could not write messages to the socket.
-                // Todo: check fwrite implementation.
-                throw new \Exception("could not write message");
-            } else if ($nwrite === "") {
-                // sometimes fwrite returns null string.
-                // probably connection aborted.
-                throw new \Exception("connection aborted");
-            } else if ($nwrite === 0) {
-                if ($retry > self::MAX_WRITE_RETRY) {
-                    throw new \Exception("failed fwrite retry: max retry count");
+        try {
+            // PHP socket looks weired. we have to check the implementation.
+            while ($written < $length) {
+                $nwrite = fwrite($this->socket, $data);
+                if ($nwrite === false) {
+                    // could not write messages to the socket.
+                    // Todo: check fwrite implementation.
+                    throw new \Exception("could not write message");
+                } else if ($nwrite === "") {
+                    // sometimes fwrite returns null string.
+                    // probably connection aborted.
+                    throw new \Exception("connection aborted");
+                } else if ($nwrite === 0) {
+                    if ($retry > self::MAX_WRITE_RETRY) {
+                        throw new \Exception("failed fwrite retry: max retry count");
+                    }
+                    $retry++;
                 }
-                $retry++;
+                $written += $nwrite;
+                $data = substr($packed,$written);
             }
-            $written += $nwrite;
-            $data = substr($packed,$written);
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            return false;
         }
         
         return true;
