@@ -38,6 +38,7 @@ $logger->post(array("hello"=>"world"));
 # Restrictions
 
 * buffering and re-send support
+
 basically, php does not have thread feature. so i strongaly recommend 
 to use fluentd as a local fluent proxy.
 
