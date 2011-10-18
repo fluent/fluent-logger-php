@@ -32,14 +32,21 @@ $logger->post(array("hello"=>"world"));
 
 # Todos
 
-* fix method signature.
+* stabilized method signature.
 * improve performance and reliability.
-* pear command support
-* support buffering / smart write feature.
-php doesn't have thread feature. so this may look weired.
 
-basically, PHP guys decide to use a proxy on this case.
-so i recommend to setup local fluentd as a proxy.
+# Restrictions
+
+* buffering and re-send support
+basically, php does not have thread feature. so i strongaly recommend 
+to use fluentd as a local fluent proxy.
+
+````
+apache2(mod_php)
+fluent-logger-php
+                 `-----proxy-fluentd
+                                    `------aggregater fluentd
+````
 
 # License
 Apache License, Version 2.0
