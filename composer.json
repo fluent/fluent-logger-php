@@ -1,0 +1,17 @@
+{
+    "name": "fluent/logger",
+    "type": "library",
+    "description": "distributed logging for PHP 5.3",
+    "keywords": ["log","logging"],
+    "homepage": "http://github.com/fluent/fluent-logger-php",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "Shuhei Tanuma",
+            "email": "chobieee@gmail.com",
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
