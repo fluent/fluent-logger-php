@@ -53,3 +53,10 @@ fluent-logger-php
 
 # License
 Apache License, Version 2.0
+
+
+# Contributors
+
+* Daniele Alessandri
+* Shuhei Tanuma
+* sasezaki
