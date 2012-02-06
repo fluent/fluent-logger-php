@@ -110,7 +110,7 @@ class FluentLogger extends BaseLogger
      */
     public function post($data, $additional = null)
     {
-        $packed = self::pack_impl($this->tag,$data);
+        $packed = self::pack_impl($this->tag,$data,$additional);
         $data = $packed;
         $length = strlen($packed);
         $retry = $written = 0;
@@ -153,9 +153,10 @@ class FluentLogger extends BaseLogger
      *
      * @param string $tag fluentd tag.
      * @param mixed $data
+     * @param string $additional optional tag.
      * @return string message data.
      */
-    public static function pack_impl($tag, $data)
+    public static function pack_impl($tag, $data, $additional = null)
     {
         $entry = array(time(), $data);
         $array = array($entry);
