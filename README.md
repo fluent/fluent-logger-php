@@ -16,6 +16,21 @@ please also check development branch if you wanna contribute fluent-logger.
 
 ## Installation
 
+### using Vagrant
+
+````
+gem install vagrant --no-ri --no-rdoc
+gem install chef --no-ri --no-rdoc
+
+git clone https://github.com:fluent/fluent-logger-php.git
+cd fluent-logger-php
+vagrant up
+
+# this may take 30 minutes over if you don't have the box.
+# this box installed rbenv, ruby1.9.3-p0 and fluentd. you can play fluentd and php with this box. enjoy it!
+# you can log in to the box with following command `vagrant ssh`
+````
+
 ### using Composer
 
 composer.json

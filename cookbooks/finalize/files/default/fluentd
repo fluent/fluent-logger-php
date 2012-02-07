@@ -1,0 +1,3 @@
+<match debug.**>
+  type stdout
+</match>
