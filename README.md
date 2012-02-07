@@ -54,8 +54,8 @@ use Fluent\Logger\FluentLogger;
 
 Fluent\Autoloader::register();
 
-$logger = FluentLogger::open("debug.test","localhost","24224");
-$logger->post(array("hello"=>"world"));
+$logger = FluentLogger::open("localhost","24224");
+$logger->post("debug.test",array("hello"=>"world"));
 ````
 
 # Todos
