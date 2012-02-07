@@ -34,14 +34,12 @@ class HttpLogger extends BaseLogger
     /**
      * create fluent http logger object.
      *
-     * @param string $tag primary tag
-     * @param string $host 
+     * @param string $host
      * @param int $port
      * @return HttpLogger
      */
-    public function __construct($tag, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    public function __construct($host, $port = HttpLogger::DEFAULT_HTTP_PORT)
     {
-        $this->tag = $tag;
         $this->host = $host;
         $this->port = $port;
     }
@@ -50,26 +48,26 @@ class HttpLogger extends BaseLogger
      * Fluent singleton API.
      *
      * @todo fixed singleton api.
-     * @param string $tag primary tag
-     * @param string $host 
+     * @param string $host
      * @param int $port
      * @return HttpLogger created http logger object.
      */
-    public static function open($tag, $host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    public static function open($host, $port = HttpLogger::DEFAULT_HTTP_PORT)
     {
-        $logger = new self($tag,$host,$port);
+        $logger = new self($host,$port);
         return $logger;
     }
 
     /**
      * send a message to specified fluentd.
      *
-     * @param mixied $data
+     * @param string $tag
+     * @param array $data
      */
-    public function post($data, $additional = null)
+    public function post($tag, $data)
     {
         $packed = json_encode($data);
-        $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $this->tag, urlencode($packed));
+        $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $tag, urlencode($packed));
 
         file_get_contents($request);
     }

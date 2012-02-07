@@ -1,8 +1,8 @@
 <?php
 /**
- *  Fluent-PHP-Logger
+ *  Fluent-Logger-PHP
  * 
- *  Copyright (C) 2011 Shuhei Tanuma
+ *  Copyright (C) 2011 - 2012 Fluent-Logger-PHP Contributors
  * 
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -21,9 +21,7 @@ namespace Fluent\Logger;
 /**
  * Fluent Logger
  *
- * Fluent Logger client communicates to Fluentd with MessagePack formatted messages.
- *
- * @author Shuhei Tanuma <stanuma@zynga.com>
+ * Fluent Logger client communicates to Fluentd with json formatted messages.
  */
 class FluentLogger extends BaseLogger
 {
@@ -35,7 +33,6 @@ class FluentLogger extends BaseLogger
     
     const DEFAULT_ADDRESS = "127.0.0.1";
     
-    protected $tag;
     protected $host;
     protected $port;
     protected $socket;
@@ -43,14 +40,12 @@ class FluentLogger extends BaseLogger
     /**
      * create fluent logger object.
      *
-     * @param string $tag primary tag
-     * @param string $host 
+     * @param string $host
      * @param int $port
      * @return FluentLogger
      */
-    public function __construct($tag, $host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT)
+    public function __construct($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT)
     {
-        $this->tag = $tag;
         $this->host = $host;
         $this->port = $port;
     }
@@ -58,15 +53,13 @@ class FluentLogger extends BaseLogger
     /**
      * Fluent singleton API.
      *
-     * @todo fixed singleton api.
-     * @param string $tag primary tag
-     * @param string $host 
+     * @param string $host
      * @param int $port
      * @return FluentLogger created logger object.
      */
-    public static function open($tag, $host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT)
+    public static function open($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT)
     {
-        $logger = new self($tag,$host,$port);
+        $logger = new self($host,$port);
         //\Fluent::$logger = $logger;
         return $logger;
     }
@@ -106,11 +99,13 @@ class FluentLogger extends BaseLogger
     /**
      * send a message to specified fluentd.
      *
-     * @param mixed $data
+     * @param string $tag
+     * @param array $data
+     * @return bool
      */
-    public function post($data, $additional = null)
+    public function post($tag, $data)
     {
-        $packed = self::pack_impl($this->tag,$data,$additional);
+        $packed = self::pack_impl($tag,$data);
         $data = $packed;
         $length = strlen($packed);
         $retry = $written = 0;
@@ -153,18 +148,13 @@ class FluentLogger extends BaseLogger
      *
      * @param string $tag fluentd tag.
      * @param mixed $data
-     * @param string $additional optional tag.
      * @return string message data.
      */
-    public static function pack_impl($tag, $data, $additional = null)
+    public static function pack_impl($tag, $data)
     {
         $entry = array(time(), $data);
-        $array = array($entry);
-        
-        if (!empty($additional)) {
-            $tag .= "." . $additional;
-        }
-        return json_encode(array($tag,$array));
+
+        return json_encode(array($tag,array($entry)));
     }
     
     /**

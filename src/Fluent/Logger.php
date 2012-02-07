@@ -1,8 +1,8 @@
 <?php
 /**
- *  Fluent-PHP-Logger
- * 
- *  Copyright (C) 2011 Shuhei Tanuma
+ *  Fluent-Logger-PHP
+ *
+ *  Copyright (C) 2011 - 2012 Fluent-Logger-PHP Contributors
  * 
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -20,5 +20,10 @@ namespace Fluent;
 
 interface Logger
 {
-    public function post($data, $additional = null);
+    /**
+     * @abstract
+     * @param $tag
+     * @param $data
+     */
+    public function post($tag, $data);
 }
