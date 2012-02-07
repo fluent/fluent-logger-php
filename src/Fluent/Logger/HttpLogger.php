@@ -45,9 +45,8 @@ class HttpLogger extends BaseLogger
     }
     
     /**
-     * Fluent singleton API.
+     * fluent-logger compatible API.
      *
-     * @todo fixed singleton api.
      * @param string $host
      * @param int $port
      * @return HttpLogger created http logger object.
@@ -61,6 +60,7 @@ class HttpLogger extends BaseLogger
     /**
      * send a message to specified fluentd.
      *
+     * @todo use HTTP1.1 protocol and persistent socket.
      * @param string $tag
      * @param array $data
      */

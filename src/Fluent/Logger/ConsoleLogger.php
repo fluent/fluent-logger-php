@@ -41,7 +41,7 @@ class ConsoleLogger extends BaseLogger
     }
     
     /**
-     * Fluent singleton API.
+     * fluent-logger compatible API.
      *
      * @param resource $handle
      * @return FluentLogger created logger object.

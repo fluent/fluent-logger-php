@@ -45,9 +45,8 @@ class FileLogger extends BaseLogger
     }
     
     /**
-     * Fluent singleton API.
+     * fluent-logger compatible API.
      *
-     * @todo fixed singleton api.
      * @param string $path
      */
     public static function open($path)

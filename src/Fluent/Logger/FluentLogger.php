@@ -51,7 +51,7 @@ class FluentLogger extends BaseLogger
     }
     
     /**
-     * Fluent singleton API.
+     * fluent-logger compatible API.
      *
      * @param string $host
      * @param int $port
@@ -60,7 +60,6 @@ class FluentLogger extends BaseLogger
     public static function open($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT)
     {
         $logger = new self($host,$port);
-        //\Fluent::$logger = $logger;
         return $logger;
     }
 
