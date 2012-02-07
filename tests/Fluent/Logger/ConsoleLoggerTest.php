@@ -22,7 +22,7 @@ class ConsoleLoggerTest extends \PHPUnit_Framework_TestCase
         $logger->post("debug.test",array("a"=>"b"));
         fseek($fp,0);
         $data = stream_get_contents($fp);
-        $this->assertTrue((bool)preg_match('/debug\.test: \{"a":"b"\}/',$data),
+        $this->assertTrue((bool)preg_match("/debug.test\t\{\"a\":\"b\"\}/",$data),
             "ConsoleLogger::post could not write correctly.\nresult: {$data}");
         fclose($fp);
     }

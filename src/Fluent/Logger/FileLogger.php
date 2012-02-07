@@ -92,7 +92,7 @@ class FileLogger extends BaseLogger
 
             flock($this->fp, LOCK_UN);
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            $this->processError($e->getMessage());
             return false;
         }
 

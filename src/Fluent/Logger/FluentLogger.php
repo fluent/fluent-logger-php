@@ -133,7 +133,7 @@ class FluentLogger extends BaseLogger
                 $data = substr($packed,$written);
             }
         } catch (\Exception $e) {
-            error_log($e->getMessage());
+            $this->processError($e->getMessage());
             return false;
         }
         
