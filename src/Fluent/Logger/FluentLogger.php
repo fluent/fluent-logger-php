@@ -21,7 +21,7 @@ namespace Fluent\Logger;
 /**
  * Fluent Logger
  *
- * Fluenet Logger client communicates to Fluentd with message pack formated message.
+ * Fluent Logger client communicates to Fluentd with MessagePack formatted messages.
  *
  * @author Shuhei Tanuma <stanuma@zynga.com>
  */
