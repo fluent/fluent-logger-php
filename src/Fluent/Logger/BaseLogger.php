@@ -28,23 +28,26 @@ abstract class BaseLogger implements \Fluent\Logger
     protected $error_handler = null;
 
     /**
+     * @param $tag
+     * @param $data
      * @param $error error message
-     * @throws \Exception
      */
-    public function defaultErrorHandler($error)
+    public function defaultErrorHandler($tag, $data, $error)
     {
-        error_log($error);
+        error_log(sprintf("%s %s: %s", $error, $tag, json_encode($data)));
     }
 
     /**
-     * @param string $error error message
+     * @param $tag
+     * @param $data
+     * @param $error error message
      */
-    protected function processError($error)
+    protected function processError($tag, $data, $error)
     {
         if (!is_null($this->error_handler)) {
-            call_user_func_array($this->error_handler, array($error));
+            call_user_func_array($this->error_handler, array($tag, $data, $error));
         } else {
-            $this->defaultErrorHandler($error);
+            $this->defaultErrorHandler($tag, $data, $error);
         }
     }
 

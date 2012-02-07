@@ -105,16 +105,21 @@ class FluentLogger extends BaseLogger
     public function post($tag, $data)
     {
         $packed = self::pack_impl($tag,$data);
-        $data = $packed;
+        $buffer = $packed;
         $length = strlen($packed);
         $retry = $written = 0;
 
-        $this->reconnect();
+        try {
+            $this->reconnect();
+        } catch (\Exception $e) {
+            $this->processError($tag, $data, $e->getMessage());
+            return false;
+        }
 
         try {
             // PHP socket looks weired. we have to check the implementation.
             while ($written < $length) {
-                $nwrite = fwrite($this->socket, $data);
+                $nwrite = fwrite($this->socket, $buffer);
                 if ($nwrite === false) {
                     // could not write messages to the socket.
                     // Todo: check fwrite implementation.
@@ -130,10 +135,10 @@ class FluentLogger extends BaseLogger
                     $retry++;
                 }
                 $written += $nwrite;
-                $data = substr($packed,$written);
+                $buffer = substr($packed,$written);
             }
         } catch (\Exception $e) {
-            $this->processError($e->getMessage());
+            $this->processError($tag, $data, $e->getMessage());
             return false;
         }
         
