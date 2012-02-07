@@ -8,8 +8,8 @@ use Fluent\Autoloader,
 
 Autoloader::register();
 
-$logger = ConsoleLogger::open("debug.test",fopen("php://stdout","w"));
+$logger = ConsoleLogger::open(fopen("php://stdout","w"));
 
 /* simple request */
-$logger->post(array("hello"=>"world"));
+$logger->post("debug.test",array("hello"=>"world"));
 // 2011-10-01 03:33:34 +0900 debug.test: {"hello":"world"}

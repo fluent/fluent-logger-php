@@ -8,8 +8,8 @@ use Fluent\Autoloader,
 
 Autoloader::register();
 
-$logger = HttpLogger::open("debug.test","localhost","8888");
+$logger = HttpLogger::open("localhost","8888");
 
 /* simple request */
-$logger->post(array("hello"=>"world"));
+$logger->post("debug.test",array("hello"=>"world"));
 // 2011-10-01 03:33:34 +0900 debug.test: {"hello":"world"}
