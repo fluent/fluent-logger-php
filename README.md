@@ -4,6 +4,11 @@
 
 [![Build Status](https://secure.travis-ci.org/chobie/fluent-logger-php.png)](http://travis-ci.org/chobie/fluent-logger-php)
 
+## fluent-logger-php development branch available.
+
+i'll decided to break some API so current development lines goes to development branch.
+please also check development branch if you wanna contribute fluent-logger.
+
 ## Requirements
 
 - PHP 5.3 higher
