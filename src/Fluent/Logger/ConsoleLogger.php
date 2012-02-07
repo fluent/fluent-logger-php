@@ -68,7 +68,7 @@ class ConsoleLogger extends BaseLogger
         }
         
         $time = new \DateTime("@".time(),new \DateTimeZone(date_default_timezone_get()));
-        $result = sprintf("%s %s: %s\n",$time->format("Y-m-d H:i:s O"), $tag, json_encode($params));
+        $result = sprintf("%s\t%s\t%s\n",$time->format(\DateTime::ISO8601), $tag, json_encode($params));
         fwrite($this->handle,$result);
     }
 }
