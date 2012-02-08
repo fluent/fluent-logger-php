@@ -156,9 +156,7 @@ class FluentLogger extends BaseLogger
      */
     public static function pack_impl($tag, $data)
     {
-        $entry = array(time(), $data);
-
-        return json_encode(array($tag,array($entry)));
+        return json_encode(array($tag, time(), $data));
     }
     
     /**
