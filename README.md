@@ -1,22 +1,23 @@
 # Fluent Logger PHP
 
-**fluent-logger-php** is a PHP library, to record the events to fluentd from PHP application.
+**fluent-logger-php** is a PHP library to record events to fluentd from a PHP application.
 
 [![Build Status](https://secure.travis-ci.org/chobie/fluent-logger-php.png)](http://travis-ci.org/chobie/fluent-logger-php)
 
 ## fluent-logger-php development branch available.
 
-i'll decided to break some API so current development lines goes to development branch.
-please also check development branch if you wanna contribute fluent-logger.
+Since we are currently making changes that affect the existing API, all the development
+is happening on the developmenet branch. If you would like to contribute, please check out
+the development branch.
 
 ## Requirements
 
-- PHP 5.3 higher
-- fluentd v0.9.20 higher
+- PHP 5.3 or higher
+- fluentd v0.9.20 or higher
 
 ## Installation
 
-### using Composer
+### Using Composer
 
 composer.json
 ````
@@ -41,9 +42,9 @@ git clone https://github.com/fluent/fluent-logger-php.git
 cp -r src/Fluent <path/to/your_project>
 ````
 
-this library will be able to install via pear command soon.
+This library will be part of pear soon.
 
-# Useage
+# Usage
 
 ````
 <?php
@@ -60,15 +61,14 @@ $logger->post(array("hello"=>"world"));
 
 # Todos
 
-* stabilized method signature.
-* improve performance and reliability.
+* Stabilize method signatures.
+* Improve performance and reliability.
 
 # Restrictions
 
-* buffering and re-send support
+* Buffering and re-send support
 
-basically, php does not have thread feature. so i strongaly recommend 
-to use fluentd as a local fluent proxy.
+PHP does not have threads. So, I strongaly recommend you use fluentd as a local fluent proxy.
 
 ````
 apache2(mod_php)
@@ -83,7 +83,7 @@ Apache License, Version 2.0
 
 # Contributors
 
-* aniele Alessandri
+* Aniele Alessandri
 * Hiro Yoshikawa
 * Shuhei Tanuma
 * sasezaki
