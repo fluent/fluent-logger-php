@@ -83,7 +83,10 @@ Apache License, Version 2.0
 
 # Contributors
 
-* Aniele Alessandri
+* Daniele Alessandri
 * Hiro Yoshikawa
+* Kazuki Ohta
 * Shuhei Tanuma
+* edy
+* kiyoto
 * sasezaki
