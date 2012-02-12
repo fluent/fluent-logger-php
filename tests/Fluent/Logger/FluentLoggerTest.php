@@ -13,13 +13,11 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
     public function testPackImplMethod()
     {
         // expected format.
-        // [<Tag>, 
-        //   [
-        //     [<Unixtime>,<object>]
-        //   ]]
+        // [<Tag>, <Unixtime>, {object}] 
         $string = FluentLogger::pack_impl("debug.test",array("hello"=>"world"));
         $result = json_decode($string,true);
         $this->assertEquals("debug.test",$result[0]);
-        $this->assertEquals("world",$result[1][0][1]['hello']);
+        $this->assertEquals(sprintf('["debug.test",%d,{"hello":"world"}]',$result[1]),$string);
+        $this->assertEquals(array("hello"=>"world"),$result[2]);
     }
 }
