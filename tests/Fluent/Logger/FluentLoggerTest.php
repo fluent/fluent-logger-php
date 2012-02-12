@@ -47,6 +47,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         $logger = FluentLogger::open(self::TAG);
         $this->setSocket($logger, fopen("php://memory", "r"));
 
+        /* @todo: post method signature will be change in next release */
         $this->assertFalse($logger->post(array("foo" => "bar")), "Post method returned boolean");
     }
 
@@ -59,6 +60,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         $logger->expects($this->any())->method("write")->will($this->returnValue(false));
         $this->setSocket($logger, fopen("php://memory", "a+"));
 
+        /* @todo: post method signature will be change in next release */
         $this->assertFalse($logger->post(array("foo" => "bar")), "Post method returned boolean");
     }
 
@@ -82,6 +84,8 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPackImplMethod()
     {
+
+        /* @todo: pack_impl method signature will be change in next release */
         $string = FluentLogger::pack_impl(self::TAG, array(self::OBJECT_KEY => self::OBJECT_VALUE));
         $this->assertStringMatchesFormat('["%s",%d,{"%s":"%s"}]', $string, "Returned json format string");
         return json_decode($string, true);
@@ -116,6 +120,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
     public function testPackImplWithAdditionalTag()
     {
         $addtionalTag = "hoge";
+        /* @todo: additional tag will be deprecate in next release. */
         $string = FluentLogger::pack_impl(self::TAG, array(self::OBJECT_KEY => self::OBJECT_VALUE), $addtionalTag);
         $result = json_decode($string, true);
         $this->assertSame(self::TAG . "." . $addtionalTag, $result[0]);
