@@ -2,3 +2,4 @@ builds
 .vagrant
 .idea
 docs
+phpunit.xml

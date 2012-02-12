@@ -239,7 +239,7 @@ class FluentLogger extends BaseLogger
         try {
             // PHP socket looks weired. we have to check the implementation.
             while ($written < $length) {
-                $nwrite = fwrite($this->socket, $buffer);
+                $nwrite = $this->write($buffer);
 
                 if ($nwrite === false) {
                     // could not write messages to the socket.
@@ -284,5 +284,16 @@ class FluentLogger extends BaseLogger
     public function __destruct()
     {
         /* do not close socket as we use persistent connection */
+    }
+
+    /**
+     * write data
+     *
+     * @param string $data
+     * @return mixed integer|false
+     */
+    protected function write($buffer)
+    {
+        return fwrite($this->socket, $buffer);
     }
 }
