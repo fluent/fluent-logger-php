@@ -8,7 +8,7 @@
 	<title>File src/Fluent/Logger/FileLogger.php | Fluent-Logger-PHP</title>
 
 	<script type="text/javascript" src="resources/combined.js?2300626518"></script>
-	<script type="text/javascript" src="elementlist.js?1864249493"></script>
+	<script type="text/javascript" src="elementlist.js?1780810106"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1252480456" />
 
 </head>
@@ -38,6 +38,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Fluent.Logger.BaseLogger.html">BaseLogger</a></li>
+				<li><a href="class-Fluent.Logger.ChainLogger.html">ChainLogger</a></li>
 				<li><a href="class-Fluent.Logger.ConsoleLogger.html">ConsoleLogger</a></li>
 				<li><a href="class-Fluent.Logger.Entity.html">Entity</a></li>
 				<li class="active"><a href="class-Fluent.Logger.FileLogger.html">FileLogger</a></li>
@@ -161,42 +162,64 @@
 </span><a href="#65" id="65" class="l"> 65: </a><span class="php-comment">     */</span>
 <a href="#66" id="66" class="l"> 66: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> post(<span class="php-var">$tag</span>,<span class="php-keyword1">array</span> <span class="php-var">$data</span>)
 <a href="#67" id="67" class="l"> 67: </a>    {
-<a href="#68" id="68" class="l"> 68: </a>        <span class="php-var">$packed</span> = <span class="php-keyword2">json_encode</span>(<span class="php-var">$data</span>);
-<a href="#69" id="69" class="l"> 69: </a>        <span class="php-var">$wbuffer</span> = <span class="php-var">$data</span> = <span class="php-keyword2">sprintf</span>(<span class="php-quote">&quot;%s\t%s\t%s\n&quot;</span>,<span class="php-keyword2">date</span>(\DateTime::ISO8601), <span class="php-var">$tag</span>, <span class="php-var">$packed</span>);
-<a href="#70" id="70" class="l"> 70: </a>        <span class="php-var">$length</span> = <span class="php-keyword2">strlen</span>(<span class="php-var">$data</span>);
-<a href="#71" id="71" class="l"> 71: </a>        <span class="php-var">$written</span> = <span class="php-num">0</span>;
-<a href="#72" id="72" class="l"> 72: </a>
-<a href="#73" id="73" class="l"> 73: </a>        <span class="php-keyword1">try</span> {
-<a href="#74" id="74" class="l"> 74: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword2">flock</span>(<span class="php-var">$this</span>-&gt;fp, LOCK_EX)) {
-<a href="#75" id="75" class="l"> 75: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">'could not obtain LOCK_EX'</span>);
-<a href="#76" id="76" class="l"> 76: </a>            }
-<a href="#77" id="77" class="l"> 77: </a>            <span class="php-keyword2">fseek</span>(<span class="php-var">$this</span>-&gt;fp,-<span class="php-num">1</span>, SEEK_END);
-<a href="#78" id="78" class="l"> 78: </a>
-<a href="#79" id="79" class="l"> 79: </a>            <span class="php-keyword1">while</span> (<span class="php-var">$written</span> &lt; <span class="php-var">$length</span>) {
-<a href="#80" id="80" class="l"> 80: </a>                <span class="php-var">$nwrite</span> = <span class="php-keyword2">fwrite</span>(<span class="php-var">$this</span>-&gt;fp, <span class="php-var">$wbuffer</span>);
-<a href="#81" id="81" class="l"> 81: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$nwrite</span> === <span class="php-keyword1">false</span>) {
-<a href="#82" id="82" class="l"> 82: </a>                    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">&quot;could not write message&quot;</span>);
-<a href="#83" id="83" class="l"> 83: </a>                } <span class="php-keyword1">else</span> <span class="php-keyword1">if</span> (<span class="php-var">$nwrite</span> === <span class="php-quote">&quot;&quot;</span>) {
-<a href="#84" id="84" class="l"> 84: </a>                    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">&quot;connection aborted&quot;</span>);
-<a href="#85" id="85" class="l"> 85: </a>                } <span class="php-keyword1">else</span> <span class="php-keyword1">if</span> (<span class="php-var">$nwrite</span> === <span class="php-num">0</span>) {
-<a href="#86" id="86" class="l"> 86: </a>                    <span class="php-keyword1">if</span> (<span class="php-var">$retry</span> &gt; self::MAX_WRITE_RETRY) {
-<a href="#87" id="87" class="l"> 87: </a>                        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">&quot;failed fwrite retry: max retry count&quot;</span>);
-<a href="#88" id="88" class="l"> 88: </a>                    }
-<a href="#89" id="89" class="l"> 89: </a>                    <span class="php-var">$retry</span>++;
-<a href="#90" id="90" class="l"> 90: </a>                }
-<a href="#91" id="91" class="l"> 91: </a>                <span class="php-var">$written</span> += <span class="php-var">$nwrite</span>;
-<a href="#92" id="92" class="l"> 92: </a>                <span class="php-var">$wbuffer</span> = <span class="php-keyword2">substr</span>(<span class="php-var">$wbuffer</span>,<span class="php-var">$written</span>);
-<a href="#93" id="93" class="l"> 93: </a>            }
-<a href="#94" id="94" class="l"> 94: </a>
-<a href="#95" id="95" class="l"> 95: </a>            <span class="php-keyword2">flock</span>(<span class="php-var">$this</span>-&gt;fp, LOCK_UN);
-<a href="#96" id="96" class="l"> 96: </a>        } <span class="php-keyword1">catch</span> (\Exception <span class="php-var">$e</span>) {
-<a href="#97" id="97" class="l"> 97: </a>            <span class="php-var">$this</span>-&gt;processError(<span class="php-var">$e</span>-&gt;getMessage());
-<a href="#98" id="98" class="l"> 98: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-<a href="#99" id="99" class="l"> 99: </a>        }
-<a href="#100" id="100" class="l">100: </a>
-<a href="#101" id="101" class="l">101: </a>    }
-<a href="#102" id="102" class="l">102: </a>}
-<a href="#103" id="103" class="l">103: </a></code></pre>
+<a href="#68" id="68" class="l"> 68: </a>        <span class="php-var">$entity</span> = <span class="php-keyword1">new</span> Entity(<span class="php-var">$tag</span>, <span class="php-var">$data</span>);
+<a href="#69" id="69" class="l"> 69: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;postImpl(<span class="php-var">$entity</span>);
+<a href="#70" id="70" class="l"> 70: </a>    }
+<a href="#71" id="71" class="l"> 71: </a>
+<a href="#72" id="72" class="l"> 72: </a>    <span class="php-comment">/**
+</span><a href="#73" id="73" class="l"> 73: </a><span class="php-comment">     * write a message to specified path.
+</span><a href="#74" id="74" class="l"> 74: </a><span class="php-comment">     *
+</span><a href="#75" id="75" class="l"> 75: </a><span class="php-comment">     * @param Entity $entity
+</span><a href="#76" id="76" class="l"> 76: </a><span class="php-comment">     */</span>
+<a href="#77" id="77" class="l"> 77: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> post2(Entity <span class="php-var">$entity</span>)
+<a href="#78" id="78" class="l"> 78: </a>    {
+<a href="#79" id="79" class="l"> 79: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;postImpl(<span class="php-var">$entity</span>);
+<a href="#80" id="80" class="l"> 80: </a>    }
+<a href="#81" id="81" class="l"> 81: </a>
+<a href="#82" id="82" class="l"> 82: </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> postImpl(Entity <span class="php-var">$entity</span>)
+<a href="#83" id="83" class="l"> 83: </a>    {
+<a href="#84" id="84" class="l"> 84: </a>        <span class="php-var">$packed</span> = <span class="php-keyword2">json_encode</span>(<span class="php-var">$entity</span>-&gt;getData());
+<a href="#85" id="85" class="l"> 85: </a>        <span class="php-var">$wbuffer</span> = <span class="php-var">$wbuffer</span> = <span class="php-keyword2">sprintf</span>(<span class="php-quote">&quot;%s\t%s\t%s\n&quot;</span>,
+<a href="#86" id="86" class="l"> 86: </a>                        <span class="php-keyword2">date</span>(\DateTime::ISO8601,
+<a href="#87" id="87" class="l"> 87: </a>                        <span class="php-var">$entity</span>-&gt;getTime()),
+<a href="#88" id="88" class="l"> 88: </a>                        <span class="php-var">$entity</span>-&gt;getTag(),
+<a href="#89" id="89" class="l"> 89: </a>                        <span class="php-var">$packed</span>
+<a href="#90" id="90" class="l"> 90: </a>        );
+<a href="#91" id="91" class="l"> 91: </a>
+<a href="#92" id="92" class="l"> 92: </a>        <span class="php-var">$data</span> = <span class="php-var">$wbuffer</span>;
+<a href="#93" id="93" class="l"> 93: </a>        <span class="php-var">$length</span> = <span class="php-keyword2">strlen</span>(<span class="php-var">$data</span>);
+<a href="#94" id="94" class="l"> 94: </a>        <span class="php-var">$written</span> = <span class="php-num">0</span>;
+<a href="#95" id="95" class="l"> 95: </a>
+<a href="#96" id="96" class="l"> 96: </a>        <span class="php-keyword1">try</span> {
+<a href="#97" id="97" class="l"> 97: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword2">flock</span>(<span class="php-var">$this</span>-&gt;fp, LOCK_EX)) {
+<a href="#98" id="98" class="l"> 98: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">'could not obtain LOCK_EX'</span>);
+<a href="#99" id="99" class="l"> 99: </a>            }
+<a href="#100" id="100" class="l">100: </a>            <span class="php-keyword2">fseek</span>(<span class="php-var">$this</span>-&gt;fp,-<span class="php-num">1</span>, SEEK_END);
+<a href="#101" id="101" class="l">101: </a>
+<a href="#102" id="102" class="l">102: </a>            <span class="php-keyword1">while</span> (<span class="php-var">$written</span> &lt; <span class="php-var">$length</span>) {
+<a href="#103" id="103" class="l">103: </a>                <span class="php-var">$nwrite</span> = <span class="php-keyword2">fwrite</span>(<span class="php-var">$this</span>-&gt;fp, <span class="php-var">$wbuffer</span>);
+<a href="#104" id="104" class="l">104: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$nwrite</span> === <span class="php-keyword1">false</span>) {
+<a href="#105" id="105" class="l">105: </a>                    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">&quot;could not write message&quot;</span>);
+<a href="#106" id="106" class="l">106: </a>                } <span class="php-keyword1">else</span> <span class="php-keyword1">if</span> (<span class="php-var">$nwrite</span> === <span class="php-quote">&quot;&quot;</span>) {
+<a href="#107" id="107" class="l">107: </a>                    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">&quot;connection aborted&quot;</span>);
+<a href="#108" id="108" class="l">108: </a>                } <span class="php-keyword1">else</span> <span class="php-keyword1">if</span> (<span class="php-var">$nwrite</span> === <span class="php-num">0</span>) {
+<a href="#109" id="109" class="l">109: </a>                    <span class="php-keyword1">if</span> (<span class="php-var">$retry</span> &gt; self::MAX_WRITE_RETRY) {
+<a href="#110" id="110" class="l">110: </a>                        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \Exception(<span class="php-quote">&quot;failed fwrite retry: max retry count&quot;</span>);
+<a href="#111" id="111" class="l">111: </a>                    }
+<a href="#112" id="112" class="l">112: </a>                    <span class="php-var">$retry</span>++;
+<a href="#113" id="113" class="l">113: </a>                }
+<a href="#114" id="114" class="l">114: </a>                <span class="php-var">$written</span> += <span class="php-var">$nwrite</span>;
+<a href="#115" id="115" class="l">115: </a>                <span class="php-var">$wbuffer</span> = <span class="php-keyword2">substr</span>(<span class="php-var">$wbuffer</span>,<span class="php-var">$written</span>);
+<a href="#116" id="116" class="l">116: </a>            }
+<a href="#117" id="117" class="l">117: </a>
+<a href="#118" id="118" class="l">118: </a>            <span class="php-keyword2">flock</span>(<span class="php-var">$this</span>-&gt;fp, LOCK_UN);
+<a href="#119" id="119" class="l">119: </a>        } <span class="php-keyword1">catch</span> (\Exception <span class="php-var">$e</span>) {
+<a href="#120" id="120" class="l">120: </a>            <span class="php-var">$this</span>-&gt;processError(<span class="php-var">$this</span>, <span class="php-var">$entity</span>, <span class="php-var">$e</span>-&gt;getMessage());
+<a href="#121" id="121" class="l">121: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+<a href="#122" id="122" class="l">122: </a>        }
+<a href="#123" id="123" class="l">123: </a>    }
+<a href="#124" id="124" class="l">124: </a>}
+<a href="#125" id="125" class="l">125: </a></code></pre>
 
 	<div id="footer">
 		Fluent-Logger-PHP API documentation generated by <a href="http://apigen.org">ApiGen 2.5.0</a>
