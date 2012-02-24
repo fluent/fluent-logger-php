@@ -4,15 +4,11 @@
 
 [![Build Status](https://secure.travis-ci.org/chobie/fluent-logger-php.png)](http://travis-ci.org/chobie/fluent-logger-php)
 
-## fluent-logger-php development branch available.
-
-Since we are currently making changes that affect the existing API, all the development
-is happening on the developmenet branch. If you would like to contribute, please check out
-the development branch.
-
 ## API Document
 
 http://fluent.github.com/fluent-logger-php/
+
+current version: v0.3.0
 
 ## Requirements
 
@@ -44,7 +40,7 @@ composer.json
     "name": "my-project",
     "version": "1.0.0",
     "require": {
-        "fluent/logger": "master-dev"
+        "fluent/logger": "v0.3.0"
     }
 }
 ````
@@ -74,7 +70,7 @@ use Fluent\Logger\FluentLogger;
 
 Fluent\Autoloader::register();
 
-$logger = FluentLogger::open("localhost","24224");
+$logger = new FluentLogger("localhost","24224");
 $logger->post("debug.test",array("hello"=>"world"));
 ````
 
