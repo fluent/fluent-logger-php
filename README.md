@@ -9,6 +9,10 @@
 i'll decided to break some API so current development lines goes to development branch.
 please also check development branch if you wanna contribute fluent-logger.
 
+## API Document
+
+http://fluent.github.com/fluent-logger-php/
+
 ## Requirements
 
 - PHP 5.3 higher
