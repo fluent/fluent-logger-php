@@ -59,4 +59,9 @@ namespace :fluent do
   task :docs do
     `apigen --source . --exclude "*/tests/*" --exclude "*/examples/*" --exclude "cookbooks/*" --destination docs --title "Fluent-Logger-PHP"`
   end
+
+  desc "generate contributors list"
+  task :contributors do
+    print `git log --format='%aN' | sort -u`
+  end
 end
