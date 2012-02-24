@@ -69,4 +69,20 @@ class HttpLogger extends BaseLogger
 
         file_get_contents($request);
     }
+
+    /**
+     * send a message to specified fluentd.
+     *
+     * @todo use HTTP1.1 protocol and persistent socket.
+     * @param string $tag
+     * @param array $data
+     */
+    public function post2(Entity $entity)
+    {
+        $packed = json_encode($entity->getData());
+        $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $entity->getTag(), urlencode($packed));
+
+        file_get_contents($request);
+    }
+
 }

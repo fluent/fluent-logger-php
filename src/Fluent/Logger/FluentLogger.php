@@ -269,7 +269,22 @@ class FluentLogger extends BaseLogger
     public function post($tag, array $data)
     {
         $entity = new Entity($tag, $data);
+        return $this->postImpl($entity);
+    }
 
+    /**
+     * send a message to specified fluentd.
+     *
+     * @param Entity $entity
+     * @return bool
+     */
+    public function post2(Entity $entity)
+    {
+        return $this->postImpl($entity);
+    }
+
+    protected function postImpl(Entity $entity)
+    {
         $buffer = $packed = $this->packer->pack($entity);
         $length = strlen($packed);
         $retry  = $written = 0;
@@ -311,23 +326,8 @@ class FluentLogger extends BaseLogger
             $this->processError($entity, $e->getMessage());
             return false;
         }
-        
+
         return true;
-    }
-    
-    /**
-     * pack php object to fluentd message format.
-     * fluentd v0.9.20 can read json message format directly.
-     * for now, this method send message to fluentd as json object.
-     *
-     * @param string $tag fluentd tag.
-     * @param mixed $data
-     * @return string message data.
-     * @obsolete
-     */
-    public static function pack_impl($tag, $data)
-    {
-        return json_encode(array($tag, time(), $data));
     }
 
     /**

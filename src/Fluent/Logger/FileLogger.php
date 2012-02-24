@@ -65,8 +65,31 @@ class FileLogger extends BaseLogger
      */
     public function post($tag,array $data)
     {
-        $packed = json_encode($data);
-        $wbuffer = $data = sprintf("%s\t%s\t%s\n",date(\DateTime::ISO8601), $tag, $packed);
+        $entity = new Entity($tag, $data);
+        return $this->postImpl($entity);
+    }
+
+    /**
+     * write a message to specified path.
+     *
+     * @param Entity $entity
+     */
+    public function post2(Entity $entity)
+    {
+        return $this->postImpl($entity);
+    }
+
+    protected function postImpl(Entity $entity)
+    {
+        $packed = json_encode($entity->getData());
+        $wbuffer = $wbuffer = sprintf("%s\t%s\t%s\n",
+                        date(\DateTime::ISO8601,
+                        $entity->getTime()),
+                        $entity->getTag(),
+                        $packed
+        );
+
+        $data = $wbuffer;
         $length = strlen($data);
         $written = 0;
 
@@ -94,9 +117,8 @@ class FileLogger extends BaseLogger
 
             flock($this->fp, LOCK_UN);
         } catch (\Exception $e) {
-            $this->processError($e->getMessage());
+            $this->processError($this, $entity, $e->getMessage());
             return false;
         }
-
     }
 }

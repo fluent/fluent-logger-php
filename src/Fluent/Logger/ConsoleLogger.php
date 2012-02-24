@@ -62,7 +62,20 @@ class ConsoleLogger extends BaseLogger
     {
         $entity = new Entity($tag,$data);
 
-        $this->write(sprintf("%s\t%s\t%s\n",
+        return $this->write(sprintf("%s\t%s\t%s\n",
+            date(\DateTime::ISO8601,$entity->getTime()),
+            $entity->getTag(),
+            json_encode($entity->getData())
+         ));
+    }
+
+    /**
+     * @param Entity $entity
+     * @return bool
+     */
+    public function post2(Entity $entity)
+    {
+        return $this->write(sprintf("%s\t%s\t%s\n",
             date(\DateTime::ISO8601,$entity->getTime()),
             $entity->getTag(),
             json_encode($entity->getData())
