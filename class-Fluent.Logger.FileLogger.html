@@ -7,7 +7,7 @@
 	<title>Class Fluent\Logger\FileLogger | Fluent-Logger-PHP</title>
 
 	<script type="text/javascript" src="resources/combined.js?2300626518"></script>
-	<script type="text/javascript" src="elementlist.js?1959964439"></script>
+	<script type="text/javascript" src="elementlist.js?1864249493"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1252480456" />
 
 </head>
@@ -38,11 +38,17 @@
 			<ul>
 				<li><a href="class-Fluent.Logger.BaseLogger.html">BaseLogger</a></li>
 				<li><a href="class-Fluent.Logger.ConsoleLogger.html">ConsoleLogger</a></li>
+				<li><a href="class-Fluent.Logger.Entity.html">Entity</a></li>
 				<li class="active"><a href="class-Fluent.Logger.FileLogger.html">FileLogger</a></li>
 				<li><a href="class-Fluent.Logger.FluentLogger.html">FluentLogger</a></li>
 				<li><a href="class-Fluent.Logger.HttpLogger.html">HttpLogger</a></li>
+				<li><a href="class-Fluent.Logger.JsonPacker.html">JsonPacker</a></li>
 			</ul>
 
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Fluent.Logger.PackerInterface.html">PackerInterface</a></li>
+			</ul>
 
 
 			<h3>Exceptions</h3>
@@ -141,7 +147,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Fluent.Logger.FileLogger.html#29" title="Go to source code">__construct</a>( <span>string <var>$path</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#31" title="Go to source code">__construct</a>( <span>string <var>$path</var></span> )</code>
 
 		<div class="description short">
 			
@@ -183,7 +189,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_open">#</a>
-		<code><a href="source-class-Fluent.Logger.FileLogger.html#47" title="Go to source code">open</a>( <span>string <var>$path</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#49" title="Go to source code">open</a>( <span>string <var>$path</var></span> )</code>
 
 		<div class="description short">
 			
@@ -221,7 +227,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_post">#</a>
-		<code><a href="source-class-Fluent.Logger.FileLogger.html#58" title="Go to source code">post</a>( <span>string <var>$tag</var></span>, <span>array <var>$data</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#60" title="Go to source code">post</a>( <span>string <var>$tag</var></span>, <span>array <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -266,6 +272,32 @@
 
 
 
+	<table class="summary" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="MAX_WRITE_RETRY" id="MAX_WRITE_RETRY">
+
+		<td class="attributes"><code>
+			
+			integer
+		</code></td>
+		<td class="name"><code>
+				<a href="source-class-Fluent.Logger.FileLogger.html#26" title="Go to source code"><b>MAX_WRITE_RETRY</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">10</span></code></td>
+		<td class="description"><div>
+			<a href="#MAX_WRITE_RETRY" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
 
 
 
@@ -280,7 +312,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FileLogger.html#26" title="Go to source code"><var>$tag</var></a>
+				<a href="source-class-Fluent.Logger.FileLogger.html#28" title="Go to source code"><var>$tag</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -305,7 +337,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FileLogger.html#27" title="Go to source code"><var>$path</var></a>
+				<a href="source-class-Fluent.Logger.FileLogger.html#29" title="Go to source code"><var>$path</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>

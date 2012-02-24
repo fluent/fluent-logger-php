@@ -7,7 +7,7 @@
 	<title>Class Fluent\Logger\BaseLogger | Fluent-Logger-PHP</title>
 
 	<script type="text/javascript" src="resources/combined.js?2300626518"></script>
-	<script type="text/javascript" src="elementlist.js?1959964439"></script>
+	<script type="text/javascript" src="elementlist.js?1864249493"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1252480456" />
 
 </head>
@@ -38,11 +38,17 @@
 			<ul>
 				<li class="active"><a href="class-Fluent.Logger.BaseLogger.html">BaseLogger</a></li>
 				<li><a href="class-Fluent.Logger.ConsoleLogger.html">ConsoleLogger</a></li>
+				<li><a href="class-Fluent.Logger.Entity.html">Entity</a></li>
 				<li><a href="class-Fluent.Logger.FileLogger.html">FileLogger</a></li>
 				<li><a href="class-Fluent.Logger.FluentLogger.html">FluentLogger</a></li>
 				<li><a href="class-Fluent.Logger.HttpLogger.html">HttpLogger</a></li>
+				<li><a href="class-Fluent.Logger.JsonPacker.html">JsonPacker</a></li>
 			</ul>
 
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Fluent.Logger.PackerInterface.html">PackerInterface</a></li>
+			</ul>
 
 
 			<h3>Exceptions</h3>
@@ -143,7 +149,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_defaultErrorHandler">#</a>
-		<code><a href="source-class-Fluent.Logger.BaseLogger.html#30" title="Go to source code">defaultErrorHandler</a>( <span>$tag <var>$tag</var></span>, <span>$data <var>$data</var></span>, <span> <var>$error</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.BaseLogger.html#30" title="Go to source code">defaultErrorHandler</a>( <span><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a> <var>$entity</var></span>, <span> <var>$error</var></span> )</code>
 
 		<div class="description short">
 			
@@ -155,10 +161,8 @@
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$tag</var></dt>
-					<dd><code>$tag</code></dd>
-					<dt><var>$data</var></dt>
-					<dd><code>$data</code></dd>
+					<dt><var>$entity</var></dt>
+					<dd><code>$entity</code></dd>
 					<dt><var>$error</var></dt>
 					<dd><code></code><br> error message</dd>
 				</dl></div>
@@ -181,7 +185,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_processError">#</a>
-		<code><a href="source-class-Fluent.Logger.BaseLogger.html#40" title="Go to source code">processError</a>( <span>$tag <var>$tag</var></span>, <span>$data <var>$data</var></span>, <span> <var>$error</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.BaseLogger.html#39" title="Go to source code">processError</a>( <span><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a> <var>$entity</var></span>, <span> <var>$error</var></span> )</code>
 
 		<div class="description short">
 			
@@ -193,10 +197,8 @@
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$tag</var></dt>
-					<dd><code>$tag</code></dd>
-					<dt><var>$data</var></dt>
-					<dd><code>$data</code></dd>
+					<dt><var>$entity</var></dt>
+					<dd><code><code><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a></code></code></dd>
 					<dt><var>$error</var></dt>
 					<dd><code></code><br> error message</dd>
 				</dl></div>
@@ -219,7 +221,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_registerErrorHandler">#</a>
-		<code><a href="source-class-Fluent.Logger.BaseLogger.html#54" title="Go to source code">registerErrorHandler</a>( <span>mixed <var>$callable</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.BaseLogger.html#52" title="Go to source code">registerErrorHandler</a>( <span>mixed <var>$callable</var></span> )</code>
 
 		<div class="description short">
 			

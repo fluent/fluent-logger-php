@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.5.0" />
 
-	<title>Interface Fluent\Logger | Fluent-Logger-PHP</title>
+	<title>Interface Fluent\Logger\PackerInterface | Fluent-Logger-PHP</title>
 
 	<script type="text/javascript" src="resources/combined.js?2300626518"></script>
 	<script type="text/javascript" src="elementlist.js?1864249493"></script>
@@ -23,7 +23,7 @@
 				<li class="active"><a href="namespace-Fluent.html">Fluent</a>
 						<span></span>
 						<ul>
-				<li><a href="namespace-Fluent.Logger.html">Logger</a>
+				<li class="active"><a href="namespace-Fluent.Logger.html">Logger</a>
 						</li>
 							</ul></li>
 				<li><a href="namespace-PHP.html">PHP</a>
@@ -36,15 +36,25 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-Fluent.Autoloader.html">Autoloader</a></li>
+				<li><a href="class-Fluent.Logger.BaseLogger.html">BaseLogger</a></li>
+				<li><a href="class-Fluent.Logger.ConsoleLogger.html">ConsoleLogger</a></li>
+				<li><a href="class-Fluent.Logger.Entity.html">Entity</a></li>
+				<li><a href="class-Fluent.Logger.FileLogger.html">FileLogger</a></li>
+				<li><a href="class-Fluent.Logger.FluentLogger.html">FluentLogger</a></li>
+				<li><a href="class-Fluent.Logger.HttpLogger.html">HttpLogger</a></li>
+				<li><a href="class-Fluent.Logger.JsonPacker.html">JsonPacker</a></li>
 			</ul>
 
 			<h3>Interfaces</h3>
 			<ul>
-				<li class="active"><a href="class-Fluent.Logger.html">Logger</a></li>
+				<li class="active"><a href="class-Fluent.Logger.PackerInterface.html">PackerInterface</a></li>
 			</ul>
 
 
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-Fluent.Logger.Exception.html">Exception</a></li>
+			</ul>
 
 
 		</div>
@@ -68,7 +78,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="namespace-Fluent.html" title="Summary of Fluent"><span>Namespace</span></a>
+				<a href="namespace-Fluent.Logger.html" title="Summary of Fluent\Logger"><span>Namespace</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -83,7 +93,7 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Interface Logger</h1>
+	<h1>Interface PackerInterface</h1>
 
 
 
@@ -91,31 +101,24 @@
 
 	<div>
 		<h4>Direct known implementers</h4>
-			<a href="class-Fluent.Logger.BaseLogger.html">Fluent\Logger\BaseLogger</a>
+			<a href="class-Fluent.Logger.JsonPacker.html">Fluent\Logger\JsonPacker</a>
 	</div>
 
-	<div>
-		<h4>Indirect known implementers</h4>
-			<a href="class-Fluent.Logger.ConsoleLogger.html">Fluent\Logger\ConsoleLogger</a>, 
-			<a href="class-Fluent.Logger.FileLogger.html">Fluent\Logger\FileLogger</a>, 
-			<a href="class-Fluent.Logger.FluentLogger.html">Fluent\Logger\FluentLogger</a>, 
-			<a href="class-Fluent.Logger.HttpLogger.html">Fluent\Logger\HttpLogger</a>
-	</div>
 
 
 
 	<div class="info">
 		
 		
-		<b>Namespace:</b> <a href="namespace-Fluent.html">Fluent</a><br />
+		<b>Namespace:</b> <a href="namespace-Fluent.html">Fluent</a>\<a href="namespace-Fluent.Logger.html">Logger</a><br />
 
-		<b>Located at</b> <a href="source-class-Fluent.Logger.html#21" title="Go to source code">src/Fluent/Logger.php</a><br />
+		<b>Located at</b> <a href="source-class-Fluent.Logger.PackerInterface.html#21" title="Go to source code">src/Fluent/Logger/PackerInterface.php</a><br />
 	</div>
 
 
 	<table class="summary" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="post" id="_post">
+	<tr data-order="pack" id="_pack">
 
 		<td class="attributes"><code>
 			
@@ -126,8 +129,8 @@
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_post">#</a>
-		<code><a href="source-class-Fluent.Logger.html#23" title="Go to source code">post</a>( <span>string <var>$tag</var></span>, <span>array <var>$data</var></span> )</code>
+		<a class="anchor" href="#_pack">#</a>
+		<code><a href="source-class-Fluent.Logger.PackerInterface.html#23" title="Go to source code">pack</a>( <span><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a> <var>$entity</var></span> )</code>
 
 		<div class="description short">
 			
@@ -137,19 +140,9 @@
 			
 
 
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$tag</var></dt>
-					<dd><code>string</code></dd>
-					<dt><var>$data</var></dt>
-					<dd><code>array</code></dd>
-				</dl></div>
 
 
 
-				<h4>Api</h4>
-				<div class="list">
-				</div>
 
 		</div>
 		</div></td>

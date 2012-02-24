@@ -7,7 +7,7 @@
 	<title>Class Fluent\Logger\FluentLogger | Fluent-Logger-PHP</title>
 
 	<script type="text/javascript" src="resources/combined.js?2300626518"></script>
-	<script type="text/javascript" src="elementlist.js?1959964439"></script>
+	<script type="text/javascript" src="elementlist.js?1864249493"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1252480456" />
 
 </head>
@@ -38,11 +38,17 @@
 			<ul>
 				<li><a href="class-Fluent.Logger.BaseLogger.html">BaseLogger</a></li>
 				<li><a href="class-Fluent.Logger.ConsoleLogger.html">ConsoleLogger</a></li>
+				<li><a href="class-Fluent.Logger.Entity.html">Entity</a></li>
 				<li><a href="class-Fluent.Logger.FileLogger.html">FileLogger</a></li>
 				<li class="active"><a href="class-Fluent.Logger.FluentLogger.html">FluentLogger</a></li>
 				<li><a href="class-Fluent.Logger.HttpLogger.html">HttpLogger</a></li>
+				<li><a href="class-Fluent.Logger.JsonPacker.html">JsonPacker</a></li>
 			</ul>
 
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Fluent.Logger.PackerInterface.html">PackerInterface</a></li>
+			</ul>
 
 
 			<h3>Exceptions</h3>
@@ -144,7 +150,7 @@ messages.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#61" title="Go to source code">__construct</a>( <span>string <var>$host</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_ADDRESS">Fluent\Logger\FluentLogger::<b>DEFAULT_ADDRESS</b></a></code></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_LISTEN_PORT">Fluent\Logger\FluentLogger::<b>DEFAULT_LISTEN_PORT</b></a></code></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#65" title="Go to source code">__construct</a>( <span>string <var>$host</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_ADDRESS">Fluent\Logger\FluentLogger::<b>DEFAULT_ADDRESS</b></a></code></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_LISTEN_PORT">Fluent\Logger\FluentLogger::<b>DEFAULT_LISTEN_PORT</b></a></code></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -182,7 +188,7 @@ messages.</p>
 
 		<td class="attributes"><code>
 			
-			 protected 
+			 public 
 			string
 			
 			</code>
@@ -190,7 +196,7 @@ messages.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getTransportUri">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#82" title="Go to source code">getTransportUri</a>( <span><code><a href="class-Fluent.Logger.FluentLogger.html#$host">Fluent\Logger\FluentLogger::<var>$host</var></a></code> <var>$host</var></span>, <span><code><a href="class-Fluent.Logger.FluentLogger.html#$port">Fluent\Logger\FluentLogger::<var>$port</var></a></code> <var>$port</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#88" title="Go to source code">getTransportUri</a>( <span><code><a href="class-Fluent.Logger.FluentLogger.html#$host">Fluent\Logger\FluentLogger::<var>$host</var></a></code> <var>$host</var></span>, <span><code><a href="class-Fluent.Logger.FluentLogger.html#$port">Fluent\Logger\FluentLogger::<var>$port</var></a></code> <var>$port</var></span> )</code>
 
 		<div class="description short">
 			
@@ -228,6 +234,85 @@ in_foward uses tcp transport only.</p>
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="setPacker" id="_setPacker">
+
+		<td class="attributes"><code>
+			
+			 public 
+			<code><a href="class-Fluent.Logger.PackerInterface.html">Fluent\Logger\PackerInterface</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setPacker">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#121" title="Go to source code">setPacker</a>( <span><a href="class-Fluent.Logger.PackerInterface.html">Fluent\Logger\PackerInterface</a> <var>$packer</var></span> )</code>
+
+		<div class="description short">
+			
+<p>set packer</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>set packer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$packer</var></dt>
+					<dd><code><code><a href="class-Fluent.Logger.PackerInterface.html">Fluent\Logger\PackerInterface</a></code></code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Fluent.Logger.PackerInterface.html">Fluent\Logger\PackerInterface</a></code></code><br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getPacker" id="_getPacker">
+
+		<td class="attributes"><code>
+			
+			 public 
+			<code><a href="class-Fluent.Logger.JsonPacker.html">Fluent\Logger\JsonPacker</a></code>|<code><a href="class-Fluent.Logger.PackerInterface.html">Fluent\Logger\PackerInterface</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getPacker">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#132" title="Go to source code">getPacker</a>( )</code>
+
+		<div class="description short">
+			
+<p>get current packer</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get current packer</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Fluent.Logger.JsonPacker.html">Fluent\Logger\JsonPacker</a></code>|<code><a href="class-Fluent.Logger.PackerInterface.html">Fluent\Logger\PackerInterface</a></code></code><br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="mergeOptions" id="_mergeOptions">
 
 		<td class="attributes"><code>
@@ -240,7 +325,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_mergeOptions">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#115" title="Go to source code">mergeOptions</a>( <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#142" title="Go to source code">mergeOptions</a>( <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			
@@ -282,7 +367,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_setOptions">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#132" title="Go to source code">setOptions</a>( <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#159" title="Go to source code">setOptions</a>( <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			
@@ -324,7 +409,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_open">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#151" title="Go to source code">open</a>( <span>string <var>$host</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_ADDRESS">Fluent\Logger\FluentLogger::<b>DEFAULT_ADDRESS</b></a></code></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_LISTEN_PORT">Fluent\Logger\FluentLogger::<b>DEFAULT_LISTEN_PORT</b></a></code></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#178" title="Go to source code">open</a>( <span>string <var>$host</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_ADDRESS">Fluent\Logger\FluentLogger::<b>DEFAULT_ADDRESS</b></a></code></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_LISTEN_PORT">Fluent\Logger\FluentLogger::<b>DEFAULT_LISTEN_PORT</b></a></code></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -370,7 +455,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_clearIntances">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#171" title="Go to source code">clearIntances</a>( )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#198" title="Go to source code">clearIntances</a>( )</code>
 
 		<div class="description short">
 			
@@ -403,7 +488,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_connect">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#184" title="Go to source code">connect</a>( )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#211" title="Go to source code">connect</a>( )</code>
 
 		<div class="description short">
 			
@@ -440,7 +525,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_reconnect">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#206" title="Go to source code">reconnect</a>( )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#233" title="Go to source code">reconnect</a>( )</code>
 
 		<div class="description short">
 			
@@ -473,7 +558,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_post">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#218" title="Go to source code">post</a>( <span>string <var>$tag</var></span>, <span>array <var>$data</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#245" title="Go to source code">post</a>( <span>string <var>$tag</var></span>, <span>array <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -501,6 +586,9 @@ in_foward uses tcp transport only.</p>
 				</div>
 
 
+				<h4>Api</h4>
+				<div class="list">
+				</div>
 
 				<h4>Implementation of</h4>
 				<div class="list"><code><a href="class-Fluent.Logger.html#_post">Fluent\Logger::post</a></code></div>
@@ -519,7 +607,7 @@ in_foward uses tcp transport only.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_pack_impl">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#270" title="Go to source code">pack_impl</a>( <span>string <var>$tag</var></span>, <span>mixed <var>$data</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#300" title="Go to source code">pack_impl</a>( <span>string <var>$tag</var></span>, <span>mixed <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -551,35 +639,9 @@ object.</p>
 				</div>
 
 
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="__destruct" id="___destruct">
-
-		<td class="attributes"><code>
-			
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#___destruct">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#284" title="Go to source code">__destruct</a>( )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
+				<h4>Obsolete</h4>
+				<div class="list">
+				</div>
 
 		</div>
 		</div></td>
@@ -596,7 +658,7 @@ object.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_write">#</a>
-		<code><a href="source-class-Fluent.Logger.FluentLogger.html#289" title="Go to source code">write</a>( <span>string <var>$buffer</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#315" title="Go to source code">write</a>( <span>string <var>$buffer</var></span> )</code>
 
 		<div class="description short">
 			
@@ -620,6 +682,35 @@ object.</p>
 				<div class="list">
 					<code>mixed</code><br>integer|false<br />
 				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__destruct" id="___destruct">
+
+		<td class="attributes"><code>
+			
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___destruct">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#326" title="Go to source code">__destruct</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
 
 
 
@@ -773,7 +864,7 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#36" title="Go to source code"><var>$host</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#37" title="Go to source code"><var>$host</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -798,7 +889,7 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#39" title="Go to source code"><var>$port</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#40" title="Go to source code"><var>$port</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -823,7 +914,7 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#42" title="Go to source code"><var>$transport</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#43" title="Go to source code"><var>$transport</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -848,11 +939,36 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#44" title="Go to source code"><var>$socket</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#45" title="Go to source code"><var>$socket</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
 			<a href="#$socket" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="packer" id="$packer">
+
+		<td class="attributes"><code>
+			
+			protected 
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Fluent.Logger.FluentLogger.html#48" title="Go to source code"><var>$packer</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$packer" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -873,7 +989,7 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#46" title="Go to source code"><var>$options</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#50" title="Go to source code"><var>$options</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>(
     <span class="php-quote">&quot;socket_timeout&quot;</span>     =&gt; self::SOCKET_TIMEOUT,
@@ -901,7 +1017,7 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#51" title="Go to source code"><var>$supported_transports</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#55" title="Go to source code"><var>$supported_transports</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>(
     <span class="php-quote">&quot;tcp&quot;</span>,<span class="php-quote">&quot;unix&quot;</span>,
@@ -928,7 +1044,7 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#55" title="Go to source code"><var>$acceptable_options</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#59" title="Go to source code"><var>$acceptable_options</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>(
     <span class="php-quote">&quot;socket_timeout&quot;</span>, <span class="php-quote">&quot;connection_timeout&quot;</span>,
@@ -955,7 +1071,7 @@ object.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.FluentLogger.html#59" title="Go to source code"><var>$instances</var></a>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#63" title="Go to source code"><var>$instances</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
 		<td class="description"><div>
