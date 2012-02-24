@@ -29,6 +29,9 @@ class FluentLogger extends BaseLogger
     const SOCKET_TIMEOUT = 3;
     const MAX_WRITE_RETRY = 10;
 
+    /* 1000 means 0.001 sec */
+    const USLEEP_WAIT = 1000;
+
     /* Fluent uses port 24224 as a default port */
     const DEFAULT_LISTEN_PORT = 24224;
     const DEFAULT_ADDRESS = "127.0.0.1";
@@ -50,6 +53,7 @@ class FluentLogger extends BaseLogger
     protected $options = array(
         "socket_timeout"     => self::SOCKET_TIMEOUT,
         "connection_timeout" => self::CONNECTION_TIMEOUT,
+        "usleep_wait"        => self::USLEEP_WAIT,
     );
 
     protected static $supported_transports = array(
@@ -57,7 +61,7 @@ class FluentLogger extends BaseLogger
     );
 
     protected static $acceptable_options = array(
-        "socket_timeout", "connection_timeout",
+        "socket_timeout", "connection_timeout","usleep_wait",
     );
 
     protected static $instances = array();
@@ -78,7 +82,7 @@ class FluentLogger extends BaseLogger
         $this->port = $port;
 
         /* make various URL style socket transports */
-        $this->transport = $this->getTransportUri($host, $port);
+        $this->transport = self::getTransportUri($host, $port);
 
         $this->packer = new JsonPacker();
 
@@ -94,7 +98,7 @@ class FluentLogger extends BaseLogger
      * @return string
      * @throws \Exception
      */
-    public function getTransportUri($host, $port)
+    public static function getTransportUri($host, $port)
     {
         if (($pos = strpos($host,"://")) !== false) {
             $transport = substr($host,0,$pos);
@@ -106,12 +110,23 @@ class FluentLogger extends BaseLogger
 
             /* unix socket is deprecated. */
             if ($transport == "unix") {
+                /* unix domain socket have to ignore port number */
                 $result = "unix://" . $host;
             } else {
+                if (strpos($host,"::") !== false) {
+                    /* ipv6 address shoud be srrounded branckets */
+                    $host = sprintf("[%s]",trim($host,"[]"));
+                }
+
                 $result = sprintf("%s://%s:%d",$transport, $host, $port);
             }
 
         } else {
+            if (strpos($host,"::") !== false) {
+                /* ipv6 address shoud be srrounded branckets */
+                $host = sprintf("[%s]",trim($host,"[]"));
+            }
+
             $result = sprintf("tcp://%s:%d",$host, $port);
         }
 
@@ -283,7 +298,10 @@ class FluentLogger extends BaseLogger
                     if ($retry > self::MAX_WRITE_RETRY) {
                         throw new \Exception("failed fwrite retry: max retry count");
                     }
+
                     $retry++;
+                    usleep($this->options["usleep_wait"]);
+                    continue;
                 }
 
                 $written += $nwrite;

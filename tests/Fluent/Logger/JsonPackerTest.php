@@ -8,20 +8,51 @@ class JsonPackerTest extends \PHPUnit_Framework_TestCase
 {
     const TAG = "debug.test";
 
-    public function testWhole()
-    {
-        $time = time();
-        $expected_data = array("abc"=>"def");
+    protected $time;
+    protected $expected_data = array();
 
-        $entity = new Entity(self::TAG,$expected_data, $time);
+    public function setUp()
+    {
+        $this->expected_data = array("abc"=>"def");
+        $this->time = time();
+    }
+
+    public function testPack()
+    {
+        $entity = new Entity(self::TAG,$this->expected_data, $this->time);
 
         $packer = new JsonPacker();
         $result = $packer->pack($entity);
-        $this->assertStringMatchesFormat('["%s",%d,{"%s":"%s"}]', $result, "unexpected format returns");
-        $r_array = json_decode($result,true);
 
-        $this->assertEquals($r_array['0'],$entity->getTag());
-        $this->assertEquals($r_array['1'],$entity->getTime());
-        $this->assertEquals($r_array['2'],$entity->getData());
+        /*
+         * expected format.
+         * ["<Tag>", <Unixtime>, {object}]
+         */
+        $this->assertStringMatchesFormat('["%s",%d,{"%s":"%s"}]', $result, "unexpected format returns");
+        return json_decode($result,true);
+    }
+
+    /**
+     * @depends testPack
+     */
+    public function testPackReturnTag($result)
+    {
+        $this->assertEquals($result['0'],self::TAG);
+    }
+
+    /**
+     * @depends testPack
+     */
+    public function testPackReturnTime($result)
+    {
+        $this->assertEquals($result['1'],$this->time);
+    }
+
+    /**
+     * @depends testPack
+     */
+    public function testPackReturnData($result)
+    {
+        $this->assertEquals($result['2'],$this->expected_data);
     }
 }
