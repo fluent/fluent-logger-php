@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'tempfile'
 require 'json'
 
 namespace :fluent do
@@ -57,11 +58,44 @@ namespace :fluent do
 
   desc "create api docs with apigen"
   task :docs do
+    ref = "refs/heads/gh-pages"
+    docs = "docs"
     `apigen --source . --exclude "*/tests/*" --exclude "*/examples/*" --exclude "cookbooks/*" --destination docs --title "Fluent-Logger-PHP"`
+
+    with_git_env(docs) do
+      psha = `git rev-parse gh-pages 2>/dev/null`.chomp
+      `git add -A`
+      tsha = `git write-tree`.chomp
+      if(psha == ref)
+        csha = `echo 'generated docs' | git commit-tree #{tsha}`.chomp
+      else
+         csha = `echo 'generated docs' | git commit-tree #{tsha} -p #{psha}`.chomp
+      end
+      puts "\twrote commit #{csha}"
+      `git update-ref -m 'generated docs' #{ref} #{csha}`
+      puts "\tupdated"    end
   end
 
   desc "generate contributors list"
   task :contributors do
     print `git log --format='%aN' | sort -u`
+  end
+
+
+  def mkfile_temp
+    tf = Tempfile.new('apigen-index')
+    tpath = tf.path
+    tf.unlink
+    tpath
+  end
+
+  def with_git_env(workdir)
+    ENV['GIT_DIR'] = File.join(Dir::pwd, '.git')
+    ENV['GIT_INDEX_FILE'] = mkfile_temp
+    ENV['GIT_WORK_TREE'] = workdir
+    yield
+    ENV.delete('GIT_INDEX_FILE')
+    ENV.delete('GIT_WORK_TREE')
+    ENV.delete('GIT_DIR')
   end
 end
