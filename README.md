@@ -106,6 +106,7 @@ Apache License, Version 2.0
 * Hiro Yoshikawa
 * Kazuki Ohta
 * Shuhei Tanuma
+* Sotaro KARASAWA
 * edy
 * kiyoto
 * sasezaki
