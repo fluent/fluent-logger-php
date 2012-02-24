@@ -7,6 +7,7 @@ use Fluent\Logger\JsonPacker;
 class JsonPackerTest extends \PHPUnit_Framework_TestCase
 {
     const TAG = "debug.test";
+    const EXPECTED_TIME = 123456789;
 
     protected $time;
     protected $expected_data = array();
@@ -14,12 +15,11 @@ class JsonPackerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->expected_data = array("abc"=>"def");
-        $this->time = time();
     }
 
     public function testPack()
     {
-        $entity = new Entity(self::TAG,$this->expected_data, $this->time);
+        $entity = new Entity(self::TAG,$this->expected_data, self::EXPECTED_TIME);
 
         $packer = new JsonPacker();
         $result = $packer->pack($entity);
@@ -45,7 +45,7 @@ class JsonPackerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPackReturnTime($result)
     {
-        $this->assertEquals($result['1'],$this->time);
+        $this->assertEquals($result['1'], self::EXPECTED_TIME);
     }
 
     /**
