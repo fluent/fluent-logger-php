@@ -65,13 +65,11 @@ abstract class BaseLogger implements \Fluent\Logger
                 case 1:
                     if (!function_exists($callable[0])) {
                         throw new \Exception("could not register error handler: function does not exist");
-                        return false;
                     }
                     break;
                 case 2:
                     if (!method_exists($callable[0],$callable[1])) {
                         throw new \Exception("could not register error handler: method does not exist");
-                        return false;
                     }
                     break;
                 default:
@@ -83,7 +81,6 @@ abstract class BaseLogger implements \Fluent\Logger
             $this->error_handler = $callable;
         } else {
             throw new \Exception("could not register error handler");
-            return false;
         }
         return true;
     }
