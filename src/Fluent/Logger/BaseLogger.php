@@ -56,26 +56,7 @@ abstract class BaseLogger implements \Fluent\Logger
      */
     public function registerErrorHandler($callable)
     {
-        if (is_string($callable)) {
-            $this->error_handler = array($callable);
-        } else if (is_array($callable)) {
-            switch(count($callable)) {
-                case 1:
-                    if (!function_exists($callable[0])) {
-                        throw new \Exception("could not register error handler: function does not exist");
-                    }
-                    break;
-                case 2:
-                    if (!method_exists($callable[0],$callable[1])) {
-                        throw new \Exception("could not register error handler: method does not exist");
-                    }
-                    break;
-                default:
-                    throw new \Exception("could not register error handler: unexpected array count.");
-            }
-
-            $this->error_handler = $callable;
-        } else if ($callable instanceof \Closure) {
+        if (is_callable($callable)) {
             $this->error_handler = $callable;
         } else {
             throw new \Exception("could not register error handler");
