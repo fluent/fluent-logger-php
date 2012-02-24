@@ -48,7 +48,7 @@ class Autoloader
     /**
      * autoload basic implementation
      *
-     * @param string class name
+     * @param string $name class name
      * @return boolean return true when load successful
      */
     public static function autoload($name)

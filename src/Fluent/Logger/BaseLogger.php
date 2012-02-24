@@ -30,7 +30,7 @@ abstract class BaseLogger implements \Fluent\Logger
     /**
      * @param $tag
      * @param $data
-     * @param $error error message
+     * @param void $error error message
      */
     public function defaultErrorHandler($tag, $data, $error)
     {
@@ -40,7 +40,7 @@ abstract class BaseLogger implements \Fluent\Logger
     /**
      * @param $tag
      * @param $data
-     * @param $error error message
+     * @param void $error error message
      */
     protected function processError($tag, $data, $error)
     {
@@ -52,7 +52,7 @@ abstract class BaseLogger implements \Fluent\Logger
     }
 
     /**
-     * @param $callable function name, array or closure are OK.
+     * @param mixed $callable function name, array or closure are OK.
      * @return bool
      * @throws \Exception
      */

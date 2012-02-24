@@ -62,7 +62,7 @@ class HttpLogger extends BaseLogger
      * @param string $tag
      * @param array $data
      */
-    public function post($tag, $data)
+    public function post($tag, array $data)
     {
         $packed = json_encode($data);
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $tag, urlencode($packed));

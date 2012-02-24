@@ -22,8 +22,8 @@ interface Logger
 {
     /**
      * @abstract
-     * @param $tag
-     * @param $data
+     * @param string $tag
+     * @param array $data
      */
-    public function post($tag, $data);
+    public function post($tag, array $data);
 }

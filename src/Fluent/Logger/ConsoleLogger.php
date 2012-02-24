@@ -57,9 +57,9 @@ class ConsoleLogger extends BaseLogger
      * send a message to specified fluentd.
      *
      * @param string $tag
-     * @param mixied $data
+     * @param array $data
      */
-    public function post($tag ,$data)
+    public function post($tag ,array $data)
     {
         $params = array();
 

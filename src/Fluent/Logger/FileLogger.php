@@ -61,7 +61,7 @@ class FileLogger extends BaseLogger
      * @param string $tag
      * @param array $data
      */
-    public function post($tag, $data)
+    public function post($tag,array $data)
     {
         $packed = json_encode($data);
         $wbuffer = $data = sprintf("%s\t%s\t%s\n",date(\DateTime::ISO8601), $tag, $packed);
