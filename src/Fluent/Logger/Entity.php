@@ -33,7 +33,7 @@ class Entity
      */
     public function __construct($tag, $data, $time = null)
     {
-        if (is_null($time)) {
+        if (is_null($time) || !is_long($time)) {
             $this->time = time();
         } else {
             $this->time = $time;
