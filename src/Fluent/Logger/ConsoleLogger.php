@@ -49,7 +49,6 @@ class ConsoleLogger extends BaseLogger
     public static function open($handle)
     {
         $logger = new self($handle);
-        //\Fluent\Logger::$current = $logger;
         return $logger;
     }
     
@@ -61,14 +60,17 @@ class ConsoleLogger extends BaseLogger
      */
     public function post($tag ,array $data)
     {
-        $params = array();
+        $entity = new Entity($tag,$data);
 
-        foreach ($data as $key => $value) {
-            $params[$key] = $value;
-        }
-        
-        $time = new \DateTime("@".time(),new \DateTimeZone(date_default_timezone_get()));
-        $result = sprintf("%s\t%s\t%s\n",$time->format(\DateTime::ISO8601), $tag, json_encode($params));
-        fwrite($this->handle,$result);
+        $this->write(sprintf("%s\t%s\t%s\n",
+            date(\DateTime::ISO8601,$entity->getTime()),
+            $entity->getTag(),
+            json_encode($entity->getData())
+         ));
+    }
+
+    protected function write($buffer)
+    {
+        return fwrite($this->handle, $buffer);
     }
 }

@@ -20,8 +20,7 @@ namespace Fluent\Logger;
 
 class Exception extends \Exception
 {
-    protected $tag;
-    protected $data;
+    protected $entity;
 
     /**
      * @param $tag
@@ -30,30 +29,19 @@ class Exception extends \Exception
      * @param int $code
      * @param \Exception|null $previous
      */
-    public function __construct($tag, $data, $message = "", $code = 0, \Exception $previous = null)
+    public function __construct(Entity $entity, $message = "", $code = 0, \Exception $previous = null)
     {
-        $this->tag = $tag;
-        $this->data = $data;
+        $this->entity = $entity;
         parent::__construct($message, $code, $previous);
     }
 
     /**
-     * get tag
+     * get entity
      *
      * @return string $tag
      */
-    public function getTag()
+    public function getEntity()
     {
-        return $this->tag;
-    }
-
-    /**
-     * get data
-     *
-     * @return array data
-     */
-    public function getData()
-    {
-        return $this->data;
+        return $this->entity;
     }
 }

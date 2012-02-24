@@ -32,7 +32,8 @@ class FluentLogger extends BaseLogger
     /* Fluent uses port 24224 as a default port */
     const DEFAULT_LISTEN_PORT = 24224;
     const DEFAULT_ADDRESS = "127.0.0.1";
-    
+
+    /* @var string host name */
     protected $host;
 
     /* @var int port number. when you wanna use unix domain socket. set port to 0 */
@@ -42,6 +43,9 @@ class FluentLogger extends BaseLogger
     protected $transport;
 
     protected $socket;
+
+    /* @var PackerInterface */
+    protected $packer;
 
     protected $options = array(
         "socket_timeout"     => self::SOCKET_TIMEOUT,
@@ -76,6 +80,8 @@ class FluentLogger extends BaseLogger
         /* make various URL style socket transports */
         $this->transport = $this->getTransportUri($host, $port);
 
+        $this->packer = new JsonPacker();
+
         $this->mergeOptions($options);
     }
 
@@ -88,7 +94,7 @@ class FluentLogger extends BaseLogger
      * @return string
      * @throws \Exception
      */
-    protected function getTransportUri($host, $port)
+    public function getTransportUri($host, $port)
     {
         if (($pos = strpos($host,"://")) !== false) {
             $transport = substr($host,0,$pos);
@@ -110,6 +116,27 @@ class FluentLogger extends BaseLogger
         }
 
         return $result;
+    }
+
+    /**
+     * set packer
+     *
+     * @param PackerInterface $packer
+     * @return PackerInterface
+     */
+    public function setPacker(PackerInterface $packer)
+    {
+        return $this->packer = $packer;
+    }
+
+    /**
+     * get current packer
+     *
+     * @return JsonPacker|PackerInterface
+     */
+    public function getPacker()
+    {
+        return $this->packer;
     }
 
     /**
@@ -221,18 +248,21 @@ class FluentLogger extends BaseLogger
      * @param string $tag
      * @param array $data
      * @return bool
+     *
+     * @api
      */
     public function post($tag, array $data)
     {
-        $packed = self::pack_impl($tag,$data);
-        $buffer = $packed;
+        $entity = new Entity($tag, $data);
+
+        $buffer = $packed = $this->packer->pack($entity);
         $length = strlen($packed);
         $retry  = $written = 0;
 
         try {
             $this->reconnect();
         } catch (\Exception $e) {
-            $this->processError($tag, $data, $e->getMessage());
+            $this->processError($entity, $e->getMessage());
             return false;
         }
 
@@ -260,7 +290,7 @@ class FluentLogger extends BaseLogger
                 $buffer   = substr($packed,$written);
             }
         } catch (\Exception $e) {
-            $this->processError($tag, $data, $e->getMessage());
+            $this->processError($entity, $e->getMessage());
             return false;
         }
         
@@ -275,15 +305,11 @@ class FluentLogger extends BaseLogger
      * @param string $tag fluentd tag.
      * @param mixed $data
      * @return string message data.
+     * @obsolete
      */
     public static function pack_impl($tag, $data)
     {
         return json_encode(array($tag, time(), $data));
-    }
-
-    public function __destruct()
-    {
-        /* do not close socket as we use persistent connection */
     }
 
     /**
@@ -295,5 +321,10 @@ class FluentLogger extends BaseLogger
     protected function write($buffer)
     {
         return fwrite($this->socket, $buffer);
+    }
+
+    public function __destruct()
+    {
+        /* do not close socket as we use persistent connection */
     }
 }

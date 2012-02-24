@@ -23,6 +23,8 @@ namespace Fluent\Logger;
  */
 class FileLogger extends BaseLogger
 {
+    const MAX_WRITE_RETRY = 10;
+
     protected $tag;
     protected $path;
 
