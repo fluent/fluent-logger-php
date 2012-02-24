@@ -9,9 +9,9 @@ use Fluent\Autoloader,
 Autoloader::register();
 
 //$logger = ConsoleLogger::open("debug.test",fopen("php://stdout","w"));
-$logger = FluentLogger::open("debug.test","localhost","24224");
+$logger = FluentLogger::open("localhost","24224");
 //$logger = HttpLogger::open("debug.test","localhost","8888");
 
 /* simple request */
-$logger->post(array("hello"=>"world"));
+$logger->post("debug.test",array("hello"=>"world"));
 // 2011-10-01 03:33:34 +0900 debug.test: {"hello":"world"}

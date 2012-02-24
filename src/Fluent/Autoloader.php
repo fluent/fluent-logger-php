@@ -1,8 +1,8 @@
 <?php
 /**
- *  Fluent-PHP-Logger
- * 
- *  Copyright (C) 2011 Shuhei Tanuma
+ *  Fluent-Logger-PHP
+ *
+ *  Copyright (C) 2011 - 2012 Fluent-Logger-PHP Contributors
  * 
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -18,11 +18,6 @@
  */
 namespace Fluent;
 
-/**
- * Fluent Autoloader.
- *
- * @author Shuhei Tanuma <stanuma@zynga.com>
- */
 class Autoloader
 {
     const NAME_SPACE = 'Fluent';
@@ -53,7 +48,7 @@ class Autoloader
     /**
      * autoload basic implementation
      *
-     * @param string class name
+     * @param string $name class name
      * @return boolean return true when load successful
      */
     public static function autoload($name)

@@ -17,12 +17,14 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
     public function testPostWillReturnTrueInTheCaseOfPostingSuccessfully()
     {
         $socket = fopen("php://memory", "a+");
-        $logger = FluentLogger::open(self::TAG);
+
+        /* localhost is dummy string. we set php://memory as a socket */
+        $logger = FluentLogger::open("localhost");
         $reflection = new \ReflectionProperty("Fluent\Logger\FluentLogger", "socket");
         $reflection->setAccessible(true);
         $reflection->setValue($logger, $socket);
 
-        $this->assertTrue($logger->post(array("foo" => "bar")), "Post method returned boolean");
+        $this->assertTrue($logger->post(self::TAG, array("foo" => "bar")), "Post method returned boolean");
         return $socket;
     }
 
@@ -44,11 +46,11 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPostWillReturnFalseInTheCaseOfPostingUnsuccessfullyByReachedMaxRetryCount()
     {
-        $logger = FluentLogger::open(self::TAG);
+        /* localhost is dummy string. we set php://memory as a socket */
+        $logger = FluentLogger::open("localhost");
         $this->setSocket($logger, fopen("php://memory", "r"));
 
-        /* @todo: post method signature will be change in next release */
-        $this->assertFalse($logger->post(array("foo" => "bar")), "Post method returned boolean");
+        $this->assertFalse($logger->post(self::TAG, array("foo" => "bar")), "Post method returned boolean");
     }
 
     /**
@@ -60,8 +62,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         $logger->expects($this->any())->method("write")->will($this->returnValue(false));
         $this->setSocket($logger, fopen("php://memory", "a+"));
 
-        /* @todo: post method signature will be change in next release */
-        $this->assertFalse($logger->post(array("foo" => "bar")), "Post method returned boolean");
+        $this->assertFalse($logger->post(self::TAG, array("foo" => "bar")), "Post method returned boolean");
     }
 
     /**
@@ -73,57 +74,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         $logger->expects($this->any())->method("write")->will($this->returnValue(""));
         $this->setSocket($logger, fopen("php://memory", "a+"));
 
-        $this->assertFalse($logger->post(array("foo" => "bar")), "Post method returned boolean");
-    }
-
-    /**
-     * check sending format is valid.
-     *
-     * expected format.
-     * [<Tag>, <Unixtime>, {object}]
-     */
-    public function testPackImplMethod()
-    {
-
-        /* @todo: pack_impl method signature will be change in next release */
-        $string = FluentLogger::pack_impl(self::TAG, array(self::OBJECT_KEY => self::OBJECT_VALUE));
-        $this->assertStringMatchesFormat('["%s",%d,{"%s":"%s"}]', $string, "Returned json format string");
-        return json_decode($string, true);
-    }
-
-    /**
-     * @depends testPackImplMethod
-     */
-    public function testPackImplReturnsTag($result)
-    {
-        $this->assertSame(self::TAG, $result[0], "Returned Tag");
-    }
-
-    /**
-     * @depends testPackImplMethod
-     */
-    public function testPackImplReturnsTimestamp($result)
-    {
-        $now = time();
-        $this->assertLessThanOrEqual($now, $result[1], "Included packed Unixtimestamp");
-        $this->assertGreaterThanOrEqual($now - 10, $result[1], "Included packed Unixtimestamp");
-    }
-
-    /**
-     * @depends testPackImplMethod
-     */
-    public function testPackImplReturnsObject($result)
-    {
-        $this->assertEquals(array(self::OBJECT_KEY => self::OBJECT_VALUE), $result[2], "Returned object");
-    }
-    
-    public function testPackImplWithAdditionalTag()
-    {
-        $addtionalTag = "hoge";
-        /* @todo: additional tag will be deprecate in next release. */
-        $string = FluentLogger::pack_impl(self::TAG, array(self::OBJECT_KEY => self::OBJECT_VALUE), $addtionalTag);
-        $result = json_decode($string, true);
-        $this->assertSame(self::TAG . "." . $addtionalTag, $result[0]);
+        $this->assertFalse($logger->post(self::TAG, array("foo" => "bar")), "Post method returned boolean");
     }
 
     private function setSocket($logger, $socket)
@@ -135,6 +86,30 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     private function getMockOfLogger(array $method)
     {
-        return $this->getMock("Fluent\Logger\FluentLogger", array("write"), array(self::TAG));
+        return $this->getMock("Fluent\Logger\FluentLogger", array("write"), array("localhost"));
+    }
+
+    /**
+     * @dataProvider providesTransport
+     */
+    public function testGetTransportUri($host, $port, $expected_uri, $error_msg)
+    {
+        $actual_uri = FluentLogger::getTransportUri($host,$port);
+        $this->assertEquals($expected_uri,$actual_uri, $error_msg);
+    }
+
+    public function providesTransport()
+    {
+        return array(
+            array("localhost",8080,"tcp://localhost:8080","unexpected uri returns"),
+            array("127.0.0.1",8080,"tcp://127.0.0.1:8080","unexpected uri returns"),
+            array("tcp://localhost",8080,"tcp://localhost:8080","unexpected uri returns"),
+            array("tcp://127.0.0.1",8080,"tcp://127.0.0.1:8080","unexpected uri returns"),
+            array("unix:///var/fluentd",0,"unix:///var/fluentd","unexpected uri returns"),
+            array("unix:///var/fluentd",8080,"unix:///var/fluentd","unix domain uri have to ignores port number"),
+            array("fe80::1",8080,"tcp://[fe80::1]:8080","ipv6 support failed"),
+            array("tcp://fe80::1",8081,"tcp://[fe80::1]:8081","ipv6 support failed"),
+            array("tcp://[fe80::1]",8082,"tcp://[fe80::1]:8082","ipv6 support failed"),
+        );
     }
 }

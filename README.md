@@ -10,12 +10,31 @@ Since we are currently making changes that affect the existing API, all the deve
 is happening on the developmenet branch. If you would like to contribute, please check out
 the development branch.
 
+## API Document
+
+http://fluent.github.com/fluent-logger-php/
+
 ## Requirements
 
 - PHP 5.3 or higher
 - fluentd v0.9.20 or higher
 
 ## Installation
+
+### Using Vagrant
+
+````
+gem install vagrant --no-ri --no-rdoc
+gem install chef --no-ri --no-rdoc
+
+git clone https://github.com:fluent/fluent-logger-php.git
+cd fluent-logger-php
+vagrant up
+
+# this may take 30 minutes over if you don't have the box.
+# this box installed rbenv, ruby1.9.3-p0 and fluentd. you can play fluentd and php with this box. enjoy it!
+# you can log in to the box with following command `vagrant ssh`
+````
 
 ### Using Composer
 
@@ -55,8 +74,8 @@ use Fluent\Logger\FluentLogger;
 
 Fluent\Autoloader::register();
 
-$logger = FluentLogger::open("debug.test","localhost","24224");
-$logger->post(array("hello"=>"world"));
+$logger = FluentLogger::open("localhost","24224");
+$logger->post("debug.test",array("hello"=>"world"));
 ````
 
 # Todos
