@@ -1,4 +1,4 @@
-require 'nokogiri'
+require 'rubygems'
 require 'json'
 
 namespace :fluent do
@@ -55,4 +55,8 @@ namespace :fluent do
     print message
   end
 
+  desc "create api docs with apigen"
+  task :docs do
+    `apigen --source . --exclude "*/tests/*" --exclude "*/examples/*" --exclude "cookbooks/*" --destination docs --title "Fluent-Logger-PHP"`
+  end
 end
