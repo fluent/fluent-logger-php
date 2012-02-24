@@ -23,7 +23,7 @@ current version: v0.3.0
 gem install vagrant --no-ri --no-rdoc
 gem install chef --no-ri --no-rdoc
 
-git clone https://github.com:fluent/fluent-logger-php.git
+git clone https://github.com/fluent/fluent-logger-php.git --recursive
 cd fluent-logger-php
 vagrant up
 
@@ -35,6 +35,7 @@ vagrant up
 ### Using Composer
 
 composer.json
+
 ````
 {
     "name": "my-project",
