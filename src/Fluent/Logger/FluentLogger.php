@@ -204,7 +204,7 @@ class FluentLogger extends BaseLogger
     }
 
     /**
-     * clear fluent-loogger instances from static variable.
+     * clear fluent-logger instances from static variable.
      *
      * @return void
      */
@@ -297,21 +297,27 @@ class FluentLogger extends BaseLogger
                 $nwrite = $this->write($buffer);
 
                 if ($nwrite === false) {
-                    // could not write messages to the socket.
-                    // Todo: check fwrite implementation.
-                    throw new \Exception("could not write message");
-                } else if ($nwrite === "") {
-                    // sometimes fwrite returns null string.
-                    // probably connection aborted.
-                    throw new \Exception("connection aborted");
+                    // fwrite: parse parameter failed or socket looks weird
+                    throw new \Exception("could not write message: parameter invalid or socket closed");
                 } else if ($nwrite === 0) {
-                    if ($retry > self::MAX_WRITE_RETRY) {
-                        throw new \Exception("failed fwrite retry: max retry count");
-                    }
+                    $meta = stream_get_meta_data($this->socket);
 
-                    $retry++;
-                    usleep($this->getOption("usleep_wait",self::USLEEP_WAIT));
-                    continue;
+                    if ($meta["timed_out"] === true) {
+                        if ($retry > self::MAX_WRITE_RETRY) {
+                            throw new \Exception("failed fwrite retry: max retry count");
+                        }
+
+                        /* should we retry here? this will wait socket_timeout * MAX_WRITE_RETRY + usleep_wait sec. */
+                        $retry++;
+                        usleep($this->getOption("usleep_wait",self::USLEEP_WAIT));
+                        continue;
+                    } else if ($meta["eof"] === true) {
+                        // fwrite doen't set eof. so this flow probably doesn't need.
+                        throw new \Exception("connection aborted");
+                        break;
+                    } else {
+                      throw new \Exception("unexpected flow detected. this is a bug. please report this: " . json_encode($meta));
+                    }
                 }
 
                 $written += $nwrite;
@@ -326,14 +332,28 @@ class FluentLogger extends BaseLogger
     }
 
     /**
-     * write data
+     * write data to the stream
      *
      * @param string $data
      * @return mixed integer|false
      */
     protected function write($buffer)
     {
-        return fwrite($this->socket, $buffer);
+        $result = false;
+
+        try {
+            $result = fwrite($this->socket, $buffer);
+        } catch (\Exception $e) {
+            /* PHP is able to change output error to throwing Exception
+             * Basically, fwrite doesn't throws an Exception
+             * it only outputs E_NOTICE: send of %ld bytes failed with errno=%ld %s".
+             * but user modified that behavior.
+             * we'll catch that exception here.
+            */
+            error_log($e->getMessage());
+        }
+
+        return $result;
     }
 
     public function __destruct()
