@@ -23,7 +23,7 @@ namespace Fluent\Logger;
  *
  * all fluenet logger must extend this class.
  */
-abstract class BaseLogger implements \Fluent\Logger
+abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
 {
     protected $error_handler = null;
 

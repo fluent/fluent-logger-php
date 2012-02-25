@@ -35,7 +35,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
     public function testOpenMethod()
     {
         $logger = FileLogger::open(self::$FILE_PATH);
-        $this->assertInstanceof('Fluent\\Logger', $logger, 'Logger::open should return Logger instance ');
+        $this->assertInstanceof('Fluent\\Logger\\LoggerInterface', $logger, 'Logger::open should returns LoggerInterface implemented instance ');
     }
 
     public function testPostMethod()

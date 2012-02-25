@@ -84,7 +84,7 @@ class ChainLogger extends BaseLogger
     {
         $result = array();
         foreach ($this->chain as $offset => $logger) {
-            /* @var $logger \Fluent\Logger */
+            /* @var $logger \Fluent\Logger\LoggerInterface */
 
             if (!isset($this->errors[$offset])) {
                 $result[] = $logger;

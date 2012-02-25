@@ -10,7 +10,7 @@ class ConsoleLoggerTest extends \PHPUnit_Framework_TestCase
     public function testOpenMethod()
     {
         $logger = new ConsoleLogger();
-        $this->assertInstanceof('Fluent\\Logger', $logger, 'Logger::open should return Logger instance ');
+        $this->assertInstanceof('Fluent\\Logger\\LoggerInterface', $logger, 'Logger::open should returns LoggerInterface inherited instance ');
     }
     
     public function testPostMethod()

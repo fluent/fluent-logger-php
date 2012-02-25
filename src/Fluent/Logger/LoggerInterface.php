@@ -16,9 +16,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent;
+namespace Fluent\Logger;
 
-interface Logger
+interface LoggerInterface
 {
     /**
      * @abstract
