@@ -180,14 +180,7 @@ class FluentLogger extends BaseLogger
     public function setOptions(array $options)
     {
         $this->options = array();
-
-        foreach ($options as $key => $value) {
-            if (!in_array($key, self::$acceptable_options)) {
-                throw new \Exception("option {$key} does not support");
-            }
-
-            $this->options[$key] = $value;
-        }
+        $this->mergeOptions($options);
     }
     
     /**
@@ -233,7 +226,9 @@ class FluentLogger extends BaseLogger
         // could not suppress warning without ini setting.
         // for now, we use error control operators. 
         $socket = @stream_socket_client($this->transport,$errno,$errstr,
-                    $this->options["connection_timeout"], \STREAM_CLIENT_CONNECT | \STREAM_CLIENT_PERSISTENT);
+                    $this->getOption("connection_timeout",self::CONNECTION_TIMEOUT),
+                    \STREAM_CLIENT_CONNECT | \STREAM_CLIENT_PERSISTENT
+        );
 
         if (!$socket) {
             $errors = error_get_last();
@@ -241,7 +236,7 @@ class FluentLogger extends BaseLogger
         }
 
         // set read / write timeout.
-        stream_set_timeout($socket,$this->options["socket_timeout"]);
+        stream_set_timeout($socket,$this->getOption("socket_timeout",self::SOCKET_TIMEOUT));
         $this->socket = $socket;
     }
     
@@ -315,7 +310,7 @@ class FluentLogger extends BaseLogger
                     }
 
                     $retry++;
-                    usleep($this->options["usleep_wait"]);
+                    usleep($this->getOption("usleep_wait",self::USLEEP_WAIT));
                     continue;
                 }
 
@@ -344,5 +339,22 @@ class FluentLogger extends BaseLogger
     public function __destruct()
     {
         /* do not close socket as we use persistent connection */
+    }
+
+    /**
+     * get specified option's value
+     *
+     * @param $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getOption($key, $default = null)
+    {
+        $result = $default;
+        if (isset($this->options[$key])) {
+            $result = $this->options[$key];
+        }
+
+        return $result;
     }
 }
