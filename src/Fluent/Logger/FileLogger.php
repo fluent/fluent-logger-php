@@ -37,15 +37,15 @@ class FileLogger extends BaseLogger
     public function __construct($path)
     {
         $this->path = $path;
-        $fp = fopen($path, "c");
+        $fp = @fopen($path, "c");
 
         if (is_resource($fp)) {
             $this->fp = $fp;
         } else {
-            throw new \Exception("could not open file {$path}");
+            throw new \RuntimeException("could not open file {$path}");
         }
     }
-    
+
     /**
      * fluent-logger compatible API.
      *

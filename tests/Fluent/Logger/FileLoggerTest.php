@@ -16,6 +16,14 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @expectedException   \RuntimeException
+     */
+    public function testFileCouldNotOpen()
+    {
+        $logger = new FileLogger('/dev/null/hoge');
+    }
+
     public function testOpenMethod()
     {
         $logger = FileLogger::open(self::FILE_PATH);
