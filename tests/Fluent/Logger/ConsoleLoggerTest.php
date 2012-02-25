@@ -9,16 +9,18 @@ class ConsoleLoggerTest extends \PHPUnit_Framework_TestCase
 {
     public function testOpenMethod()
     {
-        $fp = fopen("php://memory","r+w");
-        $logger = ConsoleLogger::open($fp);
+        $logger = new ConsoleLogger();
         $this->assertInstanceof('Fluent\\Logger', $logger, 'Logger::open should return Logger instance ');
-        fclose($fp);
     }
     
     public function testPostMethod()
     {
         $fp = fopen("php://memory","r+");
-        $logger = ConsoleLogger::open($fp);
+        $logger = new ConsoleLogger();
+        $prop = new \ReflectionProperty($logger,"handle");
+        $prop->setAccessible(true);
+        $prop->setValue($logger,$fp);
+
         $logger->post("debug.test",array("a"=>"b"));
         fseek($fp,0);
         $data = stream_get_contents($fp);
