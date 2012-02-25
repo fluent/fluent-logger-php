@@ -58,8 +58,6 @@ git clone https://github.com/fluent/fluent-logger-php.git
 cp -r src/Fluent <path/to/your_project>
 ````
 
-This library will be part of pear soon.
-
 # Usage
 
 ````
