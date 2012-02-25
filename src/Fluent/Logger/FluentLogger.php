@@ -204,7 +204,7 @@ class FluentLogger extends BaseLogger
     }
 
     /**
-     * crear fluent-loogger instances from static variable.
+     * clear fluent-loogger instances from static variable.
      *
      * @return void
      */
