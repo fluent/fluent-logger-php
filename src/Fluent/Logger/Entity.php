@@ -20,8 +20,13 @@ namespace Fluent\Logger;
 
 class Entity
 {
+    /* @var int unxitime */
     public $time;
+
+    /* @var string Fluentd tag */
     public $tag;
+
+    /* @var array structured log data */
     public $data = array();
 
     /**
