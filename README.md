@@ -8,7 +8,7 @@
 
 http://fluent.github.com/fluent-logger-php/
 
-current version: v0.3.0
+current version: v0.3.1
 
 ## Requirements
 
@@ -41,7 +41,7 @@ composer.json
     "name": "my-project",
     "version": "1.0.0",
     "require": {
-        "fluent/logger": "v0.3.0"
+        "fluent/logger": "v0.3.1"
     }
 }
 ````

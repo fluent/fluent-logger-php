@@ -10,10 +10,10 @@
   <email>chobieee@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2012-02-24</date>
- <time>17:00:00</time>
+ <date>2012-02-25</date>
+ <time>10:25:00</time>
  <version>
-  <release>0.3.0</release>
+  <release>0.3.1</release>
   <api>0.3.0</api>
  </version>
  <stability>
@@ -22,38 +22,9 @@
  </stability>
  <license uri="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</license>
  <notes>
- fluent-logger-php 0.3.0 - more PHPish -
+ fluent-logger-php 0.3.1
  
- [signature changes]
- * Fluent\Logger\FluentLogger::__construct($host, $port);
-   removed tag parameter as that too much.
-
- * Fluent\Logger\Logger::post($tag, array $data)
-   add tag parameter. and remove additional tag.
-   
-   
- [add]
- * Fluent\Logger\Entity
-   entity is a log message. now you can send entity directly with post2 method.
-   this change makes easy error handling.
-   basically, you don't have to create entity your self.
- 
- * Fluent\Logger\Logger::post2(Fluent\Logger\Entity $entity)
- 
- * Fluent\Logger\PackerInterface
-
- * improve error handling
-   for now, you can register your error handler to logger instance.
-   you can store, re-send entity here.
-   maybe error handling signature will be change near the future but it's really useful.
-   
- [modified]
- * Fluent\Logger\FluentLogger::open
-   re-use instance with specified parameters.
-
- [others]
- many improvmemnts.
- 
+ improved internal codes.
  </notes>
  <contents>
    <dir name="/" baseinstalldir="/">
