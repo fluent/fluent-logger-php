@@ -59,9 +59,16 @@ namespace :fluent do
   desc "create api docs with apigen"
   task :docs do
     ref = "refs/heads/gh-pages"
+    tags = `git tag`.split("\n")
+    tags.push("develop")
+    
     docs = "docs"
-    `apigen --source . --exclude "*/tests/*" --exclude "*/examples/*" --exclude "cookbooks/*" --destination docs --title "Fluent-Logger-PHP"`
-
+    tags.each { |v|
+      log "  - processing version #{v}"
+      workdir = mkdir_temp
+      checkout(v, workdir)
+      `apigen --source #{workdir} --destination docs/#{v} --title "Fluent-Logger-PHP #{v}"`
+    }
     with_git_env(docs) do
       psha = `git rev-parse gh-pages 2>/dev/null`.chomp
       `git add -A`
@@ -81,6 +88,20 @@ namespace :fluent do
     print `git log --format='%aN' | sort -u`
   end
 
+  def checkout(version, workdir)
+    with_git_env(workdir) do
+      `git read-tree #{version}:src`
+      `git checkout-index -a`
+    end
+  end
+
+  def mkdir_temp
+    tf = Tempfile.new('apigen-tmp')
+    tpath = tf.path
+    tf.unlink
+    FileUtils.mkdir_p(tpath)
+    tpath
+  end
 
   def mkfile_temp
     tf = Tempfile.new('apigen-index')
