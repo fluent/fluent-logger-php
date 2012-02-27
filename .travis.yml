@@ -3,4 +3,8 @@ php:
   - 5.3
   - 5.4
 
+notifications:
+  email: false
+  irc: "irc.freenode.org#fluent-php"
+
 script: phpunit --coverage-text
