@@ -40,15 +40,12 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider invalidErrorHandlerProvider
+     * @expectedException InvalidArgumentException
      */
     public function testRegisterInvalidErrorHandler($eh)
     {
         $base = $this->getMockForAbstractClass('Fluent\Logger\BaseLogger');
-        try {
-            $base->registerErrorHandler($eh);
-        } catch (\Exception $e) {
-            $this->assertContains('could not register error handler', $e->getMessage());
-        }
+        $base->registerErrorHandler($eh);
     }
 
     public function invalidErrorHandlerProvider()

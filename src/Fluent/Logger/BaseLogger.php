@@ -23,7 +23,7 @@ namespace Fluent\Logger;
  *
  * all fluenet logger must extend this class.
  */
-abstract class BaseLogger implements \Fluent\Logger
+abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
 {
     protected $error_handler = null;
 
@@ -50,16 +50,16 @@ abstract class BaseLogger implements \Fluent\Logger
     }
 
     /**
-     * @param mixed $callable function name, array or closure are OK.
+     * @param  callable  $callable function name, array or closure
      * @return bool
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function registerErrorHandler($callable)
     {
         if (is_callable($callable)) {
             $this->error_handler = $callable;
         } else {
-            throw new \Exception("could not register error handler");
+            throw new \InvalidArgumentException("Error handler must be callable.");
         }
         return true;
     }

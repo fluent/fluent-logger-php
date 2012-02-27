@@ -11,6 +11,11 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
     const OBJECT_KEY = 'hello';
     const OBJECT_VALUE = 'world';
 
+    public function tearDown()
+    {
+        FluentLogger::clearIntances();
+    }
+
     /**
      * Post will return true in the case of posting successfully
      */
@@ -111,5 +116,121 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
             array("tcp://fe80::1",8081,"tcp://[fe80::1]:8081","ipv6 support failed"),
             array("tcp://[fe80::1]",8082,"tcp://[fe80::1]:8082","ipv6 support failed"),
         );
+    }
+
+    public function testGetTransportUriCauseExcpetion()
+    {
+        try {
+            FluentLogger::getTransportUri("udp://localhost", 1192);
+            $this->fail("getTransportUri does not thorow exception");
+        } catch (\Exception $e) {
+            $this->assertInstanceOf("\\Exception",$e);
+        }
+    }
+
+    public function testSetPacker()
+    {
+        $logger = new FluentLogger("localhost");
+        $packer = new \Fluent\Logger\JsonPacker();
+
+        $prop = new \ReflectionProperty($logger,"packer");
+        $prop->setAccessible(true);
+        $logger->setPacker($packer);
+        $this->assertSame($packer, $prop->getValue($logger), "unexpected packer was set");
+    }
+
+    public function testGetPacker()
+    {
+        $logger = new FluentLogger("localhost");
+
+        $this->assertInstanceOf("Fluent\\Logger\\PackerInterface",$logger->getPacker(), "testGetPacker returns unexpected packer");
+    }
+
+    public function testClearInstances()
+    {
+        $prop = new \ReflectionProperty("\Fluent\Logger\FluentLogger","instances");
+        $prop->setAccessible(true);
+
+        FluentLogger::open("localhost",1191);
+        FluentLogger::open("localhost",1192);
+        $this->assertCount(2, $prop->getValue("FluentLogger"));
+
+        FluentLogger::clearIntances();
+        $this->assertCount(0, $prop->getValue("FluentLogger"));
+    }
+
+    public function testMergeOptions()
+    {
+        $logger = new FluentLogger("localhost");
+        $prop = new \ReflectionProperty($logger,"options");
+        $prop->setAccessible(true);
+
+        $default = $prop->getValue($logger);
+
+        $additional_options = array("socket_timeout"=>10);
+        $logger->mergeOptions($additional_options);
+        $this->assertEquals(array_merge($default,$additional_options),$prop->getValue($logger),"mergeOptions looks wired");
+    }
+
+    public function testMergeOptionsThrowsException()
+    {
+        $logger = new FluentLogger("localhost");
+        $additional_options = array("unexpected_key"=>10);
+        try {
+            $logger->mergeOptions($additional_options);
+            $this->fail("mergeOptions doesn't thorw Exception");
+        } catch (\Exception $e) {
+            $this->assertInstanceOf("\\Exception",$e);
+        }
+
+    }
+
+    public function testSetOptions()
+    {
+        $logger = new FluentLogger("localhost");
+        $prop = new \ReflectionProperty($logger,"options");
+        $prop->setAccessible(true);
+
+        $additional_options = array("socket_timeout"=>10);
+        $logger->setOptions($additional_options);
+        $this->assertEquals($additional_options,$prop->getValue($logger),"setOptions looks wired");
+    }
+
+    public function testConnect()
+    {
+        $logger = new FluentLogger("localhost",119223);
+        $method = new \ReflectionMethod($logger,"connect");
+        $method->setAccessible(true);
+        try {
+            $method->invoke($logger);
+            $this->fail("mergeOptions doesn't thorw Exception");
+        } catch (\Exception $e) {
+            $this->assertInstanceOf("\\Exception",$e);
+        }
+    }
+
+    public function testGetOption()
+    {
+        $logger = new FluentLogger("localhost",119223);
+        $this->assertEquals(FluentLogger::CONNECTION_TIMEOUT,$logger->getOption("socket_timeout"),
+            "getOptions retunrs unexpected value");
+    }
+
+    public function testReconnect()
+    {
+        $logger = new FluentLogger("localhost",119223);
+        $method = new \ReflectionMethod($logger,"reconnect");
+        $method->setAccessible(true);
+        try {
+            $method->invoke($logger);
+            $this->fail("reconnect doesn't thorw Exception");
+        } catch (\Exception $e) {
+            $this->assertInstanceOf("\\Exception",$e);
+        }
+        $fp = fopen("php://memory","r");
+        $prop = new \ReflectionProperty($logger,"socket");
+        $prop->setAccessible(true);
+        $prop->setValue($logger,$fp);
+        $method->invoke($logger);
     }
 }

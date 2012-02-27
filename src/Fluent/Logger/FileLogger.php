@@ -37,15 +37,15 @@ class FileLogger extends BaseLogger
     public function __construct($path)
     {
         $this->path = $path;
-        $fp = fopen($path, "c");
+        $fp = @fopen($path, "c");
 
         if (is_resource($fp)) {
             $this->fp = $fp;
         } else {
-            throw new \Exception("could not open file {$path}");
+            throw new \RuntimeException("could not open file {$path}");
         }
     }
-    
+
     /**
      * fluent-logger compatible API.
      *
@@ -82,14 +82,13 @@ class FileLogger extends BaseLogger
     protected function postImpl(Entity $entity)
     {
         $packed = json_encode($entity->getData());
-        $wbuffer = $wbuffer = sprintf("%s\t%s\t%s\n",
+        $data = $wbuffer = sprintf("%s\t%s\t%s\n",
                         date(\DateTime::ISO8601,
                         $entity->getTime()),
                         $entity->getTag(),
-                        $packed
+                        $packed . PHP_EOL
         );
 
-        $data = $wbuffer;
         $length = strlen($data);
         $written = 0;
 
@@ -120,5 +119,6 @@ class FileLogger extends BaseLogger
             $this->processError($this, $entity, $e->getMessage());
             return false;
         }
+        return true;
     }
 }
