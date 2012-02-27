@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.5.0" />
+
+	<title>Class Fluent\Logger\FluentLogger | Fluent-Logger-PHP v0.1.0</title>
+
+	<script type="text/javascript" src="resources/combined.js?2300626518"></script>
+	<script type="text/javascript" src="elementlist.js?2089829183"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1252480456" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-Fluent.html">Fluent</a>
+						<span></span>
+						<ul>
+				<li class="active"><a href="namespace-Fluent.Logger.html">Logger</a>
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr />
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Fluent.Logger.BaseLogger.html">BaseLogger</a></li>
+				<li><a href="class-Fluent.Logger.ConsoleLogger.html">ConsoleLogger</a></li>
+				<li class="active"><a href="class-Fluent.Logger.FluentLogger.html">FluentLogger</a></li>
+				<li><a href="class-Fluent.Logger.HttpLogger.html">HttpLogger</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Fluent.Logger.html" title="Summary of Fluent\Logger"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class FluentLogger</h1>
+
+	<div class="description">
+	
+<p>Fluent Logger</p>
+
+<p>Fluent Logger client communicates to Fluentd with MessagePack formatted
+messages.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-Fluent.Logger.BaseLogger.html">Fluent\Logger\BaseLogger</a>
+			
+			 implements 
+				<a href="class-Fluent.Logger.html">Fluent\Logger</a>
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b>Fluent\Logger\FluentLogger</b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Fluent.html">Fluent</a>\<a href="namespace-Fluent.Logger.html">Logger</a><br />
+
+				<b>Author:</b>
+				Shuhei Tanuma &lt;<a
+href="mailto:stanuma&#64;zynga.com">stanuma&#64;<!---->zynga.com</a>&gt;<br />
+		<b>Located at</b> <a href="source-class-Fluent.Logger.FluentLogger.html#21" title="Go to source code">Fluent/Logger/FluentLogger.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			
+			 public 
+			<code><a href="class-Fluent.Logger.FluentLogger.html">Fluent\Logger\FluentLogger</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#43" title="Go to source code">__construct</a>( <span>string <var>$tag</var></span>, <span>string <var>$host</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_ADDRESS">Fluent\Logger\FluentLogger::<b>DEFAULT_ADDRESS</b></a></code></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_LISTEN_PORT">Fluent\Logger\FluentLogger::<b>DEFAULT_LISTEN_PORT</b></a></code></span> )</code>
+
+		<div class="description short">
+			
+<p>create fluent logger object.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>create fluent logger object.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$tag</var></dt>
+					<dd><code>string</code><br> primary tag</dd>
+					<dt><var>$host</var></dt>
+					<dd><code>string</code></dd>
+					<dt><var>$port</var></dt>
+					<dd><code>integer</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Fluent.Logger.FluentLogger.html">Fluent\Logger\FluentLogger</a></code></code><br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="open" id="_open">
+
+		<td class="attributes"><code>
+			
+			 public static
+			<code><a href="class-Fluent.Logger.FluentLogger.html">Fluent\Logger\FluentLogger</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_open">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#58" title="Go to source code">open</a>( <span>string <var>$tag</var></span>, <span>string <var>$host</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_ADDRESS">Fluent\Logger\FluentLogger::<b>DEFAULT_ADDRESS</b></a></code></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.FluentLogger.html#DEFAULT_LISTEN_PORT">Fluent\Logger\FluentLogger::<b>DEFAULT_LISTEN_PORT</b></a></code></span> )</code>
+
+		<div class="description short">
+			
+<p>Fluent singleton API.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fluent singleton API.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$tag</var></dt>
+					<dd><code>string</code><br> primary tag</dd>
+					<dt><var>$host</var></dt>
+					<dd><code>string</code></dd>
+					<dt><var>$port</var></dt>
+					<dd><code>integer</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Fluent.Logger.FluentLogger.html">Fluent\Logger\FluentLogger</a></code></code><br>created logger object.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="connect" id="_connect">
+
+		<td class="attributes"><code>
+			
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_connect">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#74" title="Go to source code">connect</a>( )</code>
+
+		<div class="description short">
+			
+<p>create a connection to specified fluentd</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>create a connection to specified fluentd</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="reconnect" id="_reconnect">
+
+		<td class="attributes"><code>
+			
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_reconnect">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#94" title="Go to source code">reconnect</a>( )</code>
+
+		<div class="description short">
+			
+<p>create a connection if Fluent Logger hasn't a socket connection.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>create a connection if Fluent Logger hasn't a socket connection.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="post" id="_post">
+
+		<td class="attributes"><code>
+			
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_post">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#106" title="Go to source code">post</a>( <span>mixed <var>$data</var></span>, <span> <var>$additional</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>send a message to specified fluentd.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>send a message to specified fluentd.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd><code>mixed</code></dd>
+					<dt><var>$additional</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+				<h4>Implementation of</h4>
+				<div class="list"><code><a href="class-Fluent.Logger.html#_post">Fluent\Logger::post</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pack_impl" id="_pack_impl">
+
+		<td class="attributes"><code>
+			
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pack_impl">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#149" title="Go to source code">pack_impl</a>( <span>string <var>$tag</var></span>, <span>mixed <var>$data</var></span>, <span>string <var>$additional</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>pack php object to fluentd message format. fluentd v0.9.20 can read json
+message format directly. for now, this method send message to fluentd as json
+object.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>pack php object to fluentd message format. fluentd v0.9.20 can read json
+message format directly. for now, this method send message to fluentd as json
+object.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$tag</var></dt>
+					<dd><code>string</code><br> fluentd tag.</dd>
+					<dt><var>$data</var></dt>
+					<dd><code>mixed</code></dd>
+					<dt><var>$additional</var></dt>
+					<dd><code>string</code><br> optional tag.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>message data.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__destruct" id="___destruct">
+
+		<td class="attributes"><code>
+			
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___destruct">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#167" title="Go to source code">__destruct</a>( )</code>
+
+		<div class="description short">
+			
+<p>remove socket resource.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>remove socket resource.</p>
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="write" id="_write">
+
+		<td class="attributes"><code>
+			
+			 protected 
+			mixied
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_write">#</a>
+		<code><a href="source-class-Fluent.Logger.FluentLogger.html#176" title="Go to source code">write</a>( <span>string <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+<p>write data</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>write data</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixied</code><br>integer|false<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+	<table class="summary" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="CONNECTION_TIMEOUT" id="CONNECTION_TIMEOUT">
+
+		<td class="attributes"><code>
+			
+			integer
+		</code></td>
+		<td class="name"><code>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#30" title="Go to source code"><b>CONNECTION_TIMEOUT</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">3</span></code></td>
+		<td class="description"><div>
+			<a href="#CONNECTION_TIMEOUT" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="SOCKET_TIMEOUT" id="SOCKET_TIMEOUT">
+
+		<td class="attributes"><code>
+			
+			integer
+		</code></td>
+		<td class="name"><code>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#31" title="Go to source code"><b>SOCKET_TIMEOUT</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">3</span></code></td>
+		<td class="description"><div>
+			<a href="#SOCKET_TIMEOUT" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="MAX_WRITE_RETRY" id="MAX_WRITE_RETRY">
+
+		<td class="attributes"><code>
+			
+			integer
+		</code></td>
+		<td class="name"><code>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#32" title="Go to source code"><b>MAX_WRITE_RETRY</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">10</span></code></td>
+		<td class="description"><div>
+			<a href="#MAX_WRITE_RETRY" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="DEFAULT_LISTEN_PORT" id="DEFAULT_LISTEN_PORT">
+
+		<td class="attributes"><code>
+			
+			integer
+		</code></td>
+		<td class="name"><code>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#34" title="Go to source code"><b>DEFAULT_LISTEN_PORT</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-num">24224</span></code></td>
+		<td class="description"><div>
+			<a href="#DEFAULT_LISTEN_PORT" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="DEFAULT_ADDRESS" id="DEFAULT_ADDRESS">
+
+		<td class="attributes"><code>
+			
+			string
+		</code></td>
+		<td class="name"><code>
+				<a href="source-class-Fluent.Logger.FluentLogger.html#36" title="Go to source code"><b>DEFAULT_ADDRESS</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">&quot;127.0.0.1&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#DEFAULT_ADDRESS" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="tag" id="$tag">
+
+		<td class="attributes"><code>
+			
+			protected 
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Fluent.Logger.FluentLogger.html#38" title="Go to source code"><var>$tag</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$tag" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="host" id="$host">
+
+		<td class="attributes"><code>
+			
+			protected 
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Fluent.Logger.FluentLogger.html#39" title="Go to source code"><var>$host</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$host" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="port" id="$port">
+
+		<td class="attributes"><code>
+			
+			protected 
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Fluent.Logger.FluentLogger.html#40" title="Go to source code"><var>$port</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$port" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="socket" id="$socket">
+
+		<td class="attributes"><code>
+			
+			protected 
+			
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Fluent.Logger.FluentLogger.html#41" title="Go to source code"><var>$socket</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$socket" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+</div>
+
+	<div id="footer">
+		Fluent-Logger-PHP v0.1.0 API documentation generated by <a href="http://apigen.org">ApiGen 2.5.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
