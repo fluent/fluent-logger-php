@@ -73,9 +73,13 @@ class FluentLogger extends BaseLogger
      * @param string $host
      * @param int $port
      * @param array $options
+     * @param PackerInterface $packer
      * @return FluentLogger
      */
-    public function __construct($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT, array $options = array())
+    public function __construct($host = FluentLogger::DEFAULT_ADDRESS,
+                                $port = FluentLogger::DEFAULT_LISTEN_PORT,
+                                array $options = array(),
+                                PackerInterface $packer = null)
     {
         /* keep original host and port */
         $this->host = $host;
@@ -84,14 +88,19 @@ class FluentLogger extends BaseLogger
         /* make various URL style socket transports */
         $this->transport = self::getTransportUri($host, $port);
 
-        $this->packer = new JsonPacker();
+        if (is_null($packer)) {
+            /* for backward compatibility */
+            $packer = new JsonPacker();
+        }
+
+        $this->packer = $packer;
 
         $this->mergeOptions($options);
     }
 
     /**
      * make a various style transport uri with specified host and port.
-     * currently, in_foward uses tcp transport only.
+     * currently, in_forward uses tcp transport only.
      *
      * @param $host
      * @param $port
