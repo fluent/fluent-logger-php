@@ -67,7 +67,8 @@ class HttpLogger extends BaseLogger
         $packed = json_encode($data);
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $tag, urlencode($packed));
 
-        file_get_contents($request);
+        $ret = file_get_contents($request);
+        return ($ret !== false);
     }
 
     /**
@@ -82,7 +83,8 @@ class HttpLogger extends BaseLogger
         $packed = json_encode($entity->getData());
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $entity->getTag(), urlencode($packed));
 
-        file_get_contents($request);
+        $ret = file_get_contents($request);
+        return ($ret !== false);
     }
 
 }
