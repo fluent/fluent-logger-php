@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="ApiGen 2.5.0" />
 
-	<title>Class Fluent\Logger\HttpLogger | Fluent-Logger-PHP develop</title>
+	<title>Class Fluent\Logger\FileLogger | Fluent-Logger-PHP v0.3.3</title>
 
 	<script type="text/javascript" src="resources/combined.js?2300626518"></script>
 	<script type="text/javascript" src="elementlist.js?3001944511"></script>
@@ -40,9 +40,9 @@
 				<li><a href="class-Fluent.Logger.ChainLogger.html">ChainLogger</a></li>
 				<li><a href="class-Fluent.Logger.ConsoleLogger.html">ConsoleLogger</a></li>
 				<li><a href="class-Fluent.Logger.Entity.html">Entity</a></li>
-				<li><a href="class-Fluent.Logger.FileLogger.html">FileLogger</a></li>
+				<li class="active"><a href="class-Fluent.Logger.FileLogger.html">FileLogger</a></li>
 				<li><a href="class-Fluent.Logger.FluentLogger.html">FluentLogger</a></li>
-				<li class="active"><a href="class-Fluent.Logger.HttpLogger.html">HttpLogger</a></li>
+				<li><a href="class-Fluent.Logger.HttpLogger.html">HttpLogger</a></li>
 				<li><a href="class-Fluent.Logger.JsonPacker.html">JsonPacker</a></li>
 			</ul>
 
@@ -95,11 +95,11 @@
 	</div>
 
 <div id="content" class="class">
-	<h1>Class HttpLogger</h1>
+	<h1>Class FileLogger</h1>
 
 	<div class="description">
 	
-<p>Fluent HTTP logger class.</p>
+<p>Fluent File logger class.</p>
 
 	</div>
 
@@ -114,7 +114,7 @@
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by" />
-<b>Fluent\Logger\HttpLogger</b>			
+<b>Fluent\Logger\FileLogger</b>			
 			
 			
 		</dd>
@@ -131,7 +131,7 @@
 		
 		<b>Namespace:</b> <a href="namespace-Fluent.html">Fluent</a>\<a href="namespace-Fluent.Logger.html">Logger</a><br />
 
-		<b>Located at</b> <a href="source-class-Fluent.Logger.HttpLogger.html#21" title="Go to source code">Fluent/Logger/HttpLogger.php</a><br />
+		<b>Located at</b> <a href="source-class-Fluent.Logger.FileLogger.html#21" title="Go to source code">Fluent/Logger/FileLogger.php</a><br />
 	</div>
 
 
@@ -142,38 +142,36 @@
 		<td class="attributes"><code>
 			
 			 public 
-			<code><a href="class-Fluent.Logger.HttpLogger.html">Fluent\Logger\HttpLogger</a></code>
+			<code><a href="class-Fluent.Logger.FileLogger.html">Fluent\Logger\FileLogger</a></code>
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Fluent.Logger.HttpLogger.html#32" title="Go to source code">__construct</a>( <span>string <var>$host</var></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.HttpLogger.html#DEFAULT_HTTP_PORT">Fluent\Logger\HttpLogger::<b>DEFAULT_HTTP_PORT</b></a></code></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#31" title="Go to source code">__construct</a>( <span>string <var>$path</var></span> )</code>
 
 		<div class="description short">
 			
-<p>create fluent http logger object.</p>
+<p>create fluent file logger object.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>create fluent http logger object.</p>
+<p>create fluent file logger object.</p>
 
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$host</var></dt>
-					<dd><code>string</code></dd>
-					<dt><var>$port</var></dt>
-					<dd><code>integer</code></dd>
+					<dt><var>$path</var></dt>
+					<dd><code>string</code><br> log file path</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code><code><a href="class-Fluent.Logger.HttpLogger.html">Fluent\Logger\HttpLogger</a></code></code><br />
+					<code><code><a href="class-Fluent.Logger.FileLogger.html">Fluent\Logger\FileLogger</a></code></code><br />
 				</div>
 
 
@@ -186,14 +184,14 @@
 		<td class="attributes"><code>
 			
 			 public static
-			<code><a href="class-Fluent.Logger.HttpLogger.html">Fluent\Logger\HttpLogger</a></code>
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_open">#</a>
-		<code><a href="source-class-Fluent.Logger.HttpLogger.html#45" title="Go to source code">open</a>( <span>string <var>$host</var></span>, <span>integer <var>$port</var> = <code><a href="class-Fluent.Logger.HttpLogger.html#DEFAULT_HTTP_PORT">Fluent\Logger\HttpLogger::<b>DEFAULT_HTTP_PORT</b></a></code></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#49" title="Go to source code">open</a>( <span>string <var>$path</var></span> )</code>
 
 		<div class="description short">
 			
@@ -209,16 +207,10 @@
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$host</var></dt>
+					<dt><var>$path</var></dt>
 					<dd><code>string</code></dd>
-					<dt><var>$port</var></dt>
-					<dd><code>integer</code></dd>
 				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					<code><code><a href="class-Fluent.Logger.HttpLogger.html">Fluent\Logger\HttpLogger</a></code></code><br>created http logger object.<br />
-				</div>
 
 
 
@@ -237,17 +229,17 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_post">#</a>
-		<code><a href="source-class-Fluent.Logger.HttpLogger.html#58" title="Go to source code">post</a>( <span>string <var>$tag</var></span>, <span>array <var>$data</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#60" title="Go to source code">post</a>( <span>string <var>$tag</var></span>, <span>array <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
-<p>send a message to specified fluentd.</p>
+<p>write a message to specified path.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>send a message to specified fluentd.</p>
+<p>write a message to specified path.</p>
 
 
 
@@ -279,24 +271,24 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_post2">#</a>
-		<code><a href="source-class-Fluent.Logger.HttpLogger.html#74" title="Go to source code">post2</a>( <span><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a> <var>$entity</var></span> )</code>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#72" title="Go to source code">post2</a>( <span><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a> <var>$entity</var></span> )</code>
 
 		<div class="description short">
 			
-<p>send a message to specified fluentd.</p>
+<p>write a message to specified path.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>send a message to specified fluentd.</p>
+<p>write a message to specified path.</p>
 
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$entity</var></dt>
-					<dd><code>string</code><br>$tag</dd>
+					<dd><code><code><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a></code></code></dd>
 				</dl></div>
 
 
@@ -304,6 +296,35 @@
 
 				<h4>Implementation of</h4>
 				<div class="list"><code><a href="class-Fluent.Logger.LoggerInterface.html#_post2">Fluent\Logger\LoggerInterface::post2</a></code></div>
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="postImpl" id="_postImpl">
+
+		<td class="attributes"><code>
+			
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_postImpl">#</a>
+		<code><a href="source-class-Fluent.Logger.FileLogger.html#82" title="Go to source code">postImpl</a>( <span><a href="class-Fluent.Logger.Entity.html">Fluent\Logger\Entity</a> <var>$entity</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
 		</div>
 		</div></td>
 	</tr>
@@ -324,18 +345,18 @@
 
 	<table class="summary" id="constants">
 	<caption>Constants summary</caption>
-	<tr data-order="DEFAULT_HTTP_PORT" id="DEFAULT_HTTP_PORT">
+	<tr data-order="MAX_WRITE_RETRY" id="MAX_WRITE_RETRY">
 
 		<td class="attributes"><code>
 			
 			integer
 		</code></td>
 		<td class="name"><code>
-				<a href="source-class-Fluent.Logger.HttpLogger.html#26" title="Go to source code"><b>DEFAULT_HTTP_PORT</b></a>
+				<a href="source-class-Fluent.Logger.FileLogger.html#26" title="Go to source code"><b>MAX_WRITE_RETRY</b></a>
 		</code></td>
-		<td class="value"><code><span class="php-num">8888</span></code></td>
+		<td class="value"><code><span class="php-num">10</span></code></td>
 		<td class="description"><div>
-			<a href="#DEFAULT_HTTP_PORT" class="anchor">#</a>
+			<a href="#MAX_WRITE_RETRY" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -362,7 +383,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.HttpLogger.html#28" title="Go to source code"><var>$tag</var></a>
+				<a href="source-class-Fluent.Logger.FileLogger.html#28" title="Go to source code"><var>$tag</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -378,7 +399,7 @@
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="host" id="$host">
+	<tr data-order="path" id="$path">
 
 		<td class="attributes"><code>
 			
@@ -387,36 +408,11 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Fluent.Logger.HttpLogger.html#29" title="Go to source code"><var>$host</var></a>
+				<a href="source-class-Fluent.Logger.FileLogger.html#29" title="Go to source code"><var>$path</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
-			<a href="#$host" class="anchor">#</a>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="port" id="$port">
-
-		<td class="attributes"><code>
-			
-			protected 
-			
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-Fluent.Logger.HttpLogger.html#30" title="Go to source code"><var>$port</var></a>
-		</td>
-		<td class="value"><code></code></td>
-		<td class="description"><div>
-			<a href="#$port" class="anchor">#</a>
+			<a href="#$path" class="anchor">#</a>
 
 			<div class="description short">
 				
@@ -442,7 +438,7 @@
 </div>
 
 	<div id="footer">
-		Fluent-Logger-PHP develop API documentation generated by <a href="http://apigen.org">ApiGen 2.5.0</a>
+		Fluent-Logger-PHP v0.3.3 API documentation generated by <a href="http://apigen.org">ApiGen 2.5.0</a>
 	</div>
 </div>
 </div>
