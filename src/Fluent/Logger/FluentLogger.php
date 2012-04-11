@@ -27,7 +27,7 @@ class FluentLogger extends BaseLogger
 {
     const CONNECTION_TIMEOUT = 3;
     const SOCKET_TIMEOUT = 3;
-    const MAX_WRITE_RETRY = 10;
+    const MAX_WRITE_RETRY = 5;
 
     /* 1000 means 0.001 sec */
     const USLEEP_WAIT = 1000;
@@ -35,6 +35,19 @@ class FluentLogger extends BaseLogger
     /* Fluent uses port 24224 as a default port */
     const DEFAULT_LISTEN_PORT = 24224;
     const DEFAULT_ADDRESS = "127.0.0.1";
+
+    /**
+     * backoff strategies: default exponentail
+     *
+     * attempts | wait
+     * 1        | 0.003 sec
+     * 2        | 0.009 sec
+     * 3        | 0.027 sec
+     * 4        | 0.081 sec
+     * 5        | 0.243 sec
+     **/
+    const BACKOFF_TYPE_EXPONENTIAL = 0x01;
+    const BACKOFF_TYPE_USLEEP      = 0x02;
 
     /* @var string host name */
     protected $host;
@@ -53,15 +66,22 @@ class FluentLogger extends BaseLogger
     protected $options = array(
         "socket_timeout"     => self::SOCKET_TIMEOUT,
         "connection_timeout" => self::CONNECTION_TIMEOUT,
+        "backoff_mode"       => self::BACKOFF_TYPE_EXPONENTIAL,
+        "backoff_base"       => 3,
         "usleep_wait"        => self::USLEEP_WAIT,
     );
 
     protected static $supported_transports = array(
-        "tcp","unix",
+        "tcp",
+        "unix",
     );
 
     protected static $acceptable_options = array(
-        "socket_timeout", "connection_timeout","usleep_wait",
+        "socket_timeout",
+        "connection_timeout",
+        "backoff_mode",
+        "backoff_base",
+        "usleep_wait",
     );
 
     protected static $instances = array();
@@ -123,7 +143,7 @@ class FluentLogger extends BaseLogger
                 $result = "unix://" . $host;
             } else {
                 if (strpos($host,"::") !== false) {
-                    /* ipv6 address shoud be srrounded branckets */
+                    /* ipv6 address should be surrounded brackets */
                     $host = sprintf("[%s]",trim($host,"[]"));
                 }
 
@@ -132,7 +152,7 @@ class FluentLogger extends BaseLogger
 
         } else {
             if (strpos($host,"::") !== false) {
-                /* ipv6 address shoud be srrounded branckets */
+                /* ipv6 address should be surrounded brackets */
                 $host = sprintf("[%s]",trim($host,"[]"));
             }
 
@@ -202,7 +222,7 @@ class FluentLogger extends BaseLogger
      */
     public static function open($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT,  array $options = array())
     {
-        $key = sprintf("%s:%s:%s",$host, $port, md5(join(",",$options)));
+        $key = sprintf("%s:%s:%s", $host, $port, md5(join(",",$options)));
 
         if (!isset(self::$instances[$key])) {
             $logger = new self($host,$port, $options);
@@ -213,11 +233,11 @@ class FluentLogger extends BaseLogger
     }
 
     /**
-     * clear fluent-loogger instances from static variable.
+     * clear fluent-logger instances from static variable.
      *
      * @return void
      */
-    public static function clearIntances()
+    public static function clearInstances()
     {
         foreach (self::$instances as $object) {
             unset($object);
@@ -318,8 +338,24 @@ class FluentLogger extends BaseLogger
                         throw new \Exception("failed fwrite retry: max retry count");
                     }
 
+                    $errors = error_get_last();
+                    if ($errors) {
+                        if (isset($errors['message']) && strpos($errors['message'], 'errno=32') !== false) {
+                            /* breaking pipes: we have to close socket manualy */
+                            $this->close();
+                            $this->reconnect();
+                        } else {
+                            error_log("unhandled error detected. please report this issue to http://github.com/fluent/fluent-logger-php/issues: " . var_export($errors,true));
+                        }
+                    }
+
                     $retry++;
-                    usleep($this->getOption("usleep_wait",self::USLEEP_WAIT));
+
+                    if ($this->getOption('backoff_mode',self::BACKOFF_TYPE_EXPONENTIAL) == self::BACKOFF_TYPE_EXPONENTIAL) {
+                        usleep(pow($this->getOption("backoff_base",3), $retry)*1000);
+                    } else {
+                        usleep($this->getOption("usleep_wait",self::USLEEP_WAIT));
+                    }
                     continue;
                 }
 
@@ -345,9 +381,31 @@ class FluentLogger extends BaseLogger
         return fwrite($this->socket, $buffer);
     }
 
+    /**
+     * close socket
+     *
+     * @return void
+     */
+    public function close()
+    {
+        /**
+         * persistent socket should not close.
+         * but it should close manualy when it had some error (e.g Breaking Pipe...)
+         */
+        if (is_resource($this->socket)) {
+            fclose($this->socket);
+        }
+    }
+
     public function __destruct()
     {
         /* do not close socket as we use persistent connection */
+
+        /* it should flush every request but sometimes this makes socket error. hmm.
+        if (is_resource($this->socket)) {
+            fflush($this->socket);
+        }
+        */
     }
 
     /**

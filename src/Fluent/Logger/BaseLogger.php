@@ -21,7 +21,7 @@ namespace Fluent\Logger;
 /**
  * Fluent basic logger class.
  *
- * all fluenet logger must extend this class.
+ * all fluent logger must extend this class.
  */
 abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
 {

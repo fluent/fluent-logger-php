@@ -13,7 +13,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        FluentLogger::clearIntances();
+        FluentLogger::clearInstances();
     }
 
     /**
@@ -223,7 +223,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         $method->setAccessible(true);
         try {
             $method->invoke($logger);
-            $this->fail("reconnect doesn't thorw Exception");
+            $this->fail("reconnect doesn't throw Exception");
         } catch (\Exception $e) {
             $this->assertInstanceOf("\\Exception",$e);
         }

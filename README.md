@@ -6,8 +6,9 @@
 
 ## API Document
 
-current version: v0.3.3
+current version: v0.3.4
 
+- http://fluent.github.com/fluent-logger-php/v0.3.4
 - http://fluent.github.com/fluent-logger-php/v0.3.3
 - http://fluent.github.com/fluent-logger-php/v0.3.2
 - http://fluent.github.com/fluent-logger-php/v0.3.1
@@ -45,7 +46,7 @@ composer.json
     "name": "my-project",
     "version": "1.0.0",
     "require": {
-        "fluent/logger": "v0.3.2"
+        "fluent/logger": "v0.3.4"
     }
 }
 ````
@@ -92,7 +93,7 @@ PHP does not have threads. So, I strongaly recommend you use fluentd as a local 
 apache2(mod_php)
 fluent-logger-php
                  `-----proxy-fluentd
-                                    `------aggregater fluentd
+                                    `------aggregator fluentd
 ````
 
 # Documentation
