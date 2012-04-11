@@ -155,7 +155,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         FluentLogger::open("localhost",1192);
         $this->assertCount(2, $prop->getValue("FluentLogger"));
 
-        FluentLogger::clearIntances();
+        FluentLogger::clearInstances();
         $this->assertCount(0, $prop->getValue("FluentLogger"));
     }
 
