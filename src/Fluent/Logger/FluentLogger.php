@@ -34,10 +34,10 @@ class FluentLogger extends BaseLogger
 
     /* Fluent uses port 24224 as a default port */
     const DEFAULT_LISTEN_PORT = 24224;
-    const DEFAULT_ADDRESS = "127.0.0.1";
+    const DEFAULT_ADDRESS     = "127.0.0.1";
 
     /**
-     * backoff strategies: default exponentail
+     * backoff strategies: default usleep
      *
      * attempts | wait
      * 1        | 0.003 sec
@@ -58,6 +58,7 @@ class FluentLogger extends BaseLogger
     /* @var string Various style transport: `tcp://localhost:port` */
     protected $transport;
 
+    /* @var resource */
     protected $socket;
 
     /* @var PackerInterface */
@@ -66,9 +67,10 @@ class FluentLogger extends BaseLogger
     protected $options = array(
         "socket_timeout"     => self::SOCKET_TIMEOUT,
         "connection_timeout" => self::CONNECTION_TIMEOUT,
-        "backoff_mode"       => self::BACKOFF_TYPE_EXPONENTIAL,
+        "backoff_mode"       => self::BACKOFF_TYPE_USLEEP,
         "backoff_base"       => 3,
         "usleep_wait"        => self::USLEEP_WAIT,
+        "persistent"         => false,
     );
 
     protected static $supported_transports = array(
@@ -82,6 +84,7 @@ class FluentLogger extends BaseLogger
         "backoff_mode",
         "backoff_base",
         "usleep_wait",
+        "persistent",
     );
 
     protected static $instances = array();
@@ -235,6 +238,8 @@ class FluentLogger extends BaseLogger
     /**
      * clear fluent-logger instances from static variable.
      *
+     * this useful when testing.
+     *
      * @return void
      */
     public static function clearInstances()
@@ -252,11 +257,16 @@ class FluentLogger extends BaseLogger
      */
     protected function connect()
     {
+        $connect_options = \STREAM_CLIENT_CONNECT;
+        if ($this->getOption("persistent", false)) {
+            $connect_options |= \STREAM_CLIENT_PERSISTENT;
+        }
+
         // could not suppress warning without ini setting.
         // for now, we use error control operators. 
         $socket = @stream_socket_client($this->transport,$errno,$errstr,
                     $this->getOption("connection_timeout",self::CONNECTION_TIMEOUT),
-                    \STREAM_CLIENT_CONNECT | \STREAM_CLIENT_PERSISTENT
+                    $connect_options
         );
 
         if (!$socket) {
@@ -307,6 +317,13 @@ class FluentLogger extends BaseLogger
         return $this->postImpl($entity);
     }
 
+    /**
+     * post implementation
+     *
+     * @param \Fluent\Logger\Entity $entity
+     * @return bool
+     * @throws \Exception
+     */
     protected function postImpl(Entity $entity)
     {
         $buffer = $packed = $this->packer->pack($entity);
@@ -349,13 +366,12 @@ class FluentLogger extends BaseLogger
                         }
                     }
 
-                    $retry++;
-
                     if ($this->getOption('backoff_mode',self::BACKOFF_TYPE_EXPONENTIAL) == self::BACKOFF_TYPE_EXPONENTIAL) {
-                        usleep(pow($this->getOption("backoff_base",3), $retry)*1000);
+                        $this->backoffExponential(3, $retry);
                     } else {
                         usleep($this->getOption("usleep_wait",self::USLEEP_WAIT));
                     }
+                    $retry++;
                     continue;
                 }
 
@@ -371,6 +387,18 @@ class FluentLogger extends BaseLogger
     }
 
     /**
+     * backoff exponential sleep
+     *
+     * @param $base int
+     * @param $attempt int
+     */
+    public function backoffExponential($base, $attempt)
+    {
+        usleep(pow($base, $attempt)*1000);
+    }
+
+
+    /**
      * write data
      *
      * @param string $data
@@ -382,30 +410,27 @@ class FluentLogger extends BaseLogger
     }
 
     /**
-     * close socket
+     * close the socket
      *
      * @return void
      */
     public function close()
     {
-        /**
-         * persistent socket should not close.
-         * but it should close manualy when it had some error (e.g Breaking Pipe...)
-         */
         if (is_resource($this->socket)) {
             fclose($this->socket);
         }
     }
 
+    /**
+     * destruct objects and socket.
+     *
+     * @return void
+     */
     public function __destruct()
     {
-        /* do not close socket as we use persistent connection */
-
-        /* it should flush every request but sometimes this makes socket error. hmm.
-        if (is_resource($this->socket)) {
-            fflush($this->socket);
+        if ($this->getOption("persistent")) {
+            fclose($this->socket);
         }
-        */
     }
 
     /**

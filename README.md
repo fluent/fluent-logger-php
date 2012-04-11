@@ -2,7 +2,7 @@
 
 **fluent-logger-php** is a PHP library to record events to fluentd from a PHP application.
 
-[![Build Status](https://secure.travis-ci.org/chobie/fluent-logger-php.png)](http://travis-ci.org/chobie/fluent-logger-php)
+[![Build Status](https://secure.travis-ci.org/fluent/fluent-logger-php.png)](http://travis-ci.org/fluent/fluent-logger-php)
 
 ## API Document
 
