@@ -1,12 +1,12 @@
 <?php
 
-namespace FluentTests\FluentLogger;
+//namespace FluentTests\FluentLogger;
+//
+//use Fluent\Logger;
+//use Fluent\Logger\ChainLogger;
+//use Fluent\Logger\FluentLogger;
 
-use Fluent\Logger;
-use Fluent\Logger\ChainLogger;
-use Fluent\Logger\FluentLogger;
-
-class ChainLoggerTest extends \PHPUnit_Framework_TestCase
+class Fluent_Logger_ChainLoggerTest extends PHPUnit_Framework_TestCase
 {
     const TAG = 'debug.test';
     const OBJECT_KEY = 'hello';
@@ -14,9 +14,9 @@ class ChainLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testChains()
     {
-        $logger = new ChainLogger();
-        $a = new FluentLogger("localhost");
-        $b = new FluentLogger("localhost");
+        $logger = new Fluent_Logger_ChainLogger();
+        $a = new Fluent_Logger_FluentLogger("localhost");
+        $b = new Fluent_Logger_FluentLogger("localhost");
 
         $r = fopen("php://memory","r");
         $w = fopen("php://memory","a+");
@@ -39,7 +39,7 @@ class ChainLoggerTest extends \PHPUnit_Framework_TestCase
 
     private function setSocket($logger, $socket)
     {
-        $reflection = new \ReflectionProperty("Fluent\Logger\FluentLogger", "socket");
+        $reflection = new ReflectionProperty("Fluent_Logger_FluentLogger", "socket");
         $reflection->setAccessible(true);
         $reflection->setValue($logger, $socket);
     }

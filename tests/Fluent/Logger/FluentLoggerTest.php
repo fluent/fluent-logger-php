@@ -1,11 +1,11 @@
 <?php
 
-namespace FluentTests\FluentLogger;
+//namespace FluentTests\FluentLogger;
+//
+//use Fluent\Logger;
+//use Fluent\Logger\FluentLogger;
 
-use Fluent\Logger;
-use Fluent\Logger\FluentLogger;
-
-class FluentLoggerTest extends \PHPUnit_Framework_TestCase
+class Fluent_Logger_FluentLoggerTest extends PHPUnit_Framework_TestCase
 {
     const TAG = 'debug.test';
     const OBJECT_KEY = 'hello';
@@ -13,7 +13,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        FluentLogger::clearInstances();
+        Fluent_Logger_FluentLogger::clearInstances();
     }
 
     /**
@@ -24,8 +24,8 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         $socket = fopen("php://memory", "a+");
 
         /* localhost is dummy string. we set php://memory as a socket */
-        $logger = FluentLogger::open("localhost");
-        $reflection = new \ReflectionProperty("Fluent\Logger\FluentLogger", "socket");
+        $logger = Fluent_Logger_FluentLogger::open("localhost");
+        $reflection = new ReflectionProperty("Fluent_Logger_FluentLogger", "socket");
         $reflection->setAccessible(true);
         $reflection->setValue($logger, $socket);
 
@@ -52,7 +52,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
     public function testPostWillReturnFalseInTheCaseOfPostingUnsuccessfullyByReachedMaxRetryCount()
     {
         /* localhost is dummy string. we set php://memory as a socket */
-        $logger = FluentLogger::open("localhost");
+        $logger = Fluent_Logger_FluentLogger::open("localhost");
         $this->setSocket($logger, fopen("php://memory", "r"));
 
         $this->assertFalse($logger->post(self::TAG, array("foo" => "bar")), "Post method returned boolean");
@@ -84,14 +84,14 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     private function setSocket($logger, $socket)
     {
-        $reflection = new \ReflectionProperty("Fluent\Logger\FluentLogger", "socket");
+        $reflection = new \ReflectionProperty("Fluent_Logger_FluentLogger", "socket");
         $reflection->setAccessible(true);
         $reflection->setValue($logger, $socket);
     }
 
     private function getMockOfLogger(array $method)
     {
-        return $this->getMock("Fluent\Logger\FluentLogger", array("write"), array("localhost"));
+        return $this->getMock("Fluent_Logger_FluentLogger", array("write"), array("localhost"));
     }
 
     /**
@@ -99,7 +99,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTransportUri($host, $port, $expected_uri, $error_msg)
     {
-        $actual_uri = FluentLogger::getTransportUri($host,$port);
+        $actual_uri = Fluent_Logger_FluentLogger::getTransportUri($host,$port);
         $this->assertEquals($expected_uri,$actual_uri, $error_msg);
     }
 
@@ -121,7 +121,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
     public function testGetTransportUriCauseExcpetion()
     {
         try {
-            FluentLogger::getTransportUri("udp://localhost", 1192);
+            Fluent_Logger_FluentLogger::getTransportUri("udp://localhost", 1192);
             $this->fail("getTransportUri does not thorow exception");
         } catch (\Exception $e) {
             $this->assertInstanceOf("\\Exception",$e);
@@ -130,10 +130,10 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetPacker()
     {
-        $logger = new FluentLogger("localhost");
-        $packer = new \Fluent\Logger\JsonPacker();
+        $logger = new Fluent_Logger_FluentLogger("localhost");
+        $packer = new Fluent_Logger_JsonPacker();
 
-        $prop = new \ReflectionProperty($logger,"packer");
+        $prop = new ReflectionProperty($logger,"packer");
         $prop->setAccessible(true);
         $logger->setPacker($packer);
         $this->assertSame($packer, $prop->getValue($logger), "unexpected packer was set");
@@ -141,28 +141,28 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPacker()
     {
-        $logger = new FluentLogger("localhost");
+        $logger = new Fluent_Logger_FluentLogger("localhost");
 
         $this->assertInstanceOf("Fluent\\Logger\\PackerInterface",$logger->getPacker(), "testGetPacker returns unexpected packer");
     }
 
     public function testClearInstances()
     {
-        $prop = new \ReflectionProperty("\Fluent\Logger\FluentLogger","instances");
+        $prop = new ReflectionProperty("Fluent_Logger_FluentLogger","instances");
         $prop->setAccessible(true);
 
-        FluentLogger::open("localhost",1191);
-        FluentLogger::open("localhost",1192);
+        Fluent_Logger_FluentLogger::open("localhost",1191);
+        Fluent_Logger_FluentLogger::open("localhost",1192);
         $this->assertCount(2, $prop->getValue("FluentLogger"));
 
-        FluentLogger::clearInstances();
+        Fluent_Logger_FluentLogger::clearInstances();
         $this->assertCount(0, $prop->getValue("FluentLogger"));
     }
 
     public function testMergeOptions()
     {
-        $logger = new FluentLogger("localhost");
-        $prop = new \ReflectionProperty($logger,"options");
+        $logger = new Fluent_Logger_FluentLogger("localhost");
+        $prop = new ReflectionProperty($logger,"options");
         $prop->setAccessible(true);
 
         $default = $prop->getValue($logger);
@@ -174,7 +174,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testMergeOptionsThrowsException()
     {
-        $logger = new FluentLogger("localhost");
+        $logger = new Fluent_Logger_FluentLogger("localhost");
         $additional_options = array("unexpected_key"=>10);
         try {
             $logger->mergeOptions($additional_options);
@@ -187,7 +187,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetOptions()
     {
-        $logger = new FluentLogger("localhost");
+        $logger = new Fluent_Logger_FluentLogger("localhost");
         $prop = new \ReflectionProperty($logger,"options");
         $prop->setAccessible(true);
 
@@ -198,8 +198,8 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testConnect()
     {
-        $logger = new FluentLogger("localhost",119223);
-        $method = new \ReflectionMethod($logger,"connect");
+        $logger = new Fluent_Logger_FluentLogger("localhost",119223);
+        $method = new ReflectionMethod($logger,"connect");
         $method->setAccessible(true);
         try {
             $method->invoke($logger);
@@ -211,15 +211,15 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOption()
     {
-        $logger = new FluentLogger("localhost",119223);
+        $logger = new Fluent_Logger_FluentLogger("localhost",119223);
         $this->assertEquals(FluentLogger::CONNECTION_TIMEOUT,$logger->getOption("socket_timeout"),
             "getOptions retunrs unexpected value");
     }
 
     public function testReconnect()
     {
-        $logger = new FluentLogger("localhost",119223);
-        $method = new \ReflectionMethod($logger,"reconnect");
+        $logger = new Fluent_Logger_FluentLogger("localhost",119223);
+        $method = new ReflectionMethod($logger,"reconnect");
         $method->setAccessible(true);
         try {
             $method->invoke($logger);
@@ -228,7 +228,7 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf("\\Exception",$e);
         }
         $fp = fopen("php://memory","r");
-        $prop = new \ReflectionProperty($logger,"socket");
+        $prop = new ReflectionProperty($logger,"socket");
         $prop->setAccessible(true);
         $prop->setValue($logger,$fp);
         $method->invoke($logger);

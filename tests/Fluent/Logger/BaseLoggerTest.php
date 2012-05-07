@@ -2,15 +2,15 @@
 /**
  */
 
-namespace FluentTests\FluentLogger;
-
-use Fluent\Logger;
-use Fluent\Logger\FluentLogger;
+//namespace FluentTests\FluentLogger;
+//
+//use Fluent\Logger;
+//use Fluent\Logger\FluentLogger;
 
 function fluentTests_FluentLogger_DummyFunction () {
 }
 
-class BaseLoggerTest extends \PHPUnit_Framework_TestCase
+class Fluent_Logger_BaseLoggerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * testing compatible before and after
@@ -19,7 +19,7 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterErrorHandler($eh)
     {
-        $base = $this->getMockForAbstractClass('Fluent\Logger\BaseLogger');
+        $base = $this->getMockForAbstractClass('Fluent_Logger_BaseLogger');
         $this->assertTrue($base->registerErrorHandler($eh));
     }
 
@@ -27,7 +27,7 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'FluentTests\FluentLogger\fluentTests_FluentLogger_DummyFunction'
+                'fluentTests_FluentLogger_DummyFunction'
             ),
             array(
                 array($this, 'errorHandlerProvider')
@@ -44,7 +44,7 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterInvalidErrorHandler($eh)
     {
-        $base = $this->getMockForAbstractClass('Fluent\Logger\BaseLogger');
+        $base = $this->getMockForAbstractClass('Fluent_Logger_BaseLogger');
         $base->registerErrorHandler($eh);
     }
 

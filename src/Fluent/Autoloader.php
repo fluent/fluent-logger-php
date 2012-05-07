@@ -16,9 +16,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent;
+//namespace Fluent;
 
-class Autoloader
+class Fluent_Autoloader
 {
     const NAME_SPACE = 'Fluent';
     protected static $base_dir;
@@ -55,7 +55,7 @@ class Autoloader
     {
         $retval = false;
         if (strpos($name,self::NAME_SPACE) === 0) {
-            $parts = explode("\\",$name);
+            $parts = explode("_",$name);
             array_shift($parts);
             
             $expected_path = join(DIRECTORY_SEPARATOR,array(self::$base_dir, join(DIRECTORY_SEPARATOR,$parts) . ".php"));

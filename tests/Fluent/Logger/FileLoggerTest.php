@@ -1,12 +1,12 @@
 <?php
 
-namespace FluentTests\Logger;
+//namespace FluentTests\Logger;
+//
+//use Fluent\Logger;
+//use Fluent\Logger\FileLogger;
+//use Fluent\Logger\Entity;
 
-use Fluent\Logger;
-use Fluent\Logger\FileLogger;
-use Fluent\Logger\Entity;
-
-class FileLoggerTest extends \PHPUnit_Framework_TestCase
+class Fluent_Logger_FileLoggerTest extends PHPUnit_Framework_TestCase
 {
     private static $FILE_PATH = "/tmp/fluent_logger_php.test.";
 
@@ -29,13 +29,13 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testFileCouldNotOpen()
     {
-        $logger = new FileLogger('/dev/null/hoge');
+        $logger = new Fluent_Logger_FileLogger('/dev/null/hoge');
     }
 
     public function testOpenMethod()
     {
-        $logger = FileLogger::open(self::$FILE_PATH);
-        $this->assertInstanceof('Fluent\\Logger\\LoggerInterface', $logger, 'Logger::open should returns LoggerInterface implemented instance ');
+        $logger = Fluent_Logger_FileLogger::open(self::$FILE_PATH);
+        $this->assertInstanceof('Fluent_Logger_LoggerInterface', $logger, 'Logger::open should returns LoggerInterface implemented instance ');
     }
 
     public function testPostMethod()
@@ -43,7 +43,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
         $this->cleanUpFile();
         $tag = 'test.filelogger_post';
 
-        $logger = new FileLogger(self::$FILE_PATH);
+        $logger = new Fluent_Logger_FileLogger(self::$FILE_PATH);
         $this->assertTrue($logger->post($tag, array("a" => "b")));
 
         $data = file_get_contents(self::$FILE_PATH);
@@ -56,7 +56,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
     {
         $this->cleanUpFile();
 
-        $logger = new FileLogger(self::$FILE_PATH);
+        $logger = new Fluent_Logger_FileLogger(self::$FILE_PATH);
         $lines = array(
             array('a' => 'b'),
             array('c' => 'd'),
@@ -81,8 +81,8 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
         $this->cleanUpFile();
         $tag = 'test.filelogger_post2';
 
-        $logger = new FileLogger(self::$FILE_PATH);
-        $entity = new Entity($tag, array("a" => "b"));
+        $logger = new Fluent_Logger_FileLogger(self::$FILE_PATH);
+        $entity = new Fluent_Logger_Entity($tag, array("a" => "b"));
         $this->assertTrue($logger->post2($entity));
 
         $data = file_get_contents(self::$FILE_PATH);
