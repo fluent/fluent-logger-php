@@ -84,7 +84,7 @@ class Fluent_Logger_FluentLoggerTest extends PHPUnit_Framework_TestCase
 
     private function setSocket($logger, $socket)
     {
-        $reflection = new \ReflectionProperty("Fluent_Logger_FluentLogger", "socket");
+        $reflection = new ReflectionProperty("Fluent_Logger_FluentLogger", "socket");
         $reflection->setAccessible(true);
         $reflection->setValue($logger, $socket);
     }
@@ -123,8 +123,8 @@ class Fluent_Logger_FluentLoggerTest extends PHPUnit_Framework_TestCase
         try {
             Fluent_Logger_FluentLogger::getTransportUri("udp://localhost", 1192);
             $this->fail("getTransportUri does not thorow exception");
-        } catch (\Exception $e) {
-            $this->assertInstanceOf("\\Exception",$e);
+        } catch (Exception $e) {
+            $this->assertInstanceOf("Exception",$e);
         }
     }
 
@@ -143,7 +143,7 @@ class Fluent_Logger_FluentLoggerTest extends PHPUnit_Framework_TestCase
     {
         $logger = new Fluent_Logger_FluentLogger("localhost");
 
-        $this->assertInstanceOf("Fluent\\Logger\\PackerInterface",$logger->getPacker(), "testGetPacker returns unexpected packer");
+        $this->assertInstanceOf("Fluent_Logger_PackerInterface",$logger->getPacker(), "testGetPacker returns unexpected packer");
     }
 
     public function testClearInstances()
@@ -179,8 +179,8 @@ class Fluent_Logger_FluentLoggerTest extends PHPUnit_Framework_TestCase
         try {
             $logger->mergeOptions($additional_options);
             $this->fail("mergeOptions doesn't thorw Exception");
-        } catch (\Exception $e) {
-            $this->assertInstanceOf("\\Exception",$e);
+        } catch (Exception $e) {
+            $this->assertInstanceOf("Exception",$e);
         }
 
     }
@@ -204,15 +204,15 @@ class Fluent_Logger_FluentLoggerTest extends PHPUnit_Framework_TestCase
         try {
             $method->invoke($logger);
             $this->fail("mergeOptions doesn't thorw Exception");
-        } catch (\Exception $e) {
-            $this->assertInstanceOf("\\Exception",$e);
+        } catch (Exception $e) {
+            $this->assertInstanceOf("Exception",$e);
         }
     }
 
     public function testGetOption()
     {
         $logger = new Fluent_Logger_FluentLogger("localhost",119223);
-        $this->assertEquals(FluentLogger::CONNECTION_TIMEOUT,$logger->getOption("socket_timeout"),
+        $this->assertEquals(Fluent_Logger_FluentLogger::CONNECTION_TIMEOUT,$logger->getOption("socket_timeout"),
             "getOptions retunrs unexpected value");
     }
 
@@ -224,8 +224,8 @@ class Fluent_Logger_FluentLoggerTest extends PHPUnit_Framework_TestCase
         try {
             $method->invoke($logger);
             $this->fail("reconnect doesn't throw Exception");
-        } catch (\Exception $e) {
-            $this->assertInstanceOf("\\Exception",$e);
+        } catch (Exception $e) {
+            $this->assertInstanceOf("Exception",$e);
         }
         $fp = fopen("php://memory","r");
         $prop = new ReflectionProperty($logger,"socket");

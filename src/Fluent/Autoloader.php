@@ -29,8 +29,11 @@ class Fluent_Autoloader
      * @param string $dirname base directory path.
      * @return void
      */
-    public static function register($dirname = __DIR__)
+    public static function register($dirname = null)
     {
+        if (is_null($dirname)) {
+            $dirname = dirname(__FILE__);
+        }
         self::$base_dir = $dirname;
         spl_autoload_register(array(__CLASS__, "autoload"));
     }

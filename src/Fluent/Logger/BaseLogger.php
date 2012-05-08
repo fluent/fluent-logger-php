@@ -16,14 +16,14 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
 /**
  * Fluent basic logger class.
  *
  * all fluent logger must extend this class.
  */
-abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
+abstract class Fluent_Logger_BaseLogger implements Fluent_Logger_LoggerInterface
 {
     protected $error_handler = null;
 
@@ -31,16 +31,16 @@ abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
      * @param $entity
      * @param void $error error message
      */
-    public function defaultErrorHandler(BaseLogger $logger, Entity $entity, $error)
+    public function defaultErrorHandler(Fluent_Logger_BaseLogger $logger, Fluent_Logger_Entity $entity, $error)
     {
         error_log(sprintf("%s %s %s: %s", get_class($logger), $error, $entity->getTag(), json_encode($entity->getData())));
     }
 
     /**
-     * @param Entity $entity
+     * @param Fluent_Logger_Entity $entity
      * @param void $error error message
      */
-    protected function processError(Entity $entity, $error)
+    protected function processError(Fluent_Logger_Entity $entity, $error)
     {
         if (!is_null($this->error_handler)) {
             call_user_func_array($this->error_handler, array($this, $entity, $error));
@@ -59,7 +59,7 @@ abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
         if (is_callable($callable)) {
             $this->error_handler = $callable;
         } else {
-            throw new \InvalidArgumentException("Error handler must be callable.");
+            throw new InvalidArgumentException("Error handler must be callable.");
         }
         return true;
     }
