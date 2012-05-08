@@ -332,7 +332,7 @@ class Fluent_Logger_FluentLogger extends Fluent_Logger_BaseLogger
 
         try {
             $this->reconnect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->processError($entity, $e->getMessage());
             return false;
         }

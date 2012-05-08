@@ -57,7 +57,7 @@ class Fluent_Logger_ChainLogger extends Fluent_Logger_BaseLogger
         $entity = new Fluent_Logger_Entity($tag, $data);
 
         if (!count($this->getAvailableLoggers())) {
-            throw new \Exception("ChainLogger have to call addLogger before post method. or all logger failed...");
+            throw new Exception("ChainLogger have to call addLogger before post method. or all logger failed...");
         }
 
         foreach ($this->getAvailableLoggers() as $offset => $logger) {

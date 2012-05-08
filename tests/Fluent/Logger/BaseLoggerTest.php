@@ -32,9 +32,6 @@ class Fluent_Logger_BaseLoggerTest extends PHPUnit_Framework_TestCase
             array(
                 array($this, 'errorHandlerProvider')
             ),
-            array(
-                function () {}, // closure
-            ),
         );
     }
 

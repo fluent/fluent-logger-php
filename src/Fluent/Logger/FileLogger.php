@@ -42,7 +42,7 @@ class Fluent_Logger_FileLogger extends Fluent_Logger_BaseLogger
         if (is_resource($fp)) {
             $this->fp = $fp;
         } else {
-            throw new \RuntimeException("could not open file {$path}");
+            throw new RuntimeException("could not open file {$path}");
         }
     }
 
@@ -106,7 +106,7 @@ class Fluent_Logger_FileLogger extends Fluent_Logger_BaseLogger
                     throw new Exception("connection aborted");
                 } else if ($nwrite === 0) {
                     if ($retry > self::MAX_WRITE_RETRY) {
-                        throw new \Exception("failed fwrite retry: max retry count");
+                        throw new Exception("failed fwrite retry: max retry count");
                     }
                     $retry++;
                 }
