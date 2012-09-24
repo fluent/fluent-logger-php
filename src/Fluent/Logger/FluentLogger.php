@@ -86,6 +86,7 @@ class FluentLogger extends BaseLogger
         "backoff_base",
         "usleep_wait",
         "persistent",
+        "retry_socket",
     );
 
     protected static $instances = array();
