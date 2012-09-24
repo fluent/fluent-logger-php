@@ -368,6 +368,10 @@ class FluentLogger extends BaseLogger
                             /* breaking pipes: we have to close socket manualy */
                             $this->close();
                             $this->reconnect();
+                        } else if (isset($errors['message']) && strpos($errors['message'], 'errno=104') !== false) {
+                            /* errno=104 Connection reset by peer */
+                            $this->close();
+                            $this->reconnect();
                         } else {
                             error_log("unhandled error detected. please report this issue to http://github.com/fluent/fluent-logger-php/issues: " . var_export($errors,true));
                         }
