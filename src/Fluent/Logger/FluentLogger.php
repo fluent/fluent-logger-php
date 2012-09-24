@@ -355,7 +355,7 @@ class FluentLogger extends BaseLogger
                 } else if ($nwrite === 0) {
                     if (!$this->getOption("retry_socket", true)) {
                         $this->processError($entity, "could not send entities");
-                        break;
+                        return false;
                     }
 
                     if ($retry > self::MAX_WRITE_RETRY) {
