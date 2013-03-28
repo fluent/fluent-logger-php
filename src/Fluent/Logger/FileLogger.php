@@ -16,12 +16,12 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
 /**
  * Fluent File logger class.
  */
-class FileLogger extends BaseLogger
+class Fluent_Logger_FileLogger extends Fluent_Logger_BaseLogger
 {
     const MAX_WRITE_RETRY = 10;
 
@@ -32,7 +32,7 @@ class FileLogger extends BaseLogger
      * create fluent file logger object.
      *
      * @param string $path log file path
-     * @return FileLogger
+     * @return Fluent_Logger_FileLogger
      */
     public function __construct($path)
     {
@@ -42,7 +42,7 @@ class FileLogger extends BaseLogger
         if (is_resource($fp)) {
             $this->fp = $fp;
         } else {
-            throw new \RuntimeException("could not open file {$path}");
+            throw new RuntimeException("could not open file {$path}");
         }
     }
 
@@ -65,25 +65,25 @@ class FileLogger extends BaseLogger
      */
     public function post($tag,array $data)
     {
-        $entity = new Entity($tag, $data);
+        $entity = new Fluent_Logger_Entity($tag, $data);
         return $this->postImpl($entity);
     }
 
     /**
      * write a message to specified path.
      *
-     * @param Entity $entity
+     * @param Fluent_Logger_Entity $entity
      */
-    public function post2(Entity $entity)
+    public function post2(Fluent_Logger_Entity $entity)
     {
         return $this->postImpl($entity);
     }
 
-    protected function postImpl(Entity $entity)
+    protected function postImpl(Fluent_Logger_Entity $entity)
     {
         $packed = json_encode($entity->getData());
         $data = $wbuffer = sprintf("%s\t%s\t%s\n",
-                        date(\DateTime::ISO8601,
+                        date(DateTime::ISO8601,
                         $entity->getTime()),
                         $entity->getTag(),
                         $packed . PHP_EOL
@@ -94,19 +94,19 @@ class FileLogger extends BaseLogger
 
         try {
             if (!flock($this->fp, LOCK_EX)) {
-                throw new \Exception('could not obtain LOCK_EX');
+                throw new Exception('could not obtain LOCK_EX');
             }
             fseek($this->fp,-1, SEEK_END);
 
             while ($written < $length) {
                 $nwrite = fwrite($this->fp, $wbuffer);
                 if ($nwrite === false) {
-                    throw new \Exception("could not write message");
+                    throw new Exception("could not write message");
                 } else if ($nwrite === "") {
-                    throw new \Exception("connection aborted");
+                    throw new Exception("connection aborted");
                 } else if ($nwrite === 0) {
                     if ($retry > self::MAX_WRITE_RETRY) {
-                        throw new \Exception("failed fwrite retry: max retry count");
+                        throw new Exception("failed fwrite retry: max retry count");
                     }
                     $retry++;
                 }
@@ -115,7 +115,7 @@ class FileLogger extends BaseLogger
             }
 
             flock($this->fp, LOCK_UN);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->processError($this, $entity, $e->getMessage());
             return false;
         }

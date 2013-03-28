@@ -16,14 +16,14 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
 /**
  * Fluent Logger
  *
  * Fluent Logger client communicates to Fluentd with json formatted messages.
  */
-class FluentLogger extends BaseLogger
+class Fluent_Logger_FluentLogger extends Fluent_Logger_BaseLogger
 {
     const CONNECTION_TIMEOUT = 3;
     const SOCKET_TIMEOUT = 3;
@@ -61,7 +61,7 @@ class FluentLogger extends BaseLogger
     /* @var resource */
     protected $socket;
 
-    /* @var PackerInterface */
+    /* @var Fluent_Logger_PackerInterface */
     protected $packer;
 
     protected $options = array(
@@ -96,13 +96,13 @@ class FluentLogger extends BaseLogger
      * @param string $host
      * @param int $port
      * @param array $options
-     * @param PackerInterface $packer
-     * @return FluentLogger
+     * @param Fluent_Logger_PackerInterface $packer
+     * @return Fluent_Logger_FluentLogger
      */
-    public function __construct($host = FluentLogger::DEFAULT_ADDRESS,
-                                $port = FluentLogger::DEFAULT_LISTEN_PORT,
+    public function __construct($host = Fluent_Logger_FluentLogger::DEFAULT_ADDRESS,
+                                $port = Fluent_Logger_FluentLogger::DEFAULT_LISTEN_PORT,
                                 array $options = array(),
-                                PackerInterface $packer = null)
+                                Fluent_Logger_PackerInterface $packer = null)
     {
         /* keep original host and port */
         $this->host = $host;
@@ -113,7 +113,7 @@ class FluentLogger extends BaseLogger
 
         if (is_null($packer)) {
             /* for backward compatibility */
-            $packer = new JsonPacker();
+            $packer = new Fluent_Logger_JsonPacker();
         }
 
         $this->packer = $packer;
@@ -137,7 +137,7 @@ class FluentLogger extends BaseLogger
             $host = substr($host, $pos + 3);
 
             if (!in_array($transport, self::$supported_transports)) {
-                throw new \Exception("transport `{$transport}` does not support");
+                throw new Exception("transport `{$transport}` does not support");
             }
 
             /* unix socket is deprecated. */
@@ -168,10 +168,10 @@ class FluentLogger extends BaseLogger
     /**
      * set packer
      *
-     * @param PackerInterface $packer
-     * @return PackerInterface
+     * @param Fluent_Logger_PackerInterface $packer
+     * @return Fluent_Logger_PackerInterface
      */
-    public function setPacker(PackerInterface $packer)
+    public function setPacker(Fluent_Logger_PackerInterface $packer)
     {
         return $this->packer = $packer;
     }
@@ -179,7 +179,7 @@ class FluentLogger extends BaseLogger
     /**
      * get current packer
      *
-     * @return JsonPacker|PackerInterface
+     * @return Fluent_Logger_JsonPacker|Fluent_Logger_PackerInterface
      */
     public function getPacker()
     {
@@ -196,7 +196,7 @@ class FluentLogger extends BaseLogger
     {
         foreach ($options as $key => $value) {
             if (!in_array($key, self::$acceptable_options)) {
-                throw new \Exception("option {$key} does not support");
+                throw new Exception("option {$key} does not support");
             }
 
             $this->options[$key] = $value;
@@ -221,9 +221,9 @@ class FluentLogger extends BaseLogger
      * @param string $host
      * @param int $port
      * @param array $options
-     * @return FluentLogger created logger object.
+     * @return Fluent_Logger_FluentLogger created logger object.
      */
-    public static function open($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT,  array $options = array())
+    public static function open($host = Fluent_Logger_FluentLogger::DEFAULT_ADDRESS, $port = Fluent_Logger_FluentLogger::DEFAULT_LISTEN_PORT,  array $options = array())
     {
         $key = sprintf("%s:%s:%s", $host, $port, md5(join(",",$options)));
 
@@ -257,9 +257,9 @@ class FluentLogger extends BaseLogger
      */
     protected function connect()
     {
-        $connect_options = \STREAM_CLIENT_CONNECT;
+        $connect_options = STREAM_CLIENT_CONNECT;
         if ($this->getOption("persistent", false)) {
-            $connect_options |= \STREAM_CLIENT_PERSISTENT;
+            $connect_options |= STREAM_CLIENT_PERSISTENT;
         }
 
         // could not suppress warning without ini setting.
@@ -271,7 +271,7 @@ class FluentLogger extends BaseLogger
 
         if (!$socket) {
             $errors = error_get_last();
-            throw new \Exception($errors['message']);
+            throw new Exception($errors['message']);
         }
 
         // set read / write timeout.
@@ -302,17 +302,17 @@ class FluentLogger extends BaseLogger
      */
     public function post($tag, array $data)
     {
-        $entity = new Entity($tag, $data);
+        $entity = new Fluent_Logger_Entity($tag, $data);
         return $this->postImpl($entity);
     }
 
     /**
      * send a message to specified fluentd.
      *
-     * @param Entity $entity
+     * @param Fluent_Logger_Entity $entity
      * @return bool
      */
-    public function post2(Entity $entity)
+    public function post2(Fluent_Logger_Entity $entity)
     {
         return $this->postImpl($entity);
     }
@@ -324,7 +324,7 @@ class FluentLogger extends BaseLogger
      * @return bool
      * @throws \Exception
      */
-    protected function postImpl(Entity $entity)
+    protected function postImpl(Fluent_Logger_Entity $entity)
     {
         $buffer = $packed = $this->packer->pack($entity);
         $length = strlen($packed);
@@ -332,7 +332,7 @@ class FluentLogger extends BaseLogger
 
         try {
             $this->reconnect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->processError($entity, $e->getMessage());
             return false;
         }
@@ -345,14 +345,14 @@ class FluentLogger extends BaseLogger
                 if ($nwrite === false) {
                     // could not write messages to the socket.
                     // Todo: check fwrite implementation.
-                    throw new \Exception("could not write message");
+                    throw new Exception("could not write message");
                 } else if ($nwrite === "") {
                     // sometimes fwrite returns null string.
                     // probably connection aborted.
-                    throw new \Exception("connection aborted");
+                    throw new Exception("connection aborted");
                 } else if ($nwrite === 0) {
                     if ($retry > self::MAX_WRITE_RETRY) {
-                        throw new \Exception("failed fwrite retry: max retry count");
+                        throw new Exception("failed fwrite retry: max retry count");
                     }
 
                     $errors = error_get_last();
@@ -378,7 +378,7 @@ class FluentLogger extends BaseLogger
                 $written += $nwrite;
                 $buffer   = substr($packed,$written);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->processError($entity, $e->getMessage());
             return false;
         }

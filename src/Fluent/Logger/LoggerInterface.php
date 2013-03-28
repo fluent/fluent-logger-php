@@ -16,9 +16,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
-interface LoggerInterface
+interface Fluent_Logger_LoggerInterface
 {
     /**
      * @abstract
@@ -31,8 +31,8 @@ interface LoggerInterface
 
     /**
      * @abstract
-     * @param \Fluent\Logger\Entity $entity
+     * @param Fluent_Logger_Entity $entity
      */
-    public function post2(\Fluent\Logger\Entity $entity);
+    public function post2(Fluent_Logger_Entity $entity);
 
 }

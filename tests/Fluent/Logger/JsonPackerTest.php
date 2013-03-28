@@ -1,10 +1,10 @@
 <?php
-namespace FluentTests\Logger;
+//namespace FluentTests\Logger;
+//
+//use Fluent\Logger\Entity;
+//use Fluent\Logger\JsonPacker;
 
-use Fluent\Logger\Entity;
-use Fluent\Logger\JsonPacker;
-
-class JsonPackerTest extends \PHPUnit_Framework_TestCase
+class Fluent_Logger_JsonPackerTest extends PHPUnit_Framework_TestCase
 {
     const TAG = "debug.test";
     const EXPECTED_TIME = 123456789;
@@ -19,9 +19,9 @@ class JsonPackerTest extends \PHPUnit_Framework_TestCase
 
     public function testPack()
     {
-        $entity = new Entity(self::TAG,$this->expected_data, self::EXPECTED_TIME);
+        $entity = new Fluent_Logger_Entity(self::TAG,$this->expected_data, self::EXPECTED_TIME);
 
-        $packer = new JsonPacker();
+        $packer = new Fluent_Logger_JsonPacker();
         $result = $packer->pack($entity);
 
         /*

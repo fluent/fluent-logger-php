@@ -16,9 +16,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
-class Entity
+class Fluent_Logger_Entity
 {
     /* @var int unxitime */
     public $time;

@@ -16,9 +16,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
-class JsonPacker implements PackerInterface
+class Fluent_Logger_JsonPacker implements Fluent_Logger_PackerInterface
 {
     public function __construct()
     {
@@ -27,10 +27,10 @@ class JsonPacker implements PackerInterface
     /**
      * pack entity as a json string.
      *
-     * @param Entity $entity
+     * @param Fluent_Logger_Entity $entity
      * @return string
      */
-    public function pack(Entity $entity)
+    public function pack(Fluent_Logger_Entity $entity)
     {
         return json_encode(array($entity->getTag(), $entity->getTime(), $entity->getData()));
     }

@@ -1,9 +1,9 @@
 <?php
-namespace FluentTests\Logger;
+//namespace FluentTests\Logger;
+//
+//use Fluent\Logger\Entity;
 
-use Fluent\Logger\Entity;
-
-class EntityTest extends \PHPUnit_Framework_TestCase
+class Fluent_Logger_EntityTest extends PHPUnit_Framework_TestCase
 {
     const TAG = "debug.test";
 
@@ -13,15 +13,15 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $time = time();
         $expected_data = array("abc"=>"def");
 
-        $entity = new Entity(self::TAG,$expected_data, $time);
+        $entity = new Fluent_Logger_Entity(self::TAG,$expected_data, $time);
         $this->assertEquals(self::TAG, $entity->getTag(),"unexpected tag `{$entity->getTag()}` returns.");
         $this->assertEquals($expected_data, $entity->getData(), "unexpected data returns");
         $this->assertEquals($time, $entity->getTime(), "unexpected time returns");
 
-        $entity = new Entity(self::TAG,$expected_data);
+        $entity = new Fluent_Logger_Entity(self::TAG,$expected_data);
         $this->assertGreaterThanOrEqual($time, $entity->getTime(), "unexpected time returns");
 
-        $entity = new Entity(self::TAG,$expected_data,"not int");
+        $entity = new Fluent_Logger_Entity(self::TAG,$expected_data,"not int");
         $this->assertGreaterThanOrEqual($time, $entity->getTime(), "unexpected time returns");
 
     }

@@ -16,7 +16,7 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
 /**
  * Chain Logger
@@ -24,7 +24,7 @@ namespace Fluent\Logger;
  * experimental chain logger
  *
  */
-class ChainLogger extends BaseLogger
+class Fluent_Logger_ChainLogger extends Fluent_Logger_BaseLogger
 {
     protected $chain  = array();
     protected $errors = array();
@@ -33,14 +33,14 @@ class ChainLogger extends BaseLogger
     {
     }
 
-    public function addLogger(\Fluent\Logger\BaseLogger $logger)
+    public function addLogger(Fluent_Logger_BaseLogger $logger)
     {
         $logger->registerErrorHandler(array($this,"defaultErrorHandler"));
 
         $this->chain[] = $logger;
     }
 
-    public function defaultErrorHandler(BaseLogger $logger, Entity $entity, $error)
+    public function defaultErrorHandler(Fluent_Logger_BaseLogger $logger, Fluent_Logger_Entity $entity, $error)
     {
         error_log(sprintf("ChainLogger: %s %s %s: %s", get_class($logger), $error, $entity->getTag(), json_encode($entity->getData())));
     }
@@ -54,14 +54,14 @@ class ChainLogger extends BaseLogger
     public function post($tag, array $data)
     {
         $result = false;
-        $entity = new Entity($tag, $data);
+        $entity = new Fluent_Logger_Entity($tag, $data);
 
         if (!count($this->getAvailableLoggers())) {
-            throw new \Exception("ChainLogger have to call addLogger before post method. or all logger failed...");
+            throw new Exception("ChainLogger have to call addLogger before post method. or all logger failed...");
         }
 
         foreach ($this->getAvailableLoggers() as $offset => $logger) {
-            /* @var $logger \Fluent\Logger */
+            /* @var $logger Fluent_Logger_BaseLogger */
             $result = $logger->post2($entity);
 
             if ($result) {
@@ -84,7 +84,7 @@ class ChainLogger extends BaseLogger
     {
         $result = array();
         foreach ($this->chain as $offset => $logger) {
-            /* @var $logger \Fluent\Logger\LoggerInterface */
+            /* @var $logger Fluent_Logger_LoggerInterface */
 
             if (!isset($this->errors[$offset])) {
                 $result[] = $logger;
@@ -96,9 +96,9 @@ class ChainLogger extends BaseLogger
         return $result;
     }
 
-    public function post2(Entity $entity)
+    public function post2(Fluent_Logger_Entity $entity)
     {
-        throw new \Exception("ChainLogger does not support post2 method");
+        throw new Exception("ChainLogger does not support post2 method");
     }
 
 

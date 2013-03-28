@@ -16,9 +16,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
-interface PackerInterface
+interface Fluent_Logger_PackerInterface
 {
-    public function pack(Entity $entity);
+    public function pack(Fluent_Logger_Entity $entity);
 }

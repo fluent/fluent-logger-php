@@ -16,9 +16,9 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
-class Exception extends \Exception
+class Fluent_Logger_Exception extends \Exception
 {
     protected $entity;
 
@@ -29,7 +29,7 @@ class Exception extends \Exception
      * @param int $code
      * @param \Exception|null $previous
      */
-    public function __construct(Entity $entity, $message = "", $code = 0, \Exception $previous = null)
+    public function __construct(Fluent_Logger_Entity $entity, $message = "", $code = 0, \Exception $previous = null)
     {
         $this->entity = $entity;
         parent::__construct($message, $code, $previous);

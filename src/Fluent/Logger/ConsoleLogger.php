@@ -16,7 +16,7 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
 /**
  * Console Logger
@@ -24,7 +24,7 @@ namespace Fluent\Logger;
  * Console Logger client outputs readable log message to stderr.
  *
  */
-class ConsoleLogger extends BaseLogger
+class Fluent_Logger_ConsoleLogger extends Fluent_Logger_BaseLogger
 {
     /* @var resource handle */
     protected $handle;
@@ -32,7 +32,7 @@ class ConsoleLogger extends BaseLogger
     /**
      * create Console logger object.
      *
-     * @return ConsoleLogger
+     * @return Fluent_Logger_ConsoleLogger
      */
     public function __construct()
     {
@@ -42,7 +42,7 @@ class ConsoleLogger extends BaseLogger
     /**
      * fluent-logger compatible API.
      *
-     * @return FluentLogger created logger object.
+     * @return Fluent_Logger_BaseLogger created logger object.
      */
     public static function open()
     {
@@ -58,15 +58,15 @@ class ConsoleLogger extends BaseLogger
      */
     public function post($tag ,array $data)
     {
-        $entity = new Entity($tag,$data);
+        $entity = new Fluent_Logger_Entity($tag,$data);
         return $this->postImpl($entity);
     }
 
     /**
-     * @param Entity $entity
+     * @param Fluent_Logger_Entity $entity
      * @return bool
      */
-    public function post2(Entity $entity)
+    public function post2(Fluent_Logger_Entity $entity)
     {
         return $this->postImpl($entity);
     }
@@ -75,7 +75,7 @@ class ConsoleLogger extends BaseLogger
      * @param Entity $entity
      * @return int
      */
-    protected function postImpl(Entity $entity)
+    protected function postImpl(Fluent_Logger_Entity $entity)
     {
         /*
          * example ouputs:
@@ -83,7 +83,7 @@ class ConsoleLogger extends BaseLogger
          */
         $format = "%s\t%s\t%s\n";
         return $this->write(sprintf($format,
-            date(\DateTime::ISO8601,$entity->getTime()),
+            date(DateTime::ISO8601,$entity->getTime()),
             $entity->getTag(),
             json_encode($entity->getData())
         ));

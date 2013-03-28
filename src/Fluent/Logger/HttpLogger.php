@@ -16,12 +16,12 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-namespace Fluent\Logger;
+//namespace Fluent\Logger;
 
 /**
  * Fluent HTTP logger class.
  */
-class HttpLogger extends BaseLogger
+class Fluent_Logger_HttpLogger extends Fluent_Logger_BaseLogger
 {
     const DEFAULT_HTTP_PORT = 8888;
 
@@ -34,9 +34,9 @@ class HttpLogger extends BaseLogger
      *
      * @param string $host
      * @param int $port
-     * @return HttpLogger
+     * @return Fluent_Logger_HttpLogger
      */
-    public function __construct($host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    public function __construct($host, $port = Fluent_Logger_HttpLogger::DEFAULT_HTTP_PORT)
     {
         $this->host = $host;
         $this->port = $port;
@@ -47,9 +47,9 @@ class HttpLogger extends BaseLogger
      *
      * @param string $host
      * @param int $port
-     * @return HttpLogger created http logger object.
+     * @return Fluent_Logger_HttpLogger created http logger object.
      */
-    public static function open($host, $port = HttpLogger::DEFAULT_HTTP_PORT)
+    public static function open($host, $port = Fluent_Logger_HttpLogger::DEFAULT_HTTP_PORT)
     {
         $logger = new self($host,$port);
         return $logger;
@@ -78,7 +78,7 @@ class HttpLogger extends BaseLogger
      * @param string $tag
      * @param array $data
      */
-    public function post2(Entity $entity)
+    public function post2(Fluent_Logger_Entity $entity)
     {
         $packed = json_encode($entity->getData());
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $entity->getTag(), urlencode($packed));

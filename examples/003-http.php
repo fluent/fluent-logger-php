@@ -1,14 +1,14 @@
 <?php
-require_once __DIR__.'/../src/Fluent/Autoloader.php';
+require_once dirname(__FILE__).'/../src/Fluent/Autoloader.php';
 
-use Fluent\Autoloader,
-    Fluent\Logger\ConsoleLogger,
-    Fluent\Logger\FluentLogger,
-    Fluent\Logger\HttpLogger;
+//use Fluent\Autoloader,
+//    Fluent\Logger\ConsoleLogger,
+//    Fluent\Logger\FluentLogger,
+//    Fluent\Logger\HttpLogger;
 
-Autoloader::register();
+Fluent_Autoloader::register();
 
-$logger = HttpLogger::open("localhost","8888");
+$logger = Fluent_Logger_HttpLogger::open("localhost","8888");
 
 /* simple request */
 $logger->post("debug.test",array("hello"=>"world"));
