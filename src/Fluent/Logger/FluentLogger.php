@@ -428,7 +428,7 @@ class FluentLogger extends BaseLogger
      */
     public function __destruct()
     {
-        if ($this->getOption("persistent")) {
+        if (!$this->getOption("persistent") && is_resource($this->socket)) {
             fclose($this->socket);
         }
     }
