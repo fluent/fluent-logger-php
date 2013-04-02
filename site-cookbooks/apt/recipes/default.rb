@@ -15,3 +15,14 @@ script "update_apt" do
     apt-get update
   EOH
 end
+
+package "libreadline6-dev"
+package "libyaml-dev"
+package "libsqlite3-dev"
+package "sqlite3"
+package "libxml2-dev"
+package "libxslt1-dev"
+package "libgdbm-dev"
+package "libncurses5-dev"
+package "pkg-config"
+package "libffi-dev"
