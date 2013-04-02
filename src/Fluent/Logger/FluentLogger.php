@@ -333,6 +333,7 @@ class FluentLogger extends BaseLogger
         try {
             $this->reconnect();
         } catch (\Exception $e) {
+            $this->close();
             $this->processError($entity, $e->getMessage());
             return false;
         }
@@ -379,6 +380,7 @@ class FluentLogger extends BaseLogger
                 $buffer   = substr($packed,$written);
             }
         } catch (\Exception $e) {
+            $this->close();
             $this->processError($entity, $e->getMessage());
             return false;
         }
