@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-require_recipe "ruby_build"
-require_recipe "rbenv::system"
+include_recipe "ruby_build"
+include_recipe "rbenv::system"
 
-rbenv_global "1.9.3-p0"
+rbenv_global "1.9.3-p385"

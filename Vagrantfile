@@ -1,6 +1,6 @@
 Vagrant::Config.run do |config|
-  config.vm.box     = "ubuntu-1104-server-amd64"
-  config.vm.box_url = "http://dl.dropbox.com/u/7490647/talifun-ubuntu-11.04-server-amd64.box"
+  config.vm.box     = "UbuntuServer12.04amd64"
+  config.vm.box_url = "http://goo.gl/8kWkm"
   config.vm.forward_port 80, 8082
 
   config.vm.provision :chef_solo do |chef|

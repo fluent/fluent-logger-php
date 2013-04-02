@@ -7,6 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 rbenv_gem "fluentd" do
-  rbenv_version   "1.9.3-p0"
+  rbenv_version   "1.9.3-p385"
   action          :install
 end
