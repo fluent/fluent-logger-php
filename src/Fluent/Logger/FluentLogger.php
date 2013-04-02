@@ -71,6 +71,7 @@ class FluentLogger extends BaseLogger
         "backoff_base"       => 3,
         "usleep_wait"        => self::USLEEP_WAIT,
         "persistent"         => false,
+        "retry_socket"       => true,
     );
 
     protected static $supported_transports = array(
@@ -85,6 +86,7 @@ class FluentLogger extends BaseLogger
         "backoff_base",
         "usleep_wait",
         "persistent",
+        "retry_socket",
     );
 
     protected static $instances = array();
@@ -352,6 +354,11 @@ class FluentLogger extends BaseLogger
                     // probably connection aborted.
                     throw new \Exception("connection aborted");
                 } else if ($nwrite === 0) {
+                    if (!$this->getOption("retry_socket", true)) {
+                        $this->processError($entity, "could not send entities");
+                        return false;
+                    }
+
                     if ($retry > self::MAX_WRITE_RETRY) {
                         throw new \Exception("failed fwrite retry: max retry count");
                     }
