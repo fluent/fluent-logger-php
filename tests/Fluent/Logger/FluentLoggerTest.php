@@ -30,21 +30,22 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
         $reflection->setValue($logger, $socket);
 
         $this->assertTrue($logger->post(self::TAG, array("foo" => "bar")), "Post method returned boolean");
+
         return $socket;
     }
 
     /**
      * @depends testPostWillReturnTrueInTheCaseOfPostingSuccessfully
      */
-    public function testPostedStringIsJson($socket)
-    {
-        fseek($socket, 0);
-        $actual = "";
-        while ($string = fread($socket, 1024)) {
-            $actual .= $string;
-        }
-        $this->assertStringMatchesFormat('["debug.test",%d,{"foo":"bar"}]', $actual);
-    }
+//    public function testPostedStringIsJson($socket)
+//    {
+//        fseek($socket, 0);
+//        $actual = "";
+//        while ($string = fread($socket, 1024)) {
+//            $actual .= $string;
+//        }
+//        $this->assertStringMatchesFormat('["debug.test",%d,{"foo":"bar"}]', $actual);
+//    }
 
     /**
      * Post will return false in the case of posting unsuccessfully by reached max retry count
