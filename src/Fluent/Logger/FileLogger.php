@@ -37,7 +37,11 @@ class FileLogger extends BaseLogger
     public function __construct($path)
     {
         $this->path = $path;
+
+        // don't raise error here.
+        $old_error_handler = set_error_handler(array($this, "ignoreError"));
         $fp = @fopen($path, "c");
+        set_error_handler($old_error_handler);
 
         if (is_resource($fp)) {
             $this->fp = $fp;
@@ -120,5 +124,10 @@ class FileLogger extends BaseLogger
             return false;
         }
         return true;
+    }
+
+    public function ignoreError($errno, $errstr, $errfile, $errline)
+    {
+        return;
     }
 }

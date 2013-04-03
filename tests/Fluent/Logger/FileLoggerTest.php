@@ -29,7 +29,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testFileCouldNotOpen()
     {
-        $logger = new FileLogger('/dev/null/hoge');
+        new FileLogger('/dev/null/hoge');
     }
 
     public function testOpenMethod()
