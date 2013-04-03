@@ -34,9 +34,12 @@ class ConsoleLogger extends BaseLogger
      *
      * @return ConsoleLogger
      */
-    public function __construct()
+    public function __construct($stream = null)
     {
-        $this->handle = fopen("php://stderr","w");
+        if (is_null($stream)) {
+            $stream = fopen("php://stderr","w");;
+        }
+        $this->handle = $stream;
     }
 
     /**

@@ -15,17 +15,16 @@ class ConsoleLoggerTest extends \PHPUnit_Framework_TestCase
     
     public function testPostMethod()
     {
-        $fp = fopen("php://memory","r+");
-        $logger = new ConsoleLogger();
-        $prop = new \ReflectionProperty($logger,"handle");
-        $prop->setAccessible(true);
-        $prop->setValue($logger,$fp);
+        $stream = fopen("php://memory","r+");
+        $logger = new ConsoleLogger($stream);
 
         $logger->post("debug.test",array("a"=>"b"));
-        fseek($fp,0);
-        $data = stream_get_contents($fp);
+        fseek($stream, 0);
+
+        $data = stream_get_contents($stream);
         $this->assertTrue((bool)preg_match("/debug.test\t\{\"a\":\"b\"\}/",$data),
             "ConsoleLogger::post could not write correctly.\nresult: {$data}");
-        fclose($fp);
+
+        fclose($stream);
     }
 }
