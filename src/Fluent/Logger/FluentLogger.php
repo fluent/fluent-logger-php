@@ -142,7 +142,7 @@ class FluentLogger extends BaseLogger
                 throw new \Exception("transport `{$transport}` does not support");
             }
 
-            /* unix socket is deprecated. */
+            // Now, unix socket is recommended on PHP client.
             if ($transport == "unix") {
                 /* unix domain socket have to ignore port number */
                 $result = "unix://" . $host;
