@@ -96,6 +96,7 @@ class FileLogger extends BaseLogger
 
         $length  = strlen($data);
         $written = 0;
+        $retry   = 0;
 
         try {
             if (!flock($this->fp, LOCK_EX)) {
