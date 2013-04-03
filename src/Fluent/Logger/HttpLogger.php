@@ -28,12 +28,12 @@ class HttpLogger extends BaseLogger
     protected $tag;
     protected $host;
     protected $port;
-    
+
     /**
      * create fluent http logger object.
      *
      * @param string $host
-     * @param int $port
+     * @param int    $port
      * @return HttpLogger
      */
     public function __construct($host, $port = HttpLogger::DEFAULT_HTTP_PORT)
@@ -41,17 +41,18 @@ class HttpLogger extends BaseLogger
         $this->host = $host;
         $this->port = $port;
     }
-    
+
     /**
      * fluent-logger compatible API.
      *
      * @param string $host
-     * @param int $port
+     * @param int    $port
      * @return HttpLogger created http logger object.
      */
     public static function open($host, $port = HttpLogger::DEFAULT_HTTP_PORT)
     {
-        $logger = new self($host,$port);
+        $logger = new self($host, $port);
+
         return $logger;
     }
 
@@ -60,14 +61,15 @@ class HttpLogger extends BaseLogger
      *
      * @todo use HTTP1.1 protocol and persistent socket.
      * @param string $tag
-     * @param array $data
+     * @param array  $data
      */
     public function post($tag, array $data)
     {
-        $packed = json_encode($data);
+        $packed  = json_encode($data);
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $tag, urlencode($packed));
 
         $ret = file_get_contents($request);
+
         return ($ret !== false);
     }
 
@@ -76,14 +78,15 @@ class HttpLogger extends BaseLogger
      *
      * @todo use HTTP1.1 protocol and persistent socket.
      * @param string $tag
-     * @param array $data
+     * @param array  $data
      */
     public function post2(Entity $entity)
     {
-        $packed = json_encode($entity->getData());
+        $packed  = json_encode($entity->getData());
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $entity->getTag(), urlencode($packed));
 
         $ret = file_get_contents($request);
+
         return ($ret !== false);
     }
 

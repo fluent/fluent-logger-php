@@ -28,7 +28,7 @@ abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
     protected $error_handler = null;
 
     /**
-     * @param $entity
+     * @param      $entity
      * @param void $error error message
      */
     public function defaultErrorHandler(BaseLogger $logger, Entity $entity, $error)
@@ -38,7 +38,7 @@ abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
 
     /**
      * @param Entity $entity
-     * @param void $error error message
+     * @param void   $error error message
      */
     protected function processError(Entity $entity, $error)
     {
@@ -61,6 +61,7 @@ abstract class BaseLogger implements \Fluent\Logger\LoggerInterface
         } else {
             throw new \InvalidArgumentException("Error handler must be callable.");
         }
+
         return true;
     }
 }

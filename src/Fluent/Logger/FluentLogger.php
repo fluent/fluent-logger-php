@@ -1,15 +1,15 @@
 <?php
 /**
  *  Fluent-Logger-PHP
- * 
+ *
  *  Copyright (C) 2011 - 2012 Fluent-Logger-PHP Contributors
- * 
+ *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
  *     You may obtain a copy of the License at
- * 
+ *
  *         http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *     Unless required by applicable law or agreed to in writing, software
  *     distributed under the License is distributed on an "AS IS" BASIS,
  *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,8 +26,8 @@ namespace Fluent\Logger;
 class FluentLogger extends BaseLogger
 {
     const CONNECTION_TIMEOUT = 3;
-    const SOCKET_TIMEOUT = 3;
-    const MAX_WRITE_RETRY = 5;
+    const SOCKET_TIMEOUT     = 3;
+    const MAX_WRITE_RETRY    = 5;
 
     /* 1000 means 0.001 sec */
     const USLEEP_WAIT = 1000;
@@ -90,14 +90,14 @@ class FluentLogger extends BaseLogger
     );
 
     protected static $instances = array();
-    
+
     /**
      * create fluent logger object.
      *
      *
-     * @param string $host
-     * @param int $port
-     * @param array $options
+     * @param string          $host
+     * @param int             $port
+     * @param array           $options
      * @param PackerInterface $packer
      * @return FluentLogger
      */
@@ -134,9 +134,9 @@ class FluentLogger extends BaseLogger
      */
     public static function getTransportUri($host, $port)
     {
-        if (($pos = strpos($host,"://")) !== false) {
-            $transport = substr($host,0,$pos);
-            $host = substr($host, $pos + 3);
+        if (($pos = strpos($host, "://")) !== false) {
+            $transport = substr($host, 0, $pos);
+            $host      = substr($host, $pos + 3);
 
             if (!in_array($transport, self::$supported_transports)) {
                 throw new \Exception("transport `{$transport}` does not support");
@@ -147,21 +147,21 @@ class FluentLogger extends BaseLogger
                 /* unix domain socket have to ignore port number */
                 $result = "unix://" . $host;
             } else {
-                if (strpos($host,"::") !== false) {
+                if (strpos($host, "::") !== false) {
                     /* ipv6 address should be surrounded brackets */
-                    $host = sprintf("[%s]",trim($host,"[]"));
+                    $host = sprintf("[%s]", trim($host, "[]"));
                 }
 
-                $result = sprintf("%s://%s:%d",$transport, $host, $port);
+                $result = sprintf("%s://%s:%d", $transport, $host, $port);
             }
 
         } else {
-            if (strpos($host,"::") !== false) {
+            if (strpos($host, "::") !== false) {
                 /* ipv6 address should be surrounded brackets */
-                $host = sprintf("[%s]",trim($host,"[]"));
+                $host = sprintf("[%s]", trim($host, "[]"));
             }
 
-            $result = sprintf("tcp://%s:%d",$host, $port);
+            $result = sprintf("tcp://%s:%d", $host, $port);
         }
 
         return $result;
@@ -216,21 +216,21 @@ class FluentLogger extends BaseLogger
         $this->options = array();
         $this->mergeOptions($options);
     }
-    
+
     /**
      * fluent-logger compatible API.
      *
      * @param string $host
-     * @param int $port
-     * @param array $options
+     * @param int    $port
+     * @param array  $options
      * @return FluentLogger created logger object.
      */
-    public static function open($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT,  array $options = array())
+    public static function open($host = FluentLogger::DEFAULT_ADDRESS, $port = FluentLogger::DEFAULT_LISTEN_PORT, array $options = array())
     {
-        $key = sprintf("%s:%s:%s", $host, $port, md5(join(",",$options)));
+        $key = sprintf("%s:%s:%s", $host, $port, md5(join(",", $options)));
 
         if (!isset(self::$instances[$key])) {
-            $logger = new self($host,$port, $options);
+            $logger                = new self($host, $port, $options);
             self::$instances[$key] = $logger;
         }
 
@@ -266,9 +266,9 @@ class FluentLogger extends BaseLogger
 
         // could not suppress warning without ini setting.
         // for now, we use error control operators. 
-        $socket = @stream_socket_client($this->transport,$errno,$errstr,
-                    $this->getOption("connection_timeout",self::CONNECTION_TIMEOUT),
-                    $connect_options
+        $socket = @stream_socket_client($this->transport, $errno, $errstr,
+            $this->getOption("connection_timeout", self::CONNECTION_TIMEOUT),
+            $connect_options
         );
 
         if (!$socket) {
@@ -277,10 +277,10 @@ class FluentLogger extends BaseLogger
         }
 
         // set read / write timeout.
-        stream_set_timeout($socket,$this->getOption("socket_timeout",self::SOCKET_TIMEOUT));
+        stream_set_timeout($socket, $this->getOption("socket_timeout", self::SOCKET_TIMEOUT));
         $this->socket = $socket;
     }
-    
+
     /**
      * create a connection if Fluent Logger hasn't a socket connection.
      *
@@ -292,12 +292,12 @@ class FluentLogger extends BaseLogger
             $this->connect();
         }
     }
-    
+
     /**
      * send a message to specified fluentd.
      *
      * @param string $tag
-     * @param array $data
+     * @param array  $data
      * @return bool
      *
      * @api
@@ -305,6 +305,7 @@ class FluentLogger extends BaseLogger
     public function post($tag, array $data)
     {
         $entity = new Entity($tag, $data);
+
         return $this->postImpl($entity);
     }
 
@@ -337,6 +338,7 @@ class FluentLogger extends BaseLogger
         } catch (\Exception $e) {
             $this->close();
             $this->processError($entity, $e->getMessage());
+
             return false;
         }
 
@@ -356,6 +358,7 @@ class FluentLogger extends BaseLogger
                 } else if ($nwrite === 0) {
                     if (!$this->getOption("retry_socket", true)) {
                         $this->processError($entity, "could not send entities");
+
                         return false;
                     }
 
@@ -370,25 +373,26 @@ class FluentLogger extends BaseLogger
                             $this->close();
                             $this->reconnect();
                         } else {
-                            error_log("unhandled error detected. please report this issue to http://github.com/fluent/fluent-logger-php/issues: " . var_export($errors,true));
+                            error_log("unhandled error detected. please report this issue to http://github.com/fluent/fluent-logger-php/issues: " . var_export($errors, true));
                         }
                     }
 
-                    if ($this->getOption('backoff_mode',self::BACKOFF_TYPE_EXPONENTIAL) == self::BACKOFF_TYPE_EXPONENTIAL) {
+                    if ($this->getOption('backoff_mode', self::BACKOFF_TYPE_EXPONENTIAL) == self::BACKOFF_TYPE_EXPONENTIAL) {
                         $this->backoffExponential(3, $retry);
                     } else {
-                        usleep($this->getOption("usleep_wait",self::USLEEP_WAIT));
+                        usleep($this->getOption("usleep_wait", self::USLEEP_WAIT));
                     }
                     $retry++;
                     continue;
                 }
 
                 $written += $nwrite;
-                $buffer   = substr($packed,$written);
+                $buffer = substr($packed, $written);
             }
         } catch (\Exception $e) {
             $this->close();
             $this->processError($entity, $e->getMessage());
+
             return false;
         }
 
@@ -403,7 +407,7 @@ class FluentLogger extends BaseLogger
      */
     public function backoffExponential($base, $attempt)
     {
-        usleep(pow($base, $attempt)*1000);
+        usleep(pow($base, $attempt) * 1000);
     }
 
 
@@ -445,7 +449,7 @@ class FluentLogger extends BaseLogger
     /**
      * get specified option's value
      *
-     * @param $key
+     * @param      $key
      * @param null $default
      * @return mixed
      */

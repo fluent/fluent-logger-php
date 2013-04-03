@@ -32,8 +32,8 @@ class Entity
     /**
      * create a entity for sending to fluentd server
      *
-     * @param $tag
-     * @param $data
+     * @param     $tag
+     * @param     $data
      * @param int $time unixtime
      */
     public function __construct($tag, $data, $time = null)
@@ -48,7 +48,7 @@ class Entity
             $this->time = time();
         }
 
-        $this->tag = $tag;
+        $this->tag  = $tag;
         $this->data = $data;
     }
 

@@ -23,10 +23,10 @@ class Exception extends \Exception
     protected $entity;
 
     /**
-     * @param $tag
-     * @param $data
-     * @param string $message
-     * @param int $code
+     * @param                 $tag
+     * @param                 $data
+     * @param string          $message
+     * @param int             $code
      * @param \Exception|null $previous
      */
     public function __construct(Entity $entity, $message = "", $code = 0, \Exception $previous = null)
