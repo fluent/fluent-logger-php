@@ -349,7 +349,7 @@ class FluentLogger extends BaseLogger
 
                 if ($nwrite === false) {
                     // could not write messages to the socket.
-                    // Todo: check fwrite implementation.
+                    // e.g) Resource temporarily unavailable
                     throw new \Exception("could not write message");
                 } else if ($nwrite === "") {
                     // sometimes fwrite returns null string.
@@ -363,15 +363,17 @@ class FluentLogger extends BaseLogger
                     }
 
                     if ($retry > self::MAX_WRITE_RETRY) {
-                        throw new \Exception("failed fwrite retry: max retry count");
+                        throw new \Exception("failed fwrite retry: retry count exceeds limit.");
                     }
 
                     $errors = error_get_last();
                     if ($errors) {
-                        if (isset($errors['message']) && strpos($errors['message'], 'errno=32') !== false) {
-                            /* breaking pipes: we have to close socket manualy */
+                        if (isset($errors['message']) && strpos($errors['message'], 'errno=32 ') !== false) {
+                            /* breaking pipes: we have to close socket manually */
                             $this->close();
                             $this->reconnect();
+                        } else if (isset($errors['message']) && strpos($errors['message'], 'errno=11 ') !== false) {
+                            // we can ignore EAGAIN message. just retry.
                         } else {
                             error_log("unhandled error detected. please report this issue to http://github.com/fluent/fluent-logger-php/issues: " . var_export($errors, true));
                         }
@@ -419,7 +421,8 @@ class FluentLogger extends BaseLogger
      */
     protected function write($buffer)
     {
-        return fwrite($this->socket, $buffer);
+        // We handle fwrite error on postImpl block. ignore error message here.
+        return @fwrite($this->socket, $buffer);
     }
 
     /**
