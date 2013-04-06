@@ -30,7 +30,7 @@ Basically, we uses vagrant as a development sandbox.
 ````
 gem install vagrant --no-ri --no-rdoc
 gem install chef --no-ri --no-rdoc
-gem install librarian-chef --no-ri --no-rdoc
+gem install librarian --no-ri --no-rdoc
 
 git clone https://github.com/fluent/fluent-logger-php.git
 cd fluent-logger-php
