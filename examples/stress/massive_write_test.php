@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__DIR__) .'/src/Fluent/Autoloader.php';
+require_once dirname(dirname(__DIR__)) .'/src/Fluent/Autoloader.php';
 
 if (!getenv("PHP_FLUENT_TEST")) {
-    echo 'this test case runs through current server resource. please do with `PHP_FLUENT_TEST=1 php ops/massive_write_test.php`' . PHP_EOL;
+    echo 'this test case runs through current server resource. please do with `PHP_FLUENT_TEST=1 php massive_write_test.php`' . PHP_EOL;
     exit;
 }
 
@@ -40,8 +40,8 @@ foreach($pids as $_pid) {
 echo PHP_EOL;
 
 function execute(){
-    //$logger = new FluentLogger("unix:///tmp/fluent");
-    $logger = new FluentLogger("tcp://0.0.0.0:24224");
+    //$logger = new FluentLogger("tcp://0.0.0.0:24224");
+    $logger = new FluentLogger("unix:///tmp/fluent");
 
     for(;;){
       $logger->post("debug.test", $_SERVER);
