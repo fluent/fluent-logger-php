@@ -7,7 +7,8 @@ namespace FluentTests\FluentLogger;
 use Fluent\Logger;
 use Fluent\Logger\FluentLogger;
 
-function fluentTests_FluentLogger_DummyFunction () {
+function fluentTests_FluentLogger_DummyFunction()
+{
 }
 
 class BaseLoggerTest extends \PHPUnit_Framework_TestCase
@@ -33,7 +34,8 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
                 array($this, 'errorHandlerProvider')
             ),
             array(
-                function () {}, // closure
+                function () {
+                }, // closure
             ),
         );
     }

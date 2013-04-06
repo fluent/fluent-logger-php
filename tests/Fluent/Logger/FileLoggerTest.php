@@ -29,7 +29,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testFileCouldNotOpen()
     {
-        $logger = new FileLogger('/dev/null/hoge');
+        new FileLogger('/dev/null/hoge');
     }
 
     public function testOpenMethod()
@@ -46,7 +46,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
         $logger = new FileLogger(self::$FILE_PATH);
         $this->assertTrue($logger->post($tag, array("a" => "b")));
 
-        $data = file_get_contents(self::$FILE_PATH);
+        $data     = file_get_contents(self::$FILE_PATH);
         $expected = preg_quote("$tag\t" . '{"a":"b"}');
         $this->assertRegExp("/$expected/", $data,
             "FileLogger::post could not write correctly.\nresult: {$data}");
@@ -57,11 +57,11 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
         $this->cleanUpFile();
 
         $logger = new FileLogger(self::$FILE_PATH);
-        $lines = array(
+        $lines  = array(
             array('a' => 'b'),
             array('c' => 'd'),
         );
-        $tag = 'test.filelogger_multiline';
+        $tag    = 'test.filelogger_multiline';
         foreach ($lines as $k => $line) {
             $this->assertTrue($logger->post($tag, $line));
         }
@@ -85,7 +85,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase
         $entity = new Entity($tag, array("a" => "b"));
         $this->assertTrue($logger->post2($entity));
 
-        $data = file_get_contents(self::$FILE_PATH);
+        $data     = file_get_contents(self::$FILE_PATH);
         $expected = preg_quote("$tag\t" . '{"a":"b"}');
         $this->assertRegExp("/$expected/", $data,
             "FileLogger::post2 could not write correctly.");

@@ -28,15 +28,18 @@ class ConsoleLogger extends BaseLogger
 {
     /* @var resource handle */
     protected $handle;
-    
+
     /**
      * create Console logger object.
      *
      * @return ConsoleLogger
      */
-    public function __construct()
+    public function __construct($stream = null)
     {
-        $this->handle = fopen("php://stderr","w");
+        if (is_null($stream)) {
+            $stream = fopen("php://stderr", "w");
+        }
+        $this->handle = $stream;
     }
 
     /**
@@ -47,6 +50,7 @@ class ConsoleLogger extends BaseLogger
     public static function open()
     {
         $logger = new self();
+
         return $logger;
     }
 
@@ -54,11 +58,12 @@ class ConsoleLogger extends BaseLogger
      * send a message to specified fluentd.
      *
      * @param string $tag
-     * @param array $data
+     * @param array  $data
      */
-    public function post($tag ,array $data)
+    public function post($tag, array $data)
     {
-        $entity = new Entity($tag,$data);
+        $entity = new Entity($tag, $data);
+
         return $this->postImpl($entity);
     }
 
@@ -82,8 +87,9 @@ class ConsoleLogger extends BaseLogger
          *   2012-02-26T01:26:20+0900        debug.test      {"hello":"world"}
          */
         $format = "%s\t%s\t%s\n";
+
         return $this->write(sprintf($format,
-            date(\DateTime::ISO8601,$entity->getTime()),
+            date(\DateTime::ISO8601, $entity->getTime()),
             $entity->getTag(),
             json_encode($entity->getData())
         ));

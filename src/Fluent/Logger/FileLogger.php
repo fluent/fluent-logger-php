@@ -37,7 +37,11 @@ class FileLogger extends BaseLogger
     public function __construct($path)
     {
         $this->path = $path;
+
+        // don't raise error here.
+        $old_error_handler = set_error_handler(array($this, "ignoreError"));
         $fp = @fopen($path, "c");
+        set_error_handler($old_error_handler);
 
         if (is_resource($fp)) {
             $this->fp = $fp;
@@ -54,6 +58,7 @@ class FileLogger extends BaseLogger
     public static function open($path)
     {
         $logger = new self($path);
+
         return $logger;
     }
 
@@ -61,11 +66,12 @@ class FileLogger extends BaseLogger
      * write a message to specified path.
      *
      * @param string $tag
-     * @param array $data
+     * @param array  $data
      */
-    public function post($tag,array $data)
+    public function post($tag, array $data)
     {
         $entity = new Entity($tag, $data);
+
         return $this->postImpl($entity);
     }
 
@@ -82,21 +88,21 @@ class FileLogger extends BaseLogger
     protected function postImpl(Entity $entity)
     {
         $packed = json_encode($entity->getData());
-        $data = $wbuffer = sprintf("%s\t%s\t%s\n",
-                        date(\DateTime::ISO8601,
-                        $entity->getTime()),
-                        $entity->getTag(),
-                        $packed . PHP_EOL
+        $data   = $wbuffer = sprintf("%s\t%s\t%s\n",
+            date(\DateTime::ISO8601, $entity->getTime()),
+            $entity->getTag(),
+            $packed . PHP_EOL
         );
 
-        $length = strlen($data);
+        $length  = strlen($data);
         $written = 0;
+        $retry   = 0;
 
         try {
             if (!flock($this->fp, LOCK_EX)) {
                 throw new \Exception('could not obtain LOCK_EX');
             }
-            fseek($this->fp,-1, SEEK_END);
+            fseek($this->fp, -1, SEEK_END);
 
             while ($written < $length) {
                 $nwrite = fwrite($this->fp, $wbuffer);
@@ -111,14 +117,21 @@ class FileLogger extends BaseLogger
                     $retry++;
                 }
                 $written += $nwrite;
-                $wbuffer = substr($wbuffer,$written);
+                $wbuffer = substr($wbuffer, $written);
             }
 
             flock($this->fp, LOCK_UN);
         } catch (\Exception $e) {
             $this->processError($this, $entity, $e->getMessage());
+
             return false;
         }
+
         return true;
+    }
+
+    public function ignoreError($errno, $errstr, $errfile, $errline)
+    {
+        return;
     }
 }

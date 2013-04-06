@@ -26,7 +26,7 @@ namespace Fluent\Logger;
  */
 class ChainLogger extends BaseLogger
 {
-    protected $chain  = array();
+    protected $chain = array();
     protected $errors = array();
 
     public function __construct()
@@ -35,7 +35,7 @@ class ChainLogger extends BaseLogger
 
     public function addLogger(\Fluent\Logger\BaseLogger $logger)
     {
-        $logger->registerErrorHandler(array($this,"defaultErrorHandler"));
+        $logger->registerErrorHandler(array($this, "defaultErrorHandler"));
 
         $this->chain[] = $logger;
     }
@@ -47,7 +47,7 @@ class ChainLogger extends BaseLogger
 
     /**
      * @param string $tag
-     * @param array $data
+     * @param array  $data
      *
      * @api
      */

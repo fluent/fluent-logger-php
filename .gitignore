@@ -3,3 +3,6 @@ builds
 .idea
 docs
 phpunit.xml
+cookbooks/
+tmp/
+*.iml

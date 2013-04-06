@@ -6,8 +6,9 @@
 
 ## API Document
 
-current version: v0.3.6
+current version: v0.3.7
 
+- http://fluent.github.com/fluent-logger-php/v0.3.7
 - http://fluent.github.com/fluent-logger-php/v0.3.6
 - http://fluent.github.com/fluent-logger-php/v0.3.3
 - http://fluent.github.com/fluent-logger-php/v0.3.2
@@ -24,16 +25,21 @@ current version: v0.3.6
 
 ### Using Vagrant
 
+Basically, we uses vagrant as a development sandbox.
+
+
 ````
 gem install vagrant --no-ri --no-rdoc
 gem install chef --no-ri --no-rdoc
+gem install librarian --no-ri --no-rdoc
 
-git clone https://github.com/fluent/fluent-logger-php.git --recursive
+git clone https://github.com/fluent/fluent-logger-php.git
 cd fluent-logger-php
+librarian-chef install
 vagrant up
 
 # this may take 30 minutes over if you don't have the box.
-# this box installed rbenv, ruby1.9.3-p0 and fluentd. you can play fluentd and php with this box. enjoy it!
+# this box installed rvm, ruby1.9.3-p392 and fluentd. you can play fluentd and php with this box. enjoy it!
 # you can log in to the box with following command `vagrant ssh`
 ````
 
@@ -46,7 +52,7 @@ composer.json
     "name": "my-project",
     "version": "1.0.0",
     "require": {
-        "fluent/logger": "v0.3.6"
+        "fluent/logger": "v0.3.7"
     }
 }
 ````
