@@ -68,7 +68,12 @@ class HttpLogger extends BaseLogger
         $packed  = json_encode($data);
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $tag, urlencode($packed));
 
-        $ret = file_get_contents($request);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $request);
+        $ret = curl_exec($ch);
+        curl_close($ch);
 
         return ($ret !== false);
     }
@@ -85,7 +90,12 @@ class HttpLogger extends BaseLogger
         $packed  = json_encode($entity->getData());
         $request = sprintf('http://%s:%d/%s?json=%s', $this->host, $this->port, $entity->getTag(), urlencode($packed));
 
-        $ret = file_get_contents($request);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $request);
+        $ret = curl_exec($ch);
+        curl_close($ch);
 
         return ($ret !== false);
     }
