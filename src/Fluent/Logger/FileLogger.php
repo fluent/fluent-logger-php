@@ -88,7 +88,7 @@ class FileLogger extends BaseLogger
     protected function postImpl(Entity $entity)
     {
         $packed = json_encode($entity->getData());
-        $data   = $wbuffer = sprintf("%s\t%s\t%s\n",
+        $data   = $wbuffer = sprintf("%s\t%s\t%s",
             date(\DateTime::ISO8601, $entity->getTime()),
             $entity->getTag(),
             $packed . PHP_EOL
