@@ -72,6 +72,7 @@ class FluentLogger extends BaseLogger
         "usleep_wait"        => self::USLEEP_WAIT,
         "persistent"         => false,
         "retry_socket"       => true,
+        "max_write_retry"    => self::MAX_WRITE_RETRY,
     );
 
     protected static $supported_transports = array(
@@ -87,6 +88,7 @@ class FluentLogger extends BaseLogger
         "usleep_wait",
         "persistent",
         "retry_socket",
+        "max_write_retry",
     );
 
     protected static $instances = array();
@@ -362,7 +364,7 @@ class FluentLogger extends BaseLogger
                         return false;
                     }
 
-                    if ($retry > self::MAX_WRITE_RETRY) {
+                    if ($retry > $this->getOption("max_write_retry", self::MAX_WRITE_RETRY)) {
                         throw new \Exception("failed fwrite retry: retry count exceeds limit.");
                     }
 
