@@ -70,7 +70,7 @@ class FileLogger extends BaseLogger
      */
     public function post($tag, array $data)
     {
-        $entity = new Entity($tag, $data);
+        $entity = new Entity(trim($tag), $data);
 
         return $this->postImpl($entity);
     }
