@@ -327,7 +327,6 @@ class FluentLogger extends BaseLogger
      *
      * @param \Fluent\Logger\Entity $entity
      * @return bool
-     * @throws \Exception
      */
     protected function postImpl(Entity $entity)
     {
