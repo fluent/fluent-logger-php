@@ -6,3 +6,5 @@ phpunit.xml
 cookbooks/
 tmp/
 *.iml
+composer.lock
+vendor
