@@ -48,6 +48,18 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 //    }
 
     /**
+     *  fwrite on read only memory returns zero
+     *  HHVM has a bug which returns a positive integer
+     *  see https://github.com/facebook/hhvm/issues/5187
+     */
+    public function testFwriteOnReadonlyMemoryRreturnsZero()
+    {
+        $n = fwrite(fopen("php://memory", "r"), "hello");
+        $this->assertEquals(0, $n, "fwrite on ROM returns 0");
+    }
+
+
+    /**
      * Post will return false in the case of posting unsuccessfully by reached max retry count
      */
     public function testPostWillReturnFalseInTheCaseOfPostingUnsuccessfullyByReachedMaxRetryCount()
