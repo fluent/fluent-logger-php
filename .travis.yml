@@ -7,4 +7,4 @@ notifications:
   email: false
   irc: "irc.freenode.org#fluent-php"
 
-script: phpunit --coverage-text
+script: ./vendor/bin/phpunit --coverage-text
