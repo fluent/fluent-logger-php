@@ -1,9 +1,7 @@
 builds
-.vagrant
 .idea
 docs
 phpunit.xml
-cookbooks/
 tmp/
 *.iml
 composer.lock
