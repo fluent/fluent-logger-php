@@ -1,3 +1,0 @@
-site "http://community.opscode.com/api/v1"
-
-cookbook 'rvm', :git => 'git://github.com/fnichol/chef-rvm.git', :ref => "master"
