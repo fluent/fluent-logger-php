@@ -12,6 +12,9 @@
          stopOnIncomplete="false"
          stopOnSkipped="false"
          syntaxCheck="true"
+         reportUselessTests="true"
+         strictCoverage="true"
+         disallowTestOutput="true"
          verbose="true">
   <php>
     <ini name="date.timezone" value="Asia/Tokyo" />
