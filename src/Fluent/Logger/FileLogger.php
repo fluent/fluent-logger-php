@@ -88,7 +88,7 @@ class FileLogger extends BaseLogger
     protected function postImpl(Entity $entity)
     {
         $packed = json_encode($entity->getData());
-        $data   = $wbuffer = sprintf("%s\t%s\t%s\n",
+        $data   = $wbuffer = sprintf("%s\t%s\t%s",
             date(\DateTime::ISO8601, $entity->getTime()),
             $entity->getTag(),
             $packed . PHP_EOL
@@ -102,7 +102,7 @@ class FileLogger extends BaseLogger
             if (!flock($this->fp, LOCK_EX)) {
                 throw new \Exception('could not obtain LOCK_EX');
             }
-            fseek($this->fp, -1, SEEK_END);
+            fseek($this->fp, 0, SEEK_END);
 
             while ($written < $length) {
                 $nwrite = fwrite($this->fp, $wbuffer);
