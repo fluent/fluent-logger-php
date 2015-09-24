@@ -15,6 +15,7 @@
          reportUselessTests="true"
          strictCoverage="true"
          disallowTestOutput="true"
+         beStrictAboutTestSize="true"
          verbose="true">
   <php>
     <ini name="date.timezone" value="Asia/Tokyo" />
