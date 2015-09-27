@@ -41,13 +41,10 @@ cp -r src/Fluent <path/to/your_project>
 
 ```php
 <?php
-// you can choose your own AutoLoader
-require_once __DIR__.'/src/Fluent/Autoloader.php';
+
+require_once __DIR__.'/vendor/autoload.php';
 
 use Fluent\Logger\FluentLogger;
-
-Fluent\Autoloader::register();
-
 $logger = new FluentLogger("localhost","24224");
 $logger->post("debug.test",array("hello"=>"world"));
 ```
