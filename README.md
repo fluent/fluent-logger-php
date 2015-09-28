@@ -8,13 +8,7 @@
 
 current version: v0.3.7
 
-- http://fluent.github.com/fluent-logger-php/v0.3.7
-- http://fluent.github.com/fluent-logger-php/v0.3.6
 - http://fluent.github.com/fluent-logger-php/v0.3.3
-- http://fluent.github.com/fluent-logger-php/v0.3.2
-- http://fluent.github.com/fluent-logger-php/v0.3.1
-- http://fluent.github.com/fluent-logger-php/v0.3.0
-- http://fluent.github.com/fluent-logger-php/v0.1.0
 
 ## Requirements
 
