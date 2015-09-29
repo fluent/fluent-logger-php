@@ -17,25 +17,11 @@ composer.json
 
 ```json
 {
-    "name": "my-project",
-    "version": "1.0.0",
     "require": {
         "fluent/logger": "v0.3.7"
     }
 }
 ```
-
-````
-wget http://getcomposer.org/composer.phar
-php -d detect_unicode=0 composer.phar install
-````
-
-### copy directory
-
-````
-git clone https://github.com/fluent/fluent-logger-php.git
-cp -r src/Fluent <path/to/your_project>
-````
 
 # Usage
 
