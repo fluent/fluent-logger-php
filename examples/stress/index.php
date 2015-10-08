@@ -1,8 +1,7 @@
 <?php
-require_once dirname(dirname(__DIR__)) .'/src/Fluent/Autoloader.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use Fluent\Logger\FluentLogger;
-Fluent\Autoloader::register();
 
 $begin = microtime(true);
 
