@@ -93,6 +93,8 @@ class FluentLogger implements LoggerInterface
 
     protected static $instances = array();
 
+    protected $error_handler = null;
+
     /**
      * create fluent logger object.
      *
@@ -124,8 +126,6 @@ class FluentLogger implements LoggerInterface
 
         $this->mergeOptions($options);
     }
-
-    protected $error_handler = null;
 
     /**
      * @param      $entity
