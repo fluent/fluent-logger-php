@@ -23,7 +23,7 @@ namespace Fluent\Logger;
  *
  * Fluent Logger client communicates to Fluentd with json formatted messages.
  */
-class FluentLogger extends BaseLogger
+class FluentLogger implements LoggerInterface
 {
     const CONNECTION_TIMEOUT = 3;
     const SOCKET_TIMEOUT     = 3;
@@ -123,6 +123,46 @@ class FluentLogger extends BaseLogger
         $this->packer = $packer;
 
         $this->mergeOptions($options);
+    }
+
+    protected $error_handler = null;
+
+    /**
+     * @param      $entity
+     * @param void $error error message
+     */
+    public function defaultErrorHandler(FluentLogger $logger, Entity $entity, $error)
+    {
+        error_log(sprintf("%s %s %s: %s", get_class($logger), $error, $entity->getTag(), json_encode($entity->getData())));
+    }
+
+    /**
+     * @param Entity $entity
+     * @param void   $error error message
+     */
+    protected function processError(Entity $entity, $error)
+    {
+        if (!is_null($this->error_handler)) {
+            call_user_func_array($this->error_handler, array($this, $entity, $error));
+        } else {
+            $this->defaultErrorHandler($this, $entity, $error);
+        }
+    }
+
+    /**
+     * @param  callable  $callable function name, array or closure
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    public function registerErrorHandler($callable)
+    {
+        if (is_callable($callable)) {
+            $this->error_handler = $callable;
+        } else {
+            throw new \InvalidArgumentException("Error handler must be callable.");
+        }
+
+        return true;
     }
 
     /**
@@ -267,7 +307,7 @@ class FluentLogger extends BaseLogger
         }
 
         // could not suppress warning without ini setting.
-        // for now, we use error control operators. 
+        // for now, we use error control operators.
         $socket = @stream_socket_client($this->transport, $errno, $errstr,
             $this->getOption("connection_timeout", self::CONNECTION_TIMEOUT),
             $connect_options

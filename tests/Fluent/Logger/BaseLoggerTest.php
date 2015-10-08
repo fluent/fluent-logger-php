@@ -20,7 +20,7 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterErrorHandler($eh)
     {
-        $base = $this->getMockForAbstractClass('Fluent\Logger\BaseLogger');
+        $base = $this->getMockForAbstractClass('Fluent\Logger\FluentLogger');
         $this->assertTrue($base->registerErrorHandler($eh));
     }
 
@@ -46,7 +46,7 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterInvalidErrorHandler($eh)
     {
-        $base = $this->getMockForAbstractClass('Fluent\Logger\BaseLogger');
+        $base = $this->getMockForAbstractClass('Fluent\Logger\FluentLogger');
         $base->registerErrorHandler($eh);
     }
 
