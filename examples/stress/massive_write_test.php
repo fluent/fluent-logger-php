@@ -1,5 +1,5 @@
 <?php
-require_once dirname(dirname(__DIR__)) .'/src/Fluent/Autoloader.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 if (!getenv("PHP_FLUENT_TEST")) {
     echo 'this test case runs through current server resource. please do with `PHP_FLUENT_TEST=1 php massive_write_test.php`' . PHP_EOL;
@@ -7,7 +7,6 @@ if (!getenv("PHP_FLUENT_TEST")) {
 }
 
 use Fluent\Logger\FluentLogger;
-Fluent\Autoloader::register();
 
 $start_time = microtime(true)+3;
 $pids = array();
