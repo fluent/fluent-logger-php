@@ -25,7 +25,7 @@ composer.json
 
 # Backward Compatibility CHnages
 
-As of v4, other loggers but FluentLogger are removed.
+As of v4, all loggers but `FluentLogger` are removed.
 
 'Monolog' is recommended in such use cases.
 
