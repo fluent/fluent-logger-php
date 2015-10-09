@@ -27,7 +27,7 @@ composer.json
 
 As of v4, all loggers but `FluentLogger` are removed.
 
-'Monolog' is recommended in such use cases.
+[Monolog](https://github.com/Seldaek/monolog) is recommended in such use cases.
 
 # Usage
 
