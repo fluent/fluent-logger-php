@@ -6,8 +6,6 @@
 
 ## API Document
 
-current version: v0.3.7
-
 - http://fluent.github.com/fluent-logger-php/v0.3.3
 
 ## Requirements
@@ -26,7 +24,7 @@ composer.json
     "name": "my-project",
     "version": "1.0.0",
     "require": {
-        "fluent/logger": "v0.3.7"
+        "fluent/logger": "v0.3.9"
     }
 }
 ```
