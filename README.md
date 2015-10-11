@@ -18,7 +18,7 @@ composer.json
 ```json
 {
     "require": {
-        "fluent/logger": "v0.3.7"
+        "fluent/logger": "v0.3.9"
     }
 }
 ```
