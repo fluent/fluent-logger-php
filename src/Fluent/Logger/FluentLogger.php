@@ -267,7 +267,7 @@ class FluentLogger extends BaseLogger
         }
 
         // could not suppress warning without ini setting.
-        // for now, we use error control operators. 
+        // for now, we use error control operators.
         $socket = @stream_socket_client($this->transport, $errno, $errstr,
             $this->getOption("connection_timeout", self::CONNECTION_TIMEOUT),
             $connect_options
@@ -375,6 +375,8 @@ class FluentLogger extends BaseLogger
                             $this->reconnect();
                         } else if (isset($errors['message']) && strpos($errors['message'], 'errno=11 ') !== false) {
                             // we can ignore EAGAIN message. just retry.
+                        } else if (isset($errors['message']) && strpos($errors['message'], 'errno=104 ') !== false) {
+                            // fwrite(): send of 569 bytes failed with errno=104 Connection reset by peer
                         } else {
                             error_log("unhandled error detected. please report this issue to http://github.com/fluent/fluent-logger-php/issues: " . var_export($errors, true));
                         }
