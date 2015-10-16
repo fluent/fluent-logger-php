@@ -1,7 +1,7 @@
 {
     "name": "fluent/logger",
     "type": "library",
-    "description": "distributed logging for PHP 5.3",
+    "description": "a logging library for Fluentd",
     "keywords": ["log","logging"],
     "homepage": "http://github.com/fluent/fluent-logger-php",
     "license": "Apache",
@@ -13,6 +13,10 @@
         {
             "name": "Sotaro Karasawa",
             "email": "sotarok@crocos.co.jp"
+        },
+        {
+            "name": "DQNEO",
+            "email": "dqneoo@gmail.com"
         }
     ],
     "require": {

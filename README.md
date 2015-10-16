@@ -18,14 +18,14 @@ composer.json
 ```json
 {
     "require": {
-        "fluent/logger": "v0.3.9"
+        "fluent/logger": "v1.0.0"
     }
 }
 ```
 
-# Backward Compatibility CHnages
+# Backward Compatibility Changes
 
-As of v4, all loggers but `FluentLogger` are removed.
+As of v1, all loggers but `FluentLogger` are removed.
 
 [Monolog](https://github.com/Seldaek/monolog) is recommended in such use cases.
 
