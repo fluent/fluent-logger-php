@@ -1,12 +1,10 @@
 <?php
-require_once __DIR__.'/../src/Fluent/Autoloader.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use Fluent\Autoloader,
     Fluent\Logger\ConsoleLogger,
     Fluent\Logger\FluentLogger,
     Fluent\Logger\HttpLogger;
-
-Autoloader::register();
 
 //$logger = ConsoleLogger::open("debug.test",fopen("php://stdout","w"));
 $logger = FluentLogger::open("localhost","24224");

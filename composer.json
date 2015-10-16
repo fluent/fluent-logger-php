@@ -23,6 +23,6 @@
         "phpunit/phpunit-mock-objects": "2.3.0"
     },
     "autoload": {
-        "psr-0": {"Fluent": "src/"}
+        "psr-4": {"Fluent\\Logger\\": "src/"}
     }
 }

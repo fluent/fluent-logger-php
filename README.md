@@ -4,10 +4,6 @@
 
 [![Build Status](https://secure.travis-ci.org/fluent/fluent-logger-php.png)](http://travis-ci.org/fluent/fluent-logger-php)
 
-## API Document
-
-- http://fluent.github.com/fluent-logger-php/v0.3.3
-
 ## Requirements
 
 - PHP 5.3 or higher
@@ -21,37 +17,26 @@ composer.json
 
 ```json
 {
-    "name": "my-project",
-    "version": "1.0.0",
     "require": {
         "fluent/logger": "v0.3.9"
     }
 }
 ```
 
-````
-wget http://getcomposer.org/composer.phar
-php -d detect_unicode=0 composer.phar install
-````
+# Backward Compatibility CHnages
 
-### copy directory
+As of v4, all loggers but `FluentLogger` are removed.
 
-````
-git clone https://github.com/fluent/fluent-logger-php.git
-cp -r src/Fluent <path/to/your_project>
-````
+[Monolog](https://github.com/Seldaek/monolog) is recommended in such use cases.
 
 # Usage
 
 ```php
 <?php
-// you can choose your own AutoLoader
-require_once __DIR__.'/src/Fluent/Autoloader.php';
+
+require_once __DIR__.'/vendor/autoload.php';
 
 use Fluent\Logger\FluentLogger;
-
-Fluent\Autoloader::register();
-
 $logger = new FluentLogger("localhost","24224");
 $logger->post("debug.test",array("hello"=>"world"));
 ```
@@ -74,23 +59,6 @@ fluent-logger-php
                                     `------aggregator fluentd
 ````
 
-# Documentation
-
-fluent-logger-php uses <a href="http://apigen.org/">apigen</a> as a document generator.
-you can install apigen with following commands
-
-````
-pear config-set auto_discover 1
-pear install pear.apigen.org/apigen
-````
-
-you can update gh-pages with following command on top directory.
-
-````
-rake fluent:docs
-git push origin gh-pages
-````
-
 # License
 Apache License, Version 2.0
 
@@ -106,3 +74,4 @@ Apache License, Version 2.0
 * kiyoto
 * sasezaki
 * satokoma
+* DQNEO
