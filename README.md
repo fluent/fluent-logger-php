@@ -23,7 +23,7 @@ composer.json
 }
 ```
 
-# Backward Compatibility CHnages
+# Backward Compatibility Changes
 
 As of v1, all loggers but `FluentLogger` are removed.
 
