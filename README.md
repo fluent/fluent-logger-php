@@ -31,6 +31,8 @@ As of v1, all loggers but `FluentLogger` are removed.
 
 # Usage
 
+## PHP side
+
 ```php
 <?php
 
@@ -39,6 +41,16 @@ require_once __DIR__.'/vendor/autoload.php';
 use Fluent\Logger\FluentLogger;
 $logger = new FluentLogger("localhost","24224");
 $logger->post("debug.test",array("hello"=>"world"));
+```
+
+## Fluentd side
+
+Use `in_forward`.
+
+```aconf
+<source>
+  @type forward
+</source>
 ```
 
 # Todos
