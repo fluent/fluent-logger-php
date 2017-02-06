@@ -166,6 +166,16 @@ class FluentLogger implements LoggerInterface
     }
 
     /**
+     * unregister error handler
+     *
+     * @return void
+     */
+    public function unregisterErrorHandler()
+    {
+        $this->error_handler = null;
+    }
+
+    /**
      * make a various style transport uri with specified host and port.
      * currently, in_forward uses tcp transport only.
      *
