@@ -64,4 +64,15 @@ class BaseLoggerTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    public function testUnregisterErrorHandler()
+    {
+        $base = $this->getMockForAbstractClass('Fluent\Logger\FluentLogger');
+        $prop = new \ReflectionProperty($base, 'error_handler');
+        $prop->setAccessible(true);
+        $base->registerErrorHandler(function() {});
+        $this->assertNotNull($prop->getValue($base));
+        $base->unregisterErrorHandler();
+        $this->assertNull($prop->getValue($base));
+    }
 }
