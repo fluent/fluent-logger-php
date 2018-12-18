@@ -6,12 +6,13 @@ namespace FluentTests\FluentLogger;
 
 use Fluent\Logger;
 use Fluent\Logger\FluentLogger;
+use PHPUnit\Framework\TestCase;
 
 function fluentTests_FluentLogger_DummyFunction()
 {
 }
 
-class BaseLoggerTest extends \PHPUnit_Framework_TestCase
+class BaseLoggerTest extends TestCase
 {
     /**
      * testing compatible before and after

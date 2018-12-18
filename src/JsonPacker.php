@@ -16,6 +16,7 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
+
 namespace Fluent\Logger;
 
 class JsonPacker implements PackerInterface
@@ -28,10 +29,18 @@ class JsonPacker implements PackerInterface
      * pack entity as a json string.
      *
      * @param Entity $entity
+     *
      * @return string
+     * @throws \UnexpectedValueException
      */
     public function pack(Entity $entity)
     {
-        return json_encode(array($entity->getTag(), $entity->getTime(), $entity->getData()));
+        $json = json_encode(array($entity->getTag(), $entity->getTime(), $entity->getData()));
+
+        if (!$json and json_last_error() !== JSON_ERROR_NONE) {
+            throw new \UnexpectedValueException('Failed to encode data to json: ' . json_last_error_msg());
+        }
+
+        return $json;
     }
 }

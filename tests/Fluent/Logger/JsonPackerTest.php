@@ -3,18 +3,21 @@ namespace FluentTests\Logger;
 
 use Fluent\Logger\Entity;
 use Fluent\Logger\JsonPacker;
+use PHPUnit\Framework\TestCase;
 
-class JsonPackerTest extends \PHPUnit_Framework_TestCase
+class JsonPackerTest extends TestCase
 {
     const TAG           = "debug.test";
     const EXPECTED_TIME = 123456789;
 
     protected $time;
-    protected $expected_data = array();
+    protected $expected_data;
+    protected $unexpected_data;
 
     public function setUp()
     {
         $this->expected_data = array("abc" => "def");
+        $this->unexpected_data = array("data" => random_bytes(100));
     }
 
     public function testPack()
@@ -31,6 +34,15 @@ class JsonPackerTest extends \PHPUnit_Framework_TestCase
         $this->assertStringMatchesFormat('["%s",%d,{"%s":"%s"}]', $result, "unexpected format returns");
 
         return json_decode($result, true);
+    }
+
+    public function testUnhandledJsonError()
+    {
+        $entity = new Entity(self::TAG, $this->unexpected_data, self::EXPECTED_TIME);
+
+        $this->expectException(\UnexpectedValueException::class);
+
+        (new JsonPacker)->pack($entity);
     }
 
     /**

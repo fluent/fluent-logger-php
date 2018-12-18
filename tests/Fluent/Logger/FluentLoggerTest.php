@@ -4,8 +4,9 @@ namespace FluentTests\FluentLogger;
 
 use Fluent\Logger;
 use Fluent\Logger\FluentLogger;
+use PHPUnit\Framework\TestCase;
 
-class FluentLoggerTest extends \PHPUnit_Framework_TestCase
+class FluentLoggerTest extends TestCase
 {
     const TAG          = 'debug.test';
     const OBJECT_KEY   = 'hello';
@@ -104,7 +105,11 @@ class FluentLoggerTest extends \PHPUnit_Framework_TestCase
 
     private function getMockOfLogger(array $method)
     {
-        return $this->getMock("Fluent\Logger\FluentLogger", array("write"), array("localhost"));
+        return $this
+            ->getMockBuilder("Fluent\Logger\FluentLogger")
+            ->setConstructorArgs(array("localhost"))
+            ->setMethods(array("write"))
+            ->getMock();
     }
 
     /**
