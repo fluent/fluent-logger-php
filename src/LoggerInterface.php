@@ -18,7 +18,7 @@
  */
 namespace Fluent\Logger;
 
-interface LoggerInterface
+interface LoggerInterface extends \Psr\Log\LoggerInterface
 {
     /**
      * @abstract
