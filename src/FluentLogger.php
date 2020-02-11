@@ -18,6 +18,8 @@
  */
 namespace Fluent\Logger;
 
+use Psr\Log\LogLevel;
+
 /**
  * Fluent Logger
  *
@@ -515,5 +517,50 @@ class FluentLogger implements LoggerInterface
         }
 
         return $result;
+    }
+
+    public function emergency($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::EMERGENCY), $context));
+    }
+
+    public function alert($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::ALERT), $context));
+    }
+
+    public function critical($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::CRITICAL), $context));
+    }
+
+    public function error($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::ERROR), $context));
+    }
+
+    public function warning($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::WARNING), $context));
+    }
+
+    public function notice($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::NOTICE), $context));
+    }
+
+    public function info($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::INFO), $context));
+    }
+
+    public function debug($message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => LogLevel::DEBUG), $context));
+    }
+
+    public function log($level, $message, array $context = array())
+    {
+        return $this->post($message, array_merge(array('level' => $level), $context));
     }
 }
