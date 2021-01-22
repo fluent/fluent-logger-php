@@ -347,7 +347,7 @@ class FluentLogger implements LoggerInterface
      */
     protected function reconnect()
     {
-        if (!is_resource($this->socket)) {
+        if (!is_resource($this->socket) || feof($this->socket)) {
             $this->connect();
         }
     }
